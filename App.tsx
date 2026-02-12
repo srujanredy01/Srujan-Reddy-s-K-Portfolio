@@ -73,7 +73,7 @@ const projects: ProjectType[] = [
         tags: ['Machine Learning', 'Python'],
         technologies: ['Scikit-learn', 'Pandas', 'Seaborn', 'Matplotlib'],
         liveDemoUrl: '#',
-        codeUrl: '#',
+        codeUrl: 'https://github.com/srujanredy01',
         challenges: [
             "Handling an imbalanced dataset where churned customers were a small minority.",
             "Engineering meaningful features from raw transactional and temporal data.",
@@ -96,7 +96,7 @@ const projects: ProjectType[] = [
         tags: ['NLP', 'Deep Learning'],
         technologies: ['TensorFlow', 'Keras', 'NLTK', 'Pandas'],
         liveDemoUrl: '#',
-        codeUrl: '#',
+        codeUrl: 'https://github.com/srujanredy01',
         challenges: [
             "Processing high-velocity, unstructured text data in real-time.",
             "Dealing with informal language, slang, and emojis common in social media.",
@@ -119,7 +119,7 @@ const projects: ProjectType[] = [
         tags: ['Unsupervised Learning', 'FinTech'],
         technologies: ['PyTorch', 'Scikit-learn', 'Kafka', 'Pandas'],
         liveDemoUrl: '#',
-        codeUrl: '#',
+        codeUrl: 'https://github.com/srujanredy01',
         challenges: [
             "The lack of labeled fraudulent data necessitated an unsupervised learning approach.",
             "Minimizing false positives to avoid disrupting legitimate user transactions.",
