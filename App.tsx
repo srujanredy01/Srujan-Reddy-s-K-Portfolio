@@ -142,9 +142,9 @@ const education = [
 ];
 
 const qualifications = [
-    { name: "The Bits and Bytes of Computer Networking", date: "NOV 2025", verifyUrl: 'https://coursera.org/share/93d52094d17320ea876417bd3abaf3c8' },
-    { name: "IBM Data Science Professional Certificate", date: "JUL 2024", verifyUrl: '#' },
-    { name: "TensorFlow Developer Certificate", date: "JAN 2024", verifyUrl: '#' },
+    { name: "The Bits and Bytes of Computer Networking", date: "AUG 2025", verifyUrl: 'https://coursera.org/share/93d52094d17320ea876417bd3abaf3c8' },
+    { name: "Operating Systems and You: Becoming a Power User", date: "SEP 2024", verifyUrl: 'https://coursera.org/share/aa337da15fecbe19c5e0772cfc9b07cb' },
+    { name: "Python for data science ai & development", date: "NOV 2025", verifyUrl: '#' },
 ];
 
 const contactDetails = [
