@@ -172,7 +172,7 @@ const SkillCard: React.FC<{ icon: React.ReactNode; title: string; skills: string
     </div>
 );
 
-const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void; }> = ({ date, title, description, index, tags, technologies, onSelect }) => {
+const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void; }> = ({ date, title, description, index, tags, onSelect }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -193,7 +193,7 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
         <div
             ref={cardRef}
             onClick={onSelect}
-            className={`bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
+            className={`bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
             style={{ transitionDelay: `${index * 100}ms` }}
         >
             <div className="flex items-center justify-center w-14 h-14 bg-indigo-100 rounded-2xl mb-4"><CodeIcon className="text-indigo-500 w-7 h-7" /></div>
@@ -206,7 +206,10 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
                 {tags.map(tag => <span key={tag} className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">{tag}</span>)}
             </div>
             <div className="mt-auto pt-4 border-t border-gray-200 text-center">
-                <span className="text-indigo-600 font-semibold text-sm">View Details &rarr;</span>
+                <span className="text-indigo-600 font-semibold text-sm group-hover:text-indigo-800 transition-colors flex items-center justify-center gap-2">
+                    View Details
+                    <ArrowRightIcon className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                </span>
             </div>
         </div>
     );
@@ -311,11 +314,11 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-gray-200 flex flex-wrap gap-4 text-sm font-semibold">
-                     <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2 text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-colors">
+                     <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2 text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
                         <ExternalLinkIcon className="w-5 h-5" />
                         <span>Live Demo</span>
                     </a>
-                    <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2 text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition-colors">
+                    <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2 text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
                         <GithubIcon className="w-5 h-5" />
                         <span>View Code</span>
                     </a>
