@@ -172,7 +172,7 @@ const SkillCard: React.FC<{ icon: React.ReactNode; title: string; skills: string
     </div>
 );
 
-const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void; }> = ({ date, title, description, index, tags, onSelect }) => {
+const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void; }> = ({ date, title, description, index, tags, onSelect, liveDemoUrl, codeUrl }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -193,16 +193,30 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
         <div
             ref={cardRef}
             onClick={onSelect}
-            className={`bg-white/50 hover:bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
+            className={`relative bg-white/50 hover:bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
             style={{ transitionDelay: `${index * 100}ms` }}
         >
             <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl mb-4"><CodeIcon className="text-indigo-500 w-6 h-6 md:w-7 md:h-7" /></div>
             <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-2">{date}</p>
             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">{title}</h3>
-            <ul className="space-y-2 list-disc list-inside text-sm md:text-base text-gray-600 mb-4 flex-grow leading-relaxed">
-                {description.map((item, i) => <li key={i}>{item}</li>)}
-            </ul>
-            <div className="flex flex-wrap gap-2 my-4">
+            
+            <div className="relative flex-grow min-h-[100px] mb-4">
+                <ul className="space-y-2 list-disc list-inside text-sm md:text-base text-gray-600 flex-grow leading-relaxed transition-opacity duration-300 group-hover:opacity-0">
+                    {description.map((item, i) => <li key={i}>{item}</li>)}
+                </ul>
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
+                    <a href={liveDemoUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
+                        <ExternalLinkIcon className="w-4 h-4" />
+                        <span>Live Demo</span>
+                    </a>
+                    <a href={codeUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
+                        <GithubIcon className="w-4 h-4" />
+                        <span>View Code</span>
+                    </a>
+                </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2 my-auto">
                 {tags.map(tag => <span key={tag} className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">{tag}</span>)}
             </div>
             <div className="mt-auto pt-4 border-t border-gray-200 text-center">
