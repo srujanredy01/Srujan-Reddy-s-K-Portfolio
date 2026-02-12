@@ -238,16 +238,6 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
         };
     }, [project, onClose]);
     
-    useEffect(() => {
-        if (!isVisible) {
-            const timer = setTimeout(() => {
-                 document.body.style.overflow = 'auto';
-            }, 300); // Match transition duration
-            return () => clearTimeout(timer);
-        }
-    }, [isVisible]);
-
-
     if (!project) return null;
 
     const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -348,33 +338,42 @@ const App: React.FC = () => {
     const [activeSection, setActiveSection] = useState('about');
     const [activeTag, setActiveTag] = useState('All');
     const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
+    const headerRef = useRef<HTMLElement>(null);
 
     const filteredProjects = activeTag === 'All'
         ? projects
         : projects.filter(p => p.tags.includes(activeTag));
 
-    useEffect(() => {
-        const handleIntersect = (entries: IntersectionObserverEntry[]) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) setActiveSection(entry.target.id);
-            });
-        };
-        const observer = new IntersectionObserver(handleIntersect, { rootMargin: '-100px 0px -50% 0px' });
-        const sections = document.querySelectorAll('main > section');
-        sections.forEach(section => observer.observe(section));
-        return () => sections.forEach(section => observer.unobserve(section));
-    }, []);
-
-    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, sectionId: string) => {
         e.preventDefault();
         const element = document.getElementById(sectionId);
         if (element) {
-            const headerOffset = 80; // Adjusted header offset for responsiveness
+            const headerOffset = headerRef.current?.clientHeight || 80;
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
             const offsetPosition = elementPosition - headerOffset;
             window.scrollTo({ top: offsetPosition, behavior: "smooth" });
         }
     };
+
+    useEffect(() => {
+        const handleIntersect = (entries: IntersectionObserverEntry[]) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setActiveSection(entry.target.id);
+                }
+            });
+        };
+
+        const headerHeight = headerRef.current?.clientHeight || 80;
+        const observer = new IntersectionObserver(handleIntersect, {
+            rootMargin: `-${headerHeight}px 0px -${window.innerHeight - headerHeight - 1}px`,
+        });
+
+        const sections = document.querySelectorAll('main > section');
+        sections.forEach(section => observer.observe(section));
+
+        return () => sections.forEach(section => observer.unobserve(section));
+    }, []);
     
     const isExternalLink = (href: string) => href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:');
 
@@ -384,7 +383,7 @@ const App: React.FC = () => {
             <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
             <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
 
-            <header className="fixed top-0 inset-x-0 md:top-4 md:left-1/2 md:-translate-x-1/2 md:w-auto z-40">
+            <header ref={headerRef} className="fixed top-0 inset-x-0 md:top-4 md:left-1/2 md:-translate-x-1/2 md:w-auto z-40">
                 <nav className="w-full md:w-auto bg-white/60 backdrop-blur-lg md:rounded-full shadow-lg shadow-gray-500/5 border-b md:border border-white/50 px-2 sm:px-4 py-2">
                     <ul className="flex items-center justify-center gap-0.5 md:gap-1">
                         <li className="hidden md:block"><a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="font-bold text-lg px-4 py-2 text-gray-900 flex items-center gap-2">KS<span className="w-2 h-2 bg-indigo-500 rounded-full"></span></a></li>
@@ -439,7 +438,9 @@ const App: React.FC = () => {
                         Engineering robust data ecosystems and architecting intelligent, high-performance data science solutions that drive business value.
                     </p>
                     <div className="mt-10 flex flex-wrap justify-center items-center gap-x-2 gap-y-4">
-                        <button className="bg-gray-900 text-white font-semibold px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg transform hover:-translate-y-0.5">
+                        <button
+                            onClick={(e) => handleNavClick(e, 'experience')}
+                            className="bg-gray-900 text-white font-semibold px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg transform hover:-translate-y-0.5">
                             View Professional Timeline
                         </button>
                         <a href="https://github.com/srujanredy01" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"><GithubIcon /></a>
@@ -517,42 +518,42 @@ const App: React.FC = () => {
                         </div>
                     </div>
                 </section>
-            </main>
-            
-            <div className="px-4">
-                <div className="bg-gray-900 text-white rounded-3xl md:rounded-[2.5rem] p-8 sm:p-10 md:p-20 text-center mx-auto max-w-6xl my-16 relative overflow-hidden">
-                     <div className="absolute -bottom-10 -right-10 w-40 h-40 border-4 border-indigo-500/30 rounded-full"></div>
-                     <div className="absolute -top-10 -left-10 w-40 h-40 border-4 border-indigo-500/30 rounded-full"></div>
-                     <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Technical Vision</h2>
-                     <p className="max-w-xl mx-auto mt-4 text-gray-300">
-                         Committed to developing robust, ethical AI solutions and scalable systems that unlock data-driven insights.
-                     </p>
-                     <p className="mt-8 font-semibold tracking-widest text-indigo-400">
-                         LET'S INNOVATE TOGETHER
-                     </p>
+                
+                <div className="px-4 my-16">
+                    <div className="bg-gray-900 text-white rounded-3xl md:rounded-[2.5rem] p-8 sm:p-10 md:p-20 text-center mx-auto max-w-6xl relative overflow-hidden">
+                         <div className="absolute -bottom-10 -right-10 w-40 h-40 border-4 border-indigo-500/30 rounded-full"></div>
+                         <div className="absolute -top-10 -left-10 w-40 h-40 border-4 border-indigo-500/30 rounded-full"></div>
+                         <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Technical Vision</h2>
+                         <p className="max-w-xl mx-auto mt-4 text-gray-300">
+                             Committed to developing robust, ethical AI solutions and scalable systems that unlock data-driven insights.
+                         </p>
+                         <p className="mt-8 font-semibold tracking-widest text-indigo-400">
+                             LET'S INNOVATE TOGETHER
+                         </p>
+                    </div>
                 </div>
-            </div>
 
-            <section id="contact" className="py-16 sm:py-24">
-                <div className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto">
-                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">Connect</h2>
-                    <p className="mt-4 text-base md:text-lg text-gray-600">Direct channels for professional inquiries and architectural discussions.</p>
-                </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto px-4">
-                    {contactDetails.map(c => (
-                        <a 
-                          href={c.href} 
-                          key={c.title} 
-                          target={isExternalLink(c.href) ? "_blank" : "_self"}
-                          rel={isExternalLink(c.href) ? "noopener noreferrer" : ""}
-                          className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-gray-500/10 transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center text-center">
-                            <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-4 text-indigo-500">{c.icon}</div>
-                            <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">{c.title}</p>
-                            <p className="font-semibold mt-1">{c.value}</p>
-                        </a>
-                    ))}
-                </div>
-            </section>
+                <section id="contact" className="py-16 sm:py-24">
+                    <div className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto">
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">Connect</h2>
+                        <p className="mt-4 text-base md:text-lg text-gray-600">Direct channels for professional inquiries and architectural discussions.</p>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto px-4">
+                        {contactDetails.map(c => (
+                            <a 
+                              href={c.href} 
+                              key={c.title} 
+                              target={isExternalLink(c.href) ? "_blank" : "_self"}
+                              rel={isExternalLink(c.href) ? "noopener noreferrer" : ""}
+                              className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-gray-500/10 transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center text-center">
+                                <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-4 text-indigo-500">{c.icon}</div>
+                                <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">{c.title}</p>
+                                <p className="font-semibold mt-1">{c.value}</p>
+                            </a>
+                        ))}
+                    </div>
+                </section>
+            </main>
             
             <footer className="text-center py-8 text-gray-500 text-sm">
                 <p>&copy; {new Date().getFullYear()} KINDIKERI SRUJAN KUMAR REDDY</p>
