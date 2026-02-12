@@ -193,13 +193,13 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
         <div
             ref={cardRef}
             onClick={onSelect}
-            className={`bg-white/50 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
+            className={`bg-white/50 hover:bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
             style={{ transitionDelay: `${index * 100}ms` }}
         >
             <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl mb-4"><CodeIcon className="text-indigo-500 w-6 h-6 md:w-7 md:h-7" /></div>
             <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-2">{date}</p>
             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">{title}</h3>
-            <ul className="space-y-2 list-disc list-inside text-sm md:text-base text-gray-600 mb-4 flex-grow">
+            <ul className="space-y-2 list-disc list-inside text-sm md:text-base text-gray-600 mb-4 flex-grow leading-relaxed">
                 {description.map((item, i) => <li key={i}>{item}</li>)}
             </ul>
             <div className="flex flex-wrap gap-2 my-4">
@@ -431,7 +431,7 @@ const App: React.FC = () => {
             <main className="container mx-auto px-4 pt-24 md:pt-32 pb-16 relative z-10">
                 <section id="about" className="text-center pt-12 sm:pt-16 pb-16 sm:pb-24">
                     <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter">
-                        Kindikeri Srujan <span className="text-indigo-200">Kumar Reddy</span>
+                        Kindikeri Srujan <span className="text-indigo-400">Kumar Reddy</span>
                     </h1>
                     <p className="mt-4 text-sm font-semibold text-indigo-500 uppercase tracking-widest">Data Scientist</p>
                     <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg text-gray-600">
@@ -448,7 +448,7 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                <section id="skills" className="py-16 sm:py-24">
+                <section id="skills" className="py-12 sm:py-20">
                     <div className="text-center mb-12 sm:mb-16">
                         <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Capabilities</p>
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2">Technological DNA</h2>
@@ -461,13 +461,13 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                <section id="projects" className="py-16 sm:py-24">
+                <section id="projects" className="py-12 sm:py-20">
                     <div className="text-center mb-12 sm:mb-16">
                         <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Portfolio</p>
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2">Selected Works</h2>
                     </div>
                     
-                    <div className="flex justify-center flex-wrap gap-2 md:gap-3 mb-12">
+                    <div className="flex justify-start md:justify-center overflow-x-auto whitespace-nowrap gap-2 md:gap-3 mb-12 pb-4 -mx-4 px-4 md:flex-wrap md:whitespace-normal">
                         {allTags.map(tag => (
                             <button key={tag} onClick={() => setActiveTag(tag)} className={`px-4 md:px-5 py-2 text-xs md:text-sm font-semibold rounded-full transition-all duration-300 shadow-sm border ${ activeTag === tag ? 'bg-gray-900 text-white border-transparent' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-100' }`}>
                                 {tag}
@@ -480,7 +480,7 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                <section id="experience" className="py-16 sm:py-24">
+                <section id="experience" className="py-12 sm:py-20">
                     <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
                         <div className="lg:col-span-3">
                             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8">Academic Narrative</h2>
@@ -533,7 +533,7 @@ const App: React.FC = () => {
                     </div>
                 </div>
 
-                <section id="contact" className="py-16 sm:py-24">
+                <section id="contact" className="py-12 sm:py-20">
                     <div className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto">
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">Connect</h2>
                         <p className="mt-4 text-base md:text-lg text-gray-600">Direct channels for professional inquiries and architectural discussions.</p>
