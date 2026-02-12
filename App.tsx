@@ -158,12 +158,12 @@ const contactDetails = [
 // --- REUSABLE COMPONENTS ---
 
 const SkillCard: React.FC<{ icon: React.ReactNode; title: string; skills: string[]; }> = ({ icon, title, skills }) => (
-    <div className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-gray-500/10 transition-shadow duration-300">
-        <div className="flex items-center justify-center w-14 h-14 bg-indigo-100 rounded-2xl mb-6">{icon}</div>
+    <div className="bg-white/50 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-gray-500/10 transition-shadow duration-300">
+        <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl mb-4 md:mb-6">{icon}</div>
         <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">{title}</h3>
         <div className="flex flex-wrap gap-2">
             {skills.map(skill => (
-                <span key={skill} className="bg-gray-100 text-gray-700 text-sm font-medium pl-2 pr-3 py-1 rounded-full flex items-center gap-1.5">
+                <span key={skill} className="bg-gray-100 text-gray-700 text-xs sm:text-sm font-medium pl-2 pr-3 py-1 rounded-full flex items-center gap-1.5">
                     {skillIcons[skill] || <CodeIcon className="w-4 h-4 text-gray-500" />}
                     {skill}
                 </span>
@@ -193,13 +193,13 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
         <div
             ref={cardRef}
             onClick={onSelect}
-            className={`bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
+            className={`bg-white/50 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
             style={{ transitionDelay: `${index * 100}ms` }}
         >
-            <div className="flex items-center justify-center w-14 h-14 bg-indigo-100 rounded-2xl mb-4"><CodeIcon className="text-indigo-500 w-7 h-7" /></div>
+            <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl mb-4"><CodeIcon className="text-indigo-500 w-6 h-6 md:w-7 md:h-7" /></div>
             <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-2">{date}</p>
-            <h3 className="text-2xl font-bold text-gray-900 mb-4">{title}</h3>
-            <ul className="space-y-2 list-disc list-inside text-gray-600 mb-4 flex-grow">
+            <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">{title}</h3>
+            <ul className="space-y-2 list-disc list-inside text-sm md:text-base text-gray-600 mb-4 flex-grow">
                 {description.map((item, i) => <li key={i}>{item}</li>)}
             </ul>
             <div className="flex flex-wrap gap-2 my-4">
@@ -260,32 +260,32 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
         <div
             onClick={handleBackdropClick}
             className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-            style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
             aria-modal="true"
             role="dialog"
         >
             <div
                 ref={modalRef}
-                className={`bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-8 md:p-12 transition-all duration-300 ease-out ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+                className={`bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 md:p-12 transition-all duration-300 ease-out ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
             >
-                <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors" aria-label="Close project details">
+                <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors z-10" aria-label="Close project details">
                     <XIcon className="w-8 h-8" />
                 </button>
                 <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-2">{project.date}</p>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">{project.title}</h2>
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">{project.title}</h2>
                 <div className="flex flex-wrap gap-2 mb-6">
                     {project.tags.map(tag => <span key={tag} className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">{tag}</span>)}
                 </div>
                 
                 <div className="prose max-w-none text-gray-600">
-                    <p className="lead text-lg mb-6">{project.detailedDescription}</p>
+                    <p className="lead text-base sm:text-lg mb-6">{project.detailedDescription}</p>
 
-                    <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4">Challenges</h3>
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mt-8 mb-4">Challenges</h3>
                     <ul className="list-disc pl-5 space-y-2">
                         {project.challenges.map((challenge, i) => <li key={i}>{challenge}</li>)}
                     </ul>
 
-                    <h3 className="text-2xl font-bold text-gray-800 mt-8 mb-4">Solutions</h3>
+                    <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mt-8 mb-4">Solutions</h3>
                     <ul className="list-disc pl-5 space-y-2">
                         {project.solutions.map((solution, i) => (
                            <li key={i}>
@@ -369,7 +369,7 @@ const App: React.FC = () => {
         e.preventDefault();
         const element = document.getElementById(sectionId);
         if (element) {
-            const headerOffset = 100;
+            const headerOffset = 80; // Adjusted header offset for responsiveness
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
             const offsetPosition = elementPosition - headerOffset;
             window.scrollTo({ top: offsetPosition, behavior: "smooth" });
@@ -379,14 +379,14 @@ const App: React.FC = () => {
     const isExternalLink = (href: string) => href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:');
 
     return (
-        <div className="min-h-screen bg-gray-50 text-gray-800 antialiased relative">
+        <div className="min-h-screen bg-gray-50 text-gray-800 antialiased relative overflow-hidden">
             <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
             <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
             <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
 
             <header className="fixed top-0 inset-x-0 md:top-4 md:left-1/2 md:-translate-x-1/2 md:w-auto z-40">
-                <nav className="w-full md:w-auto bg-white/60 backdrop-blur-lg md:rounded-full shadow-lg shadow-gray-500/5 border-b md:border border-white/50 px-4 py-2">
-                    <ul className="flex items-center justify-center md:gap-1">
+                <nav className="w-full md:w-auto bg-white/60 backdrop-blur-lg md:rounded-full shadow-lg shadow-gray-500/5 border-b md:border border-white/50 px-2 sm:px-4 py-2">
+                    <ul className="flex items-center justify-center gap-0.5 md:gap-1">
                         <li className="hidden md:block"><a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="font-bold text-lg px-4 py-2 text-gray-900 flex items-center gap-2">KS<span className="w-2 h-2 bg-indigo-500 rounded-full"></span></a></li>
                         <li className="hidden md:block w-px h-6 bg-gray-200 mx-2"></li>
                         {navLinks.map(link => {
@@ -429,17 +429,17 @@ const App: React.FC = () => {
                 </nav>
             </header>
 
-            <main className="container mx-auto px-4 pt-28 md:pt-32 pb-16 relative z-10">
-                <section id="about" className="text-center pt-16 pb-24">
-                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-9xl font-extrabold tracking-tighter">
+            <main className="container mx-auto px-4 pt-24 md:pt-32 pb-16 relative z-10">
+                <section id="about" className="text-center pt-12 sm:pt-16 pb-16 sm:pb-24">
+                    <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter">
                         Kindikeri Srujan <span className="text-indigo-200">Kumar Reddy</span>
                     </h1>
                     <p className="mt-4 text-sm font-semibold text-indigo-500 uppercase tracking-widest">Data Scientist</p>
                     <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg text-gray-600">
                         Engineering robust data ecosystems and architecting intelligent, high-performance data science solutions that drive business value.
                     </p>
-                    <div className="mt-10 flex flex-wrap justify-center items-center gap-4">
-                        <button className="bg-gray-900 text-white font-semibold px-6 py-3 rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg transform hover:-translate-y-0.5">
+                    <div className="mt-10 flex flex-wrap justify-center items-center gap-x-2 gap-y-4">
+                        <button className="bg-gray-900 text-white font-semibold px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg transform hover:-translate-y-0.5">
                             View Professional Timeline
                         </button>
                         <a href="https://github.com/srujanredy01" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"><GithubIcon /></a>
@@ -447,26 +447,26 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                <section id="skills" className="py-24">
-                    <div className="text-center mb-16">
+                <section id="skills" className="py-16 sm:py-24">
+                    <div className="text-center mb-12 sm:mb-16">
                         <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Capabilities</p>
-                        <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mt-2">Technological DNA</h2>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2">Technological DNA</h2>
                     </div>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <SkillCard icon={<CodeIcon className="w-7 h-7 text-indigo-500"/>} title="Languages" skills={skills.languages} />
-                        <SkillCard icon={<BriefcaseIcon className="w-7 h-7 text-indigo-500"/>} title="Data Science & ML" skills={skills.backend} />
-                        <SkillCard icon={<WrenchIcon className="w-7 h-7 text-indigo-500"/>} title="Tools & Platforms" skills={skills.tools} />
-                        <SkillCard icon={<BrainIcon className="w-7 h-7 text-indigo-500"/>} title="Soft Skills" skills={skills.softSkills} />
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                        <SkillCard icon={<CodeIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Languages" skills={skills.languages} />
+                        <SkillCard icon={<BriefcaseIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Data Science & ML" skills={skills.backend} />
+                        <SkillCard icon={<WrenchIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Tools & Platforms" skills={skills.tools} />
+                        <SkillCard icon={<BrainIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Soft Skills" skills={skills.softSkills} />
                     </div>
                 </section>
 
-                <section id="projects" className="py-24">
-                    <div className="text-center mb-16">
+                <section id="projects" className="py-16 sm:py-24">
+                    <div className="text-center mb-12 sm:mb-16">
                         <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Portfolio</p>
-                        <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight mt-2">Selected Works</h2>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2">Selected Works</h2>
                     </div>
                     
-                    <div className="flex justify-center flex-wrap gap-2 md:gap-4 mb-12">
+                    <div className="flex justify-center flex-wrap gap-2 md:gap-3 mb-12">
                         {allTags.map(tag => (
                             <button key={tag} onClick={() => setActiveTag(tag)} className={`px-4 md:px-5 py-2 text-xs md:text-sm font-semibold rounded-full transition-all duration-300 shadow-sm border ${ activeTag === tag ? 'bg-gray-900 text-white border-transparent' : 'bg-white text-gray-700 border-gray-200 hover:bg-gray-100' }`}>
                                 {tag}
@@ -474,21 +474,21 @@ const App: React.FC = () => {
                         ))}
                     </div>
 
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                         {filteredProjects.map((p, index) => <ProjectCard key={p.title} {...p} index={index} onSelect={() => setSelectedProject(p)} />)}
                     </div>
                 </section>
 
-                <section id="experience" className="py-24">
-                    <div className="grid lg:grid-cols-5 gap-16">
+                <section id="experience" className="py-16 sm:py-24">
+                    <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
                         <div className="lg:col-span-3">
-                            <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-8">Academic Narrative</h2>
+                            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8">Academic Narrative</h2>
                             <div className="space-y-4">
                                 {education.map(e => <EducationItem key={e.institution} {...e} />)}
                             </div>
                         </div>
                         <div className="lg:col-span-2">
-                             <h2 className="text-4xl sm:text-5xl font-extrabold tracking-tight mb-8">Qualifications</h2>
+                             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8">Qualifications</h2>
                              <div className="space-y-6">
                                 {qualifications.map(q => (
                                     <div key={q.name} className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-xl transition-all group flex flex-col">
@@ -520,10 +520,10 @@ const App: React.FC = () => {
             </main>
             
             <div className="px-4">
-                <div className="bg-gray-900 text-white rounded-3xl md:rounded-[2.5rem] p-10 md:p-20 text-center mx-auto max-w-6xl my-16 relative overflow-hidden">
+                <div className="bg-gray-900 text-white rounded-3xl md:rounded-[2.5rem] p-8 sm:p-10 md:p-20 text-center mx-auto max-w-6xl my-16 relative overflow-hidden">
                      <div className="absolute -bottom-10 -right-10 w-40 h-40 border-4 border-indigo-500/30 rounded-full"></div>
                      <div className="absolute -top-10 -left-10 w-40 h-40 border-4 border-indigo-500/30 rounded-full"></div>
-                     <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">Technical Vision</h2>
+                     <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Technical Vision</h2>
                      <p className="max-w-xl mx-auto mt-4 text-gray-300">
                          Committed to developing robust, ethical AI solutions and scalable systems that unlock data-driven insights.
                      </p>
@@ -533,12 +533,12 @@ const App: React.FC = () => {
                 </div>
             </div>
 
-            <section id="contact" className="py-24">
-                <div className="text-center mb-16 max-w-2xl mx-auto">
-                    <h2 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">Connect</h2>
+            <section id="contact" className="py-16 sm:py-24">
+                <div className="text-center mb-12 sm:mb-16 max-w-2xl mx-auto">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight">Connect</h2>
                     <p className="mt-4 text-base md:text-lg text-gray-600">Direct channels for professional inquiries and architectural discussions.</p>
                 </div>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto px-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 max-w-6xl mx-auto px-4">
                     {contactDetails.map(c => (
                         <a 
                           href={c.href} 

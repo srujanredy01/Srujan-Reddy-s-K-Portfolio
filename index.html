@@ -12,6 +12,15 @@
     <style>
       body {
         font-family: 'Manrope', sans-serif;
+        background: linear-gradient(-45deg, #f3e8ff, #e0f2fe, #f1f5f9, #fdf4ff);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+      }
+
+      @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
       }
     </style>
   <script type="importmap">
@@ -19,12 +28,16 @@
   "imports": {
     "react": "https://esm.sh/react@^19.2.4",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "react/": "https://esm.sh/react@^19.2.4/"
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "modern-normalize": "https://esm.sh/modern-normalize@2.0.0"
   }
 }
 </script>
+<script type="module">
+  import "modern-normalize";
+</script>
 </head>
-  <body class="bg-gray-50 text-gray-900">
+  <body>
     <div id="root"></div>
   </body>
 </html>
