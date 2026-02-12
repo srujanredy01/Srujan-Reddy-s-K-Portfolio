@@ -142,7 +142,7 @@ const education = [
 ];
 
 const qualifications = [
-    { name: "Google Data Analytics Professional Certificate", date: "NOV 2024", verifyUrl: '#' },
+    { name: "The Bits and Bytes of Computer Networking", date: "NOV 2025", verifyUrl: 'https://coursera.org/share/93d52094d17320ea876417bd3abaf3c8' },
     { name: "IBM Data Science Professional Certificate", date: "JUL 2024", verifyUrl: '#' },
     { name: "TensorFlow Developer Certificate", date: "JAN 2024", verifyUrl: '#' },
 ];
