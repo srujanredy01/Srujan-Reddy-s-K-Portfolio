@@ -28,107 +28,129 @@ interface ProjectType {
 // --- DATA CONSTANTS ---
 
 const skills = {
-    languages: ["Python", "R", "SQL", "Java"],
-    backend: ["TensorFlow", "PyTorch", "Scikit-learn", "Pandas", "Spark"],
-    tools: ["Jupyter", "Git", "Docker", "AWS", "Tableau","Excel"],
-    softSkills: ["Problem-Solving", "Leadership", "Communication", "Project Management", "Adaptability"]
+    languages: ["Python", "SQL", "Java"],
+    backend: ["Pandas", "NumPy", "Scikit-learn", "Matplotlib", "Seaborn"],
+    tools: ["Jupyter Notebook", "Git", "VS Code", "PowerBI", "Tableau", "Excel"],
+    softSkills: ["Problem-Solving", "Team Player", "Communication", "Storytelling", "Adaptability"]
 };
 
 const skillIcons: { [key: string]: React.ReactNode } = {
     // Languages
     Python: <PythonIcon className="w-4 h-4 text-blue-500" />,
-    R: <ChartBarIcon className="w-4 h-4 text-blue-700" />,
     SQL: <DatabaseIcon className="w-4 h-4 text-indigo-500" />,
     Java: <CodeIcon className="w-4 h-4 text-red-500" />,
     // Data Science & ML
-    TensorFlow: <TensorFlowIcon className="w-4 h-4 text-orange-500" />,
-    PyTorch: <PyTorchIcon className="w-4 h-4 text-red-600" />,
-    'Scikit-learn': <BriefcaseIcon className="w-4 h-4 text-orange-400" />,
     Pandas: <ChartBarIcon className="w-4 h-4 text-indigo-800" />,
-    Spark: <SparkIcon className="w-4 h-4 text-orange-500" />,
+    NumPy: <DatabaseIcon className="w-4 h-4 text-blue-400" />,
+    'Scikit-learn': <BriefcaseIcon className="w-4 h-4 text-orange-400" />,
+    Matplotlib: <ChartBarIcon className="w-4 h-4 text-green-500" />,
+    Seaborn: <ChartBarIcon className="w-4 h-4 text-blue-500" />,
     // Tools & Platforms
-    Jupyter: <BookOpenIcon className="w-4 h-4 text-orange-600" />,
+    'Jupyter Notebook': <BookOpenIcon className="w-4 h-4 text-orange-600" />,
     Git: <GitIcon className="w-4 h-4 text-red-500" />,
-    Docker: <DockerIcon className="w-4 h-4 text-blue-500" />,
-    AWS: <AWSIcon className="w-4 h-4 text-yellow-500" />,
+    'VS Code': <CodeIcon className="w-4 h-4 text-blue-500" />,
+    PowerBI: <ChartBarIcon className="w-4 h-4 text-yellow-600" />,
     Tableau: <ChartBarIcon className="w-4 h-4 text-blue-600" />,
     Excel: <ExcelIcon className="w-4 h-4 text-green-700" />,
     // Soft Skills
     'Problem-Solving': <LightbulbIcon className="w-4 h-4 text-yellow-500" />,
-    Leadership: <UsersGroupIcon className="w-4 h-4 text-green-500" />,
+    'Team Player': <UsersGroupIcon className="w-4 h-4 text-green-500" />,
     Communication: <MessageSquareIcon className="w-4 h-4 text-sky-500" />,
-    'Project Management': <BriefcaseIcon className="w-4 h-4 text-purple-500" />,
+    Storytelling: <BookOpenIcon className="w-4 h-4 text-purple-500" />,
     Adaptability: <WrenchIcon className="w-4 h-4 text-gray-500" />,
 };
 
 const projects: ProjectType[] = [
     {
-        date: "JAN 2024",
-        title: "Customer Churn Prediction",
+        date: "DEC 2025",
+        title: "Bike Rental Demand Forecasting",
         description: [
-            "Built a machine learning model to predict customer churn with 95% accuracy.",
-            "Utilized logistic regression and random forests with extensive feature engineering."
+            "Built a reliable model to predict hourly and daily bike rental demand using historical data.",
+            "Achieved strong prediction accuracy with ensemble models, enabling better fleet planning."
         ],
-        detailedDescription: "This project aimed to proactively identify and retain customers at risk of churning. A comprehensive analysis of customer behavior, demographics, and service usage patterns was conducted to build a highly accurate predictive model, which allowed the business to implement targeted retention campaigns.",
+        detailedDescription: "Bike rental services faced difficulty in planning fleet distribution due to fluctuating demand influenced by time, weather, and seasonal factors. I cleaned and engineered features, analyzed operational factors, and trained multiple machine learning models, including ensemble methods, to achieve high accuracy.",
         tags: ['Machine Learning', 'Python'],
-        technologies: ['Scikit-learn', 'Pandas', 'Seaborn', 'Matplotlib'],
+        technologies: ['Scikit-learn', 'Pandas', 'Matplotlib', 'Seaborn'],
         liveDemoUrl: '#',
-        codeUrl: '#',
+        codeUrl: 'https://github.com/srujanredy01',
         challenges: [
-            "Handling an imbalanced dataset where churned customers were a small minority.",
-            "Engineering meaningful features from raw transactional and temporal data.",
-            "Ensuring model interpretability to provide actionable insights to the business."
+            "Fluctuating demand influenced by unpredictable weather and seasonal factors.",
+            "Engineering features that capture the temporal nature of bike rentals.",
+            "Selecting and tuning ensemble models for optimal performance."
         ],
         solutions: [
-            { description: "Applied SMOTE (Synthetic Minority Over-sampling Technique) to balance the class distribution, which significantly improved model sensitivity and recall for the minority class." },
-            { description: "Created time-based features like 'days since last purchase' and 'average purchase frequency' to capture user engagement trends effectively." },
-            { description: "Utilized SHAP (SHapley Additive exPlanations) values to explain the output of the model, making the results transparent and actionable for stakeholders." }
+            { description: "Performed extensive EDA to understand the impact of weather and holidays on rental patterns." },
+            { description: "Implemented feature engineering to capture peak hours and seasonal trends." },
+            { description: "Utilized ensemble methods like Random Forest and Gradient Boosting to improve prediction stability." }
         ]
     },
     {
-        date: "NOV 2023",
-        title: "Sentiment Analysis on Social Media",
+        date: "NOV 2025",
+        title: "Studio Developed for Students",
         description: [
-            "Developed an NLP model to analyze and classify sentiment from real-time social media data.",
-            "Implemented using LSTM networks to capture contextual nuances in text."
+            "Built a unified system for easy access to semester-wise subjects and practice resources.",
+            "Developed an intuitive platform for viewing and downloading PDFs, PPTs, and Docs."
         ],
-        detailedDescription: "This project focused on building a real-time sentiment analysis pipeline for social media mentions related to a specific brand. The model was trained on a large corpus of labeled tweets to understand slang, irony, and context, providing the marketing team with immediate feedback on public perception.",
-        tags: ['NLP', 'Deep Learning'],
-        technologies: ['TensorFlow', 'Keras', 'NLTK', 'Pandas'],
+        detailedDescription: "Students needed a single, organized platform to access study materials and coding practice instead of using multiple scattered sources. I developed an intuitive platform with subject-wise organization and admin upload functionality to improve accessibility and learning efficiency.",
+        tags: ['Web Development', 'Firebase'],
+        technologies: ['HTML', 'CSS', 'JavaScript', 'Firebase'],
         liveDemoUrl: '#',
-        codeUrl: '#',
+        codeUrl: 'https://github.com/srujanredy01',
         challenges: [
-            "Processing high-velocity, unstructured text data in real-time.",
-            "Dealing with informal language, slang, and emojis common in social media.",
-            "Maintaining model accuracy as language and trends evolve."
+            "Organizing a large volume of scattered academic resources into a coherent structure.",
+            "Implementing a secure and efficient admin upload functionality.",
+            "Ensuring a smooth user experience for navigating complex semester-wise content."
         ],
         solutions: [
-            { description: "Utilized Apache Kafka for creating a robust data ingestion pipeline capable of handling high throughput from the Twitter API." },
-            { description: "Employed pre-trained word embeddings (GloVe) and an LSTM architecture to better capture the semantic context and sequence of text, improving accuracy over traditional methods." },
-            { description: "Implemented a CI/CD pipeline for automated model retraining and deployment, ensuring the model stays current with evolving language." }
+            { description: "Leveraged Firebase for real-time data management and secure file storage." },
+            { description: "Designed a hierarchical navigation system based on semesters and subjects." },
+            { description: "Implemented a responsive UI to ensure accessibility across different devices." }
         ]
     },
     {
-        date: "AUG 2023",
-        title: "Real-Time Anomaly Detection",
+        date: "JUL 2025",
+        title: "AI-Based Subjective Exam Evaluation",
         description: [
-            "Engineered a system for detecting anomalies in financial transactions to prevent fraud.",
-            "Leveraged unsupervised learning algorithms like Isolation Forest."
+            "Developed an automated answer evaluation system using the Gemini API.",
+            "Reduced evaluation effort and delivered consistent scoring with clear feedback."
         ],
-        detailedDescription: "The goal of this project was to develop an unsupervised learning model to detect fraudulent financial transactions in real-time. By analyzing patterns in transaction data, the system flags suspicious activities for manual review, thereby reducing financial losses and protecting customers without labeled fraud data.",
-        tags: ['Unsupervised Learning', 'FinTech'],
-        technologies: ['PyTorch', 'Scikit-learn', 'Kafka', 'Pandas'],
+        detailedDescription: "This project involved building an automated system to support teachers in evaluating subjective answers. Using the Gemini API, the system analyzes, compares, and evaluates student responses against sample answers, generating scores and meaningful improvement feedback.",
+        tags: ['AI', 'NLP', 'Python'],
+        technologies: ['Gemini API', 'Python', 'Flask'],
         liveDemoUrl: '#',
-        codeUrl: '#',
+        codeUrl: 'https://github.com/srujanredy01',
         challenges: [
-            "The lack of labeled fraudulent data necessitated an unsupervised learning approach.",
-            "Minimizing false positives to avoid disrupting legitimate user transactions.",
-            "The system needed to be highly performant to process transactions in real-time."
+            "Ensuring fair and consistent scoring for subjective, open-ended answers.",
+            "Integrating the Gemini API for complex text analysis and comparison.",
+            "Providing actionable and constructive feedback to students automatically."
         ],
         solutions: [
-            { description: "Implemented an Isolation Forest algorithm, which is highly effective at identifying anomalies by isolating observations with fewer splits in a random forest." },
-            { description: "Fine-tuned the model's contamination parameter based on domain knowledge and historical data to achieve an optimal balance between precision and recall." },
-            { description: "Deployed the model as a microservice with a REST API, allowing for scalable and low-latency predictions within the existing transaction processing workflow." }
+            { description: "Prompt engineered the Gemini model to follow specific grading rubrics and provide structured feedback." },
+            { description: "Built a Flask-based backend to handle document uploads and API interactions efficiently." },
+            { description: "Implemented a review system for teachers to adjust AI-generated results when necessary." }
+        ]
+    },
+    {
+        date: "APR 2024",
+        title: "Disk Scheduling Simulator",
+        description: [
+            "Developed a GUI-based simulator for FCFS, SSTF, SCAN, and C-SCAN algorithms.",
+            "Created real-time visualizations for head movement and seek time."
+        ],
+        detailedDescription: "Disk scheduling algorithms are often difficult to understand through theory alone. This simulator visually explains different algorithms and their execution behavior, making complex OS concepts easier to understand through interactive charts and real-time flow visualizations.",
+        tags: ['Python', 'Algorithms'],
+        technologies: ['Python', 'Tkinter', 'Matplotlib'],
+        liveDemoUrl: '#',
+        codeUrl: 'https://github.com/srujanredy01',
+        challenges: [
+            "Translating abstract scheduling logic into accurate visual representations.",
+            "Handling real-time updates to charts as the simulation progresses.",
+            "Ensuring the GUI remains responsive during intensive calculations."
+        ],
+        solutions: [
+            { description: "Used Matplotlib's animation capabilities to show head movement dynamically." },
+            { description: "Implemented a modular architecture to easily switch between different scheduling algorithms." },
+            { description: "Optimized the simulation logic to provide immediate feedback on seek time and execution flow." }
         ]
     }
 ];
@@ -136,15 +158,19 @@ const projects: ProjectType[] = [
 const allTags = ['All', ...new Set(projects.flatMap(p => p.tags))];
 
 const education = [
-    { period: "SINCE AUG 2023", degree: "CGPA: 6.90", institution: "Lovely Professional University", field: "Bachelor of Technology - Computer Science and Engineering", location: "PUNJAB, INDIA" },
-    { period: "APR 2021 - MAR 2023", degree: "PERCENTAGE: 74%", institution: "Narayana Junior College", field: "Intermediate - MPC", location: "HYDERABAD, TELANGANA" },
-    { period: "JUN 2020 - MAR 2021", degree: "PERCENTAGE: 85%", institution: "Narayana E-Techno School", field: "Secondary School (SSC)", location: "HYDERABAD, TELANGANA" }
+    { period: "AUG 2023 - PRESENT", degree: "CGPA: 6.76", institution: "Lovely Professional University", field: "Bachelor of Technology (Hons.) - Data Science & Data Engineering", location: "PUNJAB, INDIA" },
+    { period: "JUN 2021 - APR 2023", degree: "PERCENTAGE: 71%", institution: "Narayana Junior College", field: "Intermediate", location: "HYDERABAD, TELANGANA" },
+    { period: "JUN 2020 - APR 2021", degree: "PERCENTAGE: 99%", institution: "Narayana School", field: "Matriculation", location: "HYDERABAD, TELANGANA" }
 ];
 
 const qualifications = [
-    { name: "Google Data Analytics Professional Certificate", date: "NOV 2024", verifyUrl: '#' },
-    { name: "IBM Data Science Professional Certificate", date: "JUL 2024", verifyUrl: '#' },
-    { name: "TensorFlow Developer Certificate", date: "JAN 2024", verifyUrl: '#' },
+    { name: "The Bits and Bytes of Computer Networking", date: "AUG 2025", verifyUrl: '#' },
+    { name: "Python for Data Science, AI & Development", date: "NOV 2025", verifyUrl: '#' },
+    { name: "Operating Systems and You: Becoming a Power User", date: "SEP 2024", verifyUrl: '#' },
+];
+
+const achievements = [
+    { title: "Volunteered with Dhruvansh NGO", description: "Participated in lake conservation and cleanliness drives.", date: "JUL 2024" }
 ];
 
 const resumeHighlights = [
@@ -156,9 +182,9 @@ const resumeHighlights = [
 ];
 
 const contactDetails = [
-    { icon: <MailIcon />, title: "EMAIL", value: "kindiekrisr@gmail.com", href: "mailto:kindiekrisr@gmail.com" },
+    { icon: <MailIcon />, title: "EMAIL", value: "kindiekrisrujankumarreddy@gmail.com", href: "mailto:kindiekrisrujankumarreddy@gmail.com" },
     { icon: <PhoneIcon />, title: "PHONE", value: "+91-9640404455", href: "tel:+919640404455" },
-    { icon: <LinkedInIcon />, title: "LINKEDIN", value: "View Professional Profile", href: "https://www.linkedin.com/in/kindiekri-srujan/" },
+    { icon: <LinkedInIcon />, title: "LINKEDIN", value: "View Professional Profile", href: "https://in.linkedin.com/in/kindiekri-srujanb" },
     { icon: <GithubIcon />, title: "GITHUB", value: "Explore the Codebase", href: "https://github.com/srujanredy01" }
 ];
 
@@ -536,6 +562,20 @@ const App: React.FC = () => {
                                 <p className="text-gray-300">
                                     Specializing in predictive modeling and machine learning algorithms. Focusing on optimizing model performance and scalability in cloud environments.
                                 </p>
+                             </div>
+                             <div className="mt-8">
+                                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8">Achievements</h2>
+                                 <div className="space-y-4">
+                                     {achievements.map(a => (
+                                         <div key={a.title} className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-lg transition-all">
+                                             <div className="flex justify-between items-start">
+                                                 <h4 className="font-bold">{a.title}</h4>
+                                                 <span className="text-xs text-indigo-500 font-semibold uppercase tracking-wider">{a.date}</span>
+                                             </div>
+                                             <p className="text-sm text-gray-600 mt-2">{a.description}</p>
+                                         </div>
+                                     ))}
+                                 </div>
                              </div>
                         </div>
                     </div>
