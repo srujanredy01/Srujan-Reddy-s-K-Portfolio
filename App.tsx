@@ -26,6 +26,13 @@ interface ProjectType {
     }[];
 }
 
+interface SkillDetail {
+    name: string;
+    description: string;
+    year: string;
+    details: string;
+}
+
 // --- DATA CONSTANTS ---
 
 const skills = {
@@ -59,6 +66,123 @@ const skillIcons: { [key: string]: React.ReactNode } = {
     Communication: <MessageSquareIcon className="w-4 h-4 text-sky-500" />,
     Storytelling: <BookOpenIcon className="w-4 h-4 text-purple-500" />,
     Adaptability: <WrenchIcon className="w-4 h-4 text-gray-500" />,
+};
+
+const skillDetails: { [key: string]: SkillDetail } = {
+    Python: {
+        name: "Python",
+        year: "1991",
+        description: "High-level, general-purpose programming language.",
+        details: "Created by Guido van Rossum, Python is known for its readability and versatility. It's the primary language for data science, machine learning, and web development due to its extensive ecosystem of libraries."
+    },
+    SQL: {
+        name: "SQL",
+        year: "1974",
+        description: "Structured Query Language for managing relational databases.",
+        details: "Developed at IBM, SQL is the standard language for interacting with relational database management systems. It's essential for data extraction, manipulation, and analysis."
+    },
+    Java: {
+        name: "Java",
+        year: "1995",
+        description: "Class-based, object-oriented programming language.",
+        details: "Developed by James Gosling at Sun Microsystems, Java is designed to have as few implementation dependencies as possible, following the 'write once, run anywhere' principle."
+    },
+    Pandas: {
+        name: "Pandas",
+        year: "2008",
+        description: "Data manipulation and analysis library for Python.",
+        details: "Created by Wes McKinney, Pandas provides high-performance, easy-to-use data structures like DataFrames, making it indispensable for data cleaning and preparation."
+    },
+    NumPy: {
+        name: "NumPy",
+        year: "2006",
+        description: "Fundamental package for scientific computing with Python.",
+        details: "NumPy provides support for large, multi-dimensional arrays and matrices, along with a collection of mathematical functions to operate on these arrays."
+    },
+    'Scikit-learn': {
+        name: "Scikit-learn",
+        year: "2007",
+        description: "Machine learning library for Python.",
+        details: "Built on NumPy, SciPy, and Matplotlib, Scikit-learn features various classification, regression, and clustering algorithms, and is designed to interoperate with NumPy and Pandas."
+    },
+    Matplotlib: {
+        name: "Matplotlib",
+        year: "2003",
+        description: "Comprehensive library for creating static, animated, and interactive visualizations in Python.",
+        details: "Created by John D. Hunter, it is the foundation for many other visualization libraries and provides a MATLAB-like interface for plotting."
+    },
+    Seaborn: {
+        name: "Seaborn",
+        year: "2014",
+        description: "Statistical data visualization library based on Matplotlib.",
+        details: "Seaborn provides a high-level interface for drawing attractive and informative statistical graphics, integrating closely with Pandas data structures."
+    },
+    'Jupyter Notebook': {
+        name: "Jupyter Notebook",
+        year: "2014",
+        description: "Web-based interactive computing environment.",
+        details: "Part of Project Jupyter, it allows users to create and share documents that contain live code, equations, visualizations, and narrative text."
+    },
+    Git: {
+        name: "Git",
+        year: "2005",
+        description: "Distributed version control system.",
+        details: "Created by Linus Torvalds, Git is used for tracking changes in source code during software development, allowing multiple developers to collaborate efficiently."
+    },
+    'VS Code': {
+        name: "VS Code",
+        year: "2015",
+        description: "Streamlined code editor with support for development operations.",
+        details: "Developed by Microsoft, Visual Studio Code is a highly extensible editor that supports almost every major programming language and has a massive extension marketplace."
+    },
+    PowerBI: {
+        name: "PowerBI",
+        year: "2011",
+        description: "Business analytics service by Microsoft.",
+        details: "It provides interactive visualizations and business intelligence capabilities with an interface simple enough for end users to create their own reports and dashboards."
+    },
+    Tableau: {
+        name: "Tableau",
+        year: "2003",
+        description: "Visual analytics platform transforming the way we use data to solve problems.",
+        details: "Tableau helps people see and understand data through powerful visual analytics, allowing for deep exploration and storytelling."
+    },
+    Excel: {
+        name: "Excel",
+        year: "1985",
+        description: "Spreadsheet program featuring calculation, graphing tools, and pivot tables.",
+        details: "A cornerstone of business data management, Excel is used globally for everything from simple lists to complex financial modeling."
+    },
+    'Problem-Solving': {
+        name: "Problem-Solving",
+        year: "N/A",
+        description: "The process of finding solutions to difficult or complex issues.",
+        details: "A core competency for any data scientist, involving analytical thinking, creativity, and the ability to break down complex problems into manageable parts."
+    },
+    'Team Player': {
+        name: "Team Player",
+        year: "N/A",
+        description: "A person who plays or works well as a member of a team or group.",
+        details: "Collaboration is key in data science projects, which often involve cross-functional teams of engineers, product managers, and stakeholders."
+    },
+    Communication: {
+        name: "Communication",
+        year: "N/A",
+        description: "The successful conveying or sharing of ideas and feelings.",
+        details: "The ability to explain complex technical findings to non-technical audiences is crucial for driving data-informed decision-making."
+    },
+    Storytelling: {
+        name: "Storytelling",
+        year: "N/A",
+        description: "The activity of telling or writing stories.",
+        details: "In data science, this means weaving data and visualizations into a compelling narrative that highlights insights and recommendations."
+    },
+    Adaptability: {
+        name: "Adaptability",
+        year: "N/A",
+        description: "The quality of being able to adjust to new conditions.",
+        details: "The tech landscape changes rapidly; being able to learn new tools and methodologies quickly is a vital skill."
+    }
 };
 
 const projects: ProjectType[] = [
@@ -192,16 +316,20 @@ const contactDetails = [
 
 // --- REUSABLE COMPONENTS ---
 
-const SkillCard: React.FC<{ icon: React.ReactNode; title: string; skills: string[]; }> = ({ icon, title, skills }) => (
+const SkillCard: React.FC<{ icon: React.ReactNode; title: string; skills: string[]; onSkillClick: (skill: string) => void; }> = ({ icon, title, skills, onSkillClick }) => (
     <div className="bg-white/50 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-gray-500/10 transition-shadow duration-300">
         <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl mb-4 md:mb-6">{icon}</div>
         <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">{title}</h3>
         <div className="flex flex-wrap gap-2">
             {skills.map(skill => (
-                <span key={skill} className="bg-gray-100 text-gray-700 text-xs sm:text-sm font-medium pl-2 pr-3 py-1 rounded-full flex items-center gap-1.5">
+                <button 
+                    key={skill} 
+                    onClick={() => onSkillClick(skill)}
+                    className="bg-gray-100 text-gray-700 text-xs sm:text-sm font-medium pl-2 pr-3 py-1 rounded-full flex items-center gap-1.5 hover:bg-indigo-100 hover:text-indigo-700 transition-colors group/skill"
+                >
                     {skillIcons[skill] || <CodeIcon className="w-4 h-4 text-gray-500" />}
                     {skill}
-                </span>
+                </button>
             ))}
         </div>
     </div>
@@ -382,11 +510,89 @@ const EducationItem: React.FC<{ period: string; degree: string; institution: str
 );
 
 
+const SkillModal: React.FC<{ skill: SkillDetail | null; onClose: () => void; }> = ({ skill, onClose }) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') onClose();
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        
+        if (skill) {
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => setIsVisible(true), 10);
+        } else {
+            setIsVisible(false);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.body.style.overflow = 'auto';
+        };
+    }, [skill, onClose]);
+    
+    if (!skill) return null;
+
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+            onClose();
+        }
+    };
+
+    return (
+        <div
+            onClick={handleBackdropClick}
+            className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+            aria-modal="true"
+            role="dialog"
+        >
+            <div
+                ref={modalRef}
+                className={`bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-y-auto p-6 sm:p-8 md:p-10 transition-all duration-300 ease-out ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+            >
+                <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors z-10" aria-label="Close skill details">
+                    <XIcon className="w-6 h-6" />
+                </button>
+                
+                <div className="flex items-center gap-4 mb-6">
+                    <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-500">
+                        {skillIcons[skill.name] || <CodeIcon className="w-8 h-8" />}
+                    </div>
+                    <div>
+                        <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{skill.name}</h2>
+                        {skill.year !== "N/A" && (
+                            <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase">Released: {skill.year}</p>
+                        )}
+                    </div>
+                </div>
+
+                <div className="prose max-w-none text-gray-600">
+                    <p className="text-lg font-medium text-gray-800 mb-4">{skill.description}</p>
+                    <p className="leading-relaxed">{skill.details}</p>
+                </div>
+                
+                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-end">
+                    <button 
+                        onClick={onClose}
+                        className="px-6 py-2 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-700 transition-all"
+                    >
+                        Got it
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const App: React.FC = () => {
     const navLinks = ["About", "Skills", "Projects", "Experience", "Resume", "Contact"];
     const [activeSection, setActiveSection] = useState('about');
     const [activeTag, setActiveTag] = useState('All');
     const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
+    const [selectedSkill, setSelectedSkill] = useState<SkillDetail | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const headerRef = useRef<HTMLElement>(null);
 
@@ -545,12 +751,13 @@ const App: React.FC = () => {
                     <div className="text-center mb-12 sm:mb-16">
                         <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Capabilities</p>
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2">Technological DNA</h2>
+                        <p className="mt-2 text-gray-500 text-sm">Click on any skill to learn more about it</p>
                     </div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-                        <SkillCard icon={<CodeIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Languages" skills={skills.languages} />
-                        <SkillCard icon={<BriefcaseIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Data Science & ML" skills={skills.backend} />
-                        <SkillCard icon={<WrenchIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Tools & Platforms" skills={skills.tools} />
-                        <SkillCard icon={<BrainIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Soft Skills" skills={skills.softSkills} />
+                        <SkillCard icon={<CodeIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Languages" skills={skills.languages} onSkillClick={(skill) => setSelectedSkill(skillDetails[skill])} />
+                        <SkillCard icon={<BriefcaseIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Data Science & ML" skills={skills.backend} onSkillClick={(skill) => setSelectedSkill(skillDetails[skill])} />
+                        <SkillCard icon={<WrenchIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Tools & Platforms" skills={skills.tools} onSkillClick={(skill) => setSelectedSkill(skillDetails[skill])} />
+                        <SkillCard icon={<BrainIcon className="w-6 h-6 md:w-7 md:h-7 text-indigo-500"/>} title="Soft Skills" skills={skills.softSkills} onSkillClick={(skill) => setSelectedSkill(skillDetails[skill])} />
                     </div>
                 </section>
 
@@ -726,6 +933,7 @@ const App: React.FC = () => {
             </footer>
 
             <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+            <SkillModal skill={selectedSkill} onClose={() => setSelectedSkill(null)} />
         </div>
     );
 };
