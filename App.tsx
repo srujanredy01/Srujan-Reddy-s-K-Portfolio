@@ -159,7 +159,7 @@ const projects: ProjectType[] = [
 const allTags = ['All', ...new Set(projects.flatMap(p => p.tags))];
 
 const education = [
-    { period: "AUG 2023 - PRESENT", degree: "CGPA: 6.76", institution: "Lovely Professional University", field: "Bachelor of Technology (Hons.) - Data Science & Data Engineering", location: "PUNJAB, INDIA" },
+    { period: "AUG 2023 - PRESENT", degree: "CGPA: 6.90", institution: "Lovely Professional University", field: "Bachelor of Technology (Hons.) - Data Science & Data Engineering", location: "PUNJAB, INDIA" },
     { period: "JUN 2021 - APR 2023", degree: "PERCENTAGE: 71%", institution: "Narayana Junior College", field: "Intermediate", location: "HYDERABAD, TELANGANA" },
     { period: "JUN 2020 - APR 2021", degree: "PERCENTAGE: 99%", institution: "Narayana School", field: "Matriculation", location: "HYDERABAD, TELANGANA" }
 ];
