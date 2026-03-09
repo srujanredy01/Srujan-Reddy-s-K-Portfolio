@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
     CodeIcon, BrainIcon, WrenchIcon, UsersIcon, MailIcon, PhoneIcon, LinkedInIcon, GithubIcon, ExternalLinkIcon, BriefcaseIcon, BookOpenIcon, MessageSquareIcon, ArrowRightIcon,
-    PythonIcon, DatabaseIcon, GitIcon, DockerIcon, AWSIcon, LightbulbIcon, UsersGroupIcon, ChartBarIcon, TensorFlowIcon, PyTorchIcon, SparkIcon, CertificateIcon, ExcelIcon, XIcon
+    PythonIcon, DatabaseIcon, GitIcon, DockerIcon, AWSIcon, LightbulbIcon, UsersGroupIcon, ChartBarIcon, TensorFlowIcon, PyTorchIcon, SparkIcon, CertificateIcon, ExcelIcon, XIcon, FileTextIcon
 } from './components/Icons';
 
 // --- TYPE DEFINITIONS ---
@@ -73,7 +73,7 @@ const projects: ProjectType[] = [
         tags: ['Machine Learning', 'Python'],
         technologies: ['Scikit-learn', 'Pandas', 'Seaborn', 'Matplotlib'],
         liveDemoUrl: '#',
-        codeUrl: 'https://github.com/srujanredy01',
+        codeUrl: '#',
         challenges: [
             "Handling an imbalanced dataset where churned customers were a small minority.",
             "Engineering meaningful features from raw transactional and temporal data.",
@@ -96,7 +96,7 @@ const projects: ProjectType[] = [
         tags: ['NLP', 'Deep Learning'],
         technologies: ['TensorFlow', 'Keras', 'NLTK', 'Pandas'],
         liveDemoUrl: '#',
-        codeUrl: 'https://github.com/srujanredy01',
+        codeUrl: '#',
         challenges: [
             "Processing high-velocity, unstructured text data in real-time.",
             "Dealing with informal language, slang, and emojis common in social media.",
@@ -119,7 +119,7 @@ const projects: ProjectType[] = [
         tags: ['Unsupervised Learning', 'FinTech'],
         technologies: ['PyTorch', 'Scikit-learn', 'Kafka', 'Pandas'],
         liveDemoUrl: '#',
-        codeUrl: 'https://github.com/srujanredy01',
+        codeUrl: '#',
         challenges: [
             "The lack of labeled fraudulent data necessitated an unsupervised learning approach.",
             "Minimizing false positives to avoid disrupting legitimate user transactions.",
@@ -136,15 +136,23 @@ const projects: ProjectType[] = [
 const allTags = ['All', ...new Set(projects.flatMap(p => p.tags))];
 
 const education = [
-    { period: "SINCE AUG 2023", degree: "CGPA: 6.89", institution: "Lovely Professional University", field: "Bachelor of Technology - Computer Science and Engineering", location: "PUNJAB, INDIA" },
+    { period: "SINCE AUG 2023", degree: "CGPA: 6.90", institution: "Lovely Professional University", field: "Bachelor of Technology - Computer Science and Engineering", location: "PUNJAB, INDIA" },
     { period: "APR 2021 - MAR 2023", degree: "PERCENTAGE: 74%", institution: "Narayana Junior College", field: "Intermediate - MPC", location: "HYDERABAD, TELANGANA" },
     { period: "JUN 2020 - MAR 2021", degree: "PERCENTAGE: 85%", institution: "Narayana E-Techno School", field: "Secondary School (SSC)", location: "HYDERABAD, TELANGANA" }
 ];
 
 const qualifications = [
-    { name: "The Bits and Bytes of Computer Networking", date: "AUG 2025", verifyUrl: 'https://coursera.org/share/93d52094d17320ea876417bd3abaf3c8' },
-    { name: "Operating Systems and You: Becoming a Power User", date: "SEP 2024", verifyUrl: 'https://coursera.org/share/aa337da15fecbe19c5e0772cfc9b07cb' },
-    { name: "Python for data science ai & development", date: "NOV 2025", verifyUrl: '#' },
+    { name: "Google Data Analytics Professional Certificate", date: "NOV 2024", verifyUrl: '#' },
+    { name: "IBM Data Science Professional Certificate", date: "JUL 2024", verifyUrl: '#' },
+    { name: "TensorFlow Developer Certificate", date: "JAN 2024", verifyUrl: '#' },
+];
+
+const resumeHighlights = [
+    "Advanced Predictive Modeling & Machine Learning",
+    "Full-stack Data Science Pipeline Development",
+    "Cloud-native AI Solutions (AWS/GCP)",
+    "Statistical Analysis & Data Visualization",
+    "Big Data Processing with Spark & Kafka"
 ];
 
 const contactDetails = [
@@ -348,7 +356,7 @@ const EducationItem: React.FC<{ period: string; degree: string; institution: str
 
 
 const App: React.FC = () => {
-    const navLinks = ["About", "Skills", "Projects", "Experience", "Contact"];
+    const navLinks = ["About", "Skills", "Projects", "Experience", "Resume", "Contact"];
     const [activeSection, setActiveSection] = useState('about');
     const [activeTag, setActiveTag] = useState('All');
     const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
@@ -529,6 +537,64 @@ const App: React.FC = () => {
                                     Specializing in predictive modeling and machine learning algorithms. Focusing on optimizing model performance and scalability in cloud environments.
                                 </p>
                              </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="resume" className="py-12 sm:py-20">
+                    <div className="bg-white/50 backdrop-blur-sm rounded-[2.5rem] p-8 sm:p-12 md:p-16 border border-gray-200/80 shadow-xl relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-100/50 rounded-full -mr-32 -mt-32 blur-3xl"></div>
+                        <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
+                            <div className="lg:max-w-xl text-center lg:text-left">
+                                <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest mb-4">Curriculum Vitae</p>
+                                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Professional Resume</h2>
+                                <p className="text-gray-600 text-lg mb-8">
+                                    A comprehensive overview of my technical expertise, academic background, and professional achievements in the field of Data Science and Engineering.
+                                </p>
+                                <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+                                    <a 
+                                        href="#" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg transform hover:-translate-y-1"
+                                    >
+                                        <ExternalLinkIcon className="w-5 h-5" />
+                                        View Online
+                                    </a>
+                                    <a 
+                                        href="#" 
+                                        className="inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 border border-gray-200 font-bold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-md transform hover:-translate-y-1"
+                                    >
+                                        <FileTextIcon className="w-5 h-5 text-indigo-500" />
+                                        Download PDF
+                                    </a>
+                                    <a 
+                                        href="https://www.linkedin.com/in/kindiekri-srujan/" 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 border border-gray-200 font-bold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-md transform hover:-translate-y-1"
+                                    >
+                                        <LinkedInIcon className="w-5 h-5 text-blue-600" />
+                                        LinkedIn
+                                    </a>
+                                </div>
+                            </div>
+                            <div className="w-full lg:w-auto">
+                                <div className="bg-white p-8 rounded-3xl shadow-inner border border-gray-100 space-y-6">
+                                    <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
+                                        <BriefcaseIcon className="w-6 h-6 text-indigo-500" />
+                                        Core Highlights
+                                    </h3>
+                                    <ul className="space-y-4">
+                                        {resumeHighlights.map((highlight, i) => (
+                                            <li key={i} className="flex items-start gap-3 text-gray-600">
+                                                <div className="mt-1.5 w-1.5 h-1.5 bg-indigo-500 rounded-full flex-shrink-0"></div>
+                                                <span className="text-sm md:text-base font-medium">{highlight}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </section>
