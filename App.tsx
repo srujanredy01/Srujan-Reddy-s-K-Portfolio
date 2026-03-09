@@ -2,7 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
     CodeIcon, BrainIcon, WrenchIcon, UsersIcon, MailIcon, PhoneIcon, LinkedInIcon, GithubIcon, ExternalLinkIcon, BriefcaseIcon, BookOpenIcon, MessageSquareIcon, ArrowRightIcon,
-    PythonIcon, DatabaseIcon, GitIcon, DockerIcon, AWSIcon, LightbulbIcon, UsersGroupIcon, ChartBarIcon, TensorFlowIcon, PyTorchIcon, SparkIcon, CertificateIcon, ExcelIcon, XIcon, FileTextIcon
+    PythonIcon, DatabaseIcon, GitIcon, DockerIcon, AWSIcon, LightbulbIcon, UsersGroupIcon, ChartBarIcon, TensorFlowIcon, PyTorchIcon, SparkIcon, CertificateIcon, ExcelIcon, XIcon, FileTextIcon,
+    MenuIcon
 } from './components/Icons';
 
 // --- TYPE DEFINITIONS ---
@@ -235,10 +236,10 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">{title}</h3>
             
             <div className="relative flex-grow min-h-[100px] mb-4">
-                <ul className="space-y-2 list-disc list-inside text-sm md:text-base text-gray-600 flex-grow leading-relaxed transition-opacity duration-300 group-hover:opacity-0">
+                <ul className="space-y-2 list-disc list-inside text-sm md:text-base text-gray-600 flex-grow leading-relaxed transition-opacity duration-300 md:group-hover:opacity-0">
                     {description.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
+                <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
                     <a href={liveDemoUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
                         <ExternalLinkIcon className="w-4 h-4" />
                         <span>Live Demo</span>
@@ -386,6 +387,7 @@ const App: React.FC = () => {
     const [activeSection, setActiveSection] = useState('about');
     const [activeTag, setActiveTag] = useState('All');
     const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const headerRef = useRef<HTMLElement>(null);
 
     const filteredProjects = activeTag === 'All'
@@ -394,6 +396,7 @@ const App: React.FC = () => {
 
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement>, sectionId: string) => {
         e.preventDefault();
+        setIsMenuOpen(false);
         const element = document.getElementById(sectionId);
         if (element) {
             const headerOffset = headerRef.current?.clientHeight || 80;
@@ -432,57 +435,99 @@ const App: React.FC = () => {
             <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
 
             <header ref={headerRef} className="fixed top-0 inset-x-0 md:top-4 md:left-1/2 md:-translate-x-1/2 md:w-auto z-40">
-                <nav className="w-full md:w-auto bg-white/60 backdrop-blur-lg md:rounded-full shadow-lg shadow-gray-500/5 border-b md:border border-white/50 px-2 sm:px-4 py-2">
-                    <ul className="flex items-center justify-center gap-0.5 md:gap-1">
-                        <li className="hidden md:block"><a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className="font-bold text-lg px-4 py-2 text-gray-900 flex items-center gap-2">KS<span className="w-2 h-2 bg-indigo-500 rounded-full"></span></a></li>
-                        <li className="hidden md:block w-px h-6 bg-gray-200 mx-2"></li>
-                        {navLinks.map(link => {
-                            const sectionId = link.toLowerCase();
-                            const isActive = activeSection === sectionId;
-                            return (
-                                <li key={link}>
-                                     <a
-                                        href={`#${sectionId}`}
-                                        onClick={(e) => handleNavClick(e, sectionId)}
-                                        className={`
-                                            relative group
-                                            px-3 sm:px-4 py-2
-                                            text-xs sm:text-sm font-semibold
-                                            rounded-full
-                                            transition-colors duration-300
-                                            ${
-                                                isActive
-                                                    ? 'bg-gray-900 text-white'
-                                                    : 'text-gray-600 hover:text-gray-900'
-                                            }
-                                        `}
-                                    >
-                                        <span className={`inline-block transition-transform duration-300 ${!isActive ? 'group-hover:scale-105 group-hover:-translate-y-0.5' : ''}`}>
+                <nav className="w-full md:w-auto bg-white/80 backdrop-blur-lg md:rounded-full shadow-lg shadow-gray-500/5 border-b md:border border-white/50 px-4 py-3 md:py-2">
+                    <div className="flex items-center justify-between md:justify-center gap-4">
+                        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMenuOpen(false); }} className="font-bold text-xl md:text-lg text-gray-900 flex items-center gap-2">
+                            KS<span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                        </a>
+
+                        {/* Mobile Menu Toggle */}
+                        <button 
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                            className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
+                            aria-label="Toggle menu"
+                        >
+                            {isMenuOpen ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+                        </button>
+
+                        {/* Desktop Navigation */}
+                        <ul className="hidden md:flex items-center gap-1">
+                            <li className="w-px h-6 bg-gray-200 mx-2"></li>
+                            {navLinks.map(link => {
+                                const sectionId = link.toLowerCase();
+                                const isActive = activeSection === sectionId;
+                                return (
+                                    <li key={link}>
+                                         <a
+                                            href={`#${sectionId}`}
+                                            onClick={(e) => handleNavClick(e, sectionId)}
+                                            className={`
+                                                relative group
+                                                px-4 py-2
+                                                text-sm font-semibold
+                                                rounded-full
+                                                transition-colors duration-300
+                                                ${
+                                                    isActive
+                                                        ? 'bg-gray-900 text-white'
+                                                        : 'text-gray-600 hover:text-gray-900'
+                                                }
+                                            `}
+                                        >
+                                            <span className={`inline-block transition-transform duration-300 ${!isActive ? 'group-hover:scale-105 group-hover:-translate-y-0.5' : ''}`}>
+                                                {link}
+                                            </span>
+                                            {!isActive && (
+                                                <span className="
+                                                    absolute bottom-1 left-0 w-full
+                                                    h-[1px] bg-indigo-500
+                                                    transform scale-x-0 group-hover:scale-x-100
+                                                    transition-transform duration-300 ease-out origin-left
+                                                "></span>
+                                            )}
+                                        </a>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+
+                    {/* Mobile Navigation Overlay */}
+                    <div className={`
+                        md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-xl transition-all duration-300 ease-in-out overflow-hidden
+                        ${isMenuOpen ? 'max-h-[400px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0'}
+                    `}>
+                        <ul className="flex flex-col items-center gap-4">
+                            {navLinks.map(link => {
+                                const sectionId = link.toLowerCase();
+                                const isActive = activeSection === sectionId;
+                                return (
+                                    <li key={link} className="w-full px-8">
+                                        <a
+                                            href={`#${sectionId}`}
+                                            onClick={(e) => handleNavClick(e, sectionId)}
+                                            className={`
+                                                block w-full text-center py-3 text-lg font-bold rounded-2xl transition-all
+                                                ${isActive ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50'}
+                                            `}
+                                        >
                                             {link}
-                                        </span>
-                                        {!isActive && (
-                                            <span className="
-                                                absolute bottom-1 left-0 w-full
-                                                h-[1px] bg-indigo-500
-                                                transform scale-x-0 group-hover:scale-x-100
-                                                transition-transform duration-300 ease-out origin-left
-                                            "></span>
-                                        )}
-                                    </a>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                                        </a>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
                 </nav>
             </header>
 
             <main className="container mx-auto px-4 pt-24 md:pt-32 pb-16 relative z-10">
-                <section id="about" className="text-center pt-12 sm:pt-16 pb-16 sm:pb-24">
-                    <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter">
-                        Kindikeri Srujan <span className="text-indigo-400">Kumar Reddy</span>
+                <section id="about" className="text-center pt-8 sm:pt-16 pb-16 sm:pb-24">
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tighter leading-[1.1]">
+                        Kindikeri Srujan <span className="text-indigo-400 block sm:inline">Kumar Reddy</span>
                     </h1>
-                    <p className="mt-4 text-sm font-semibold text-indigo-500 uppercase tracking-widest">Data Scientist</p>
-                    <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg text-gray-600">
+                    <p className="mt-6 text-sm sm:text-base font-semibold text-indigo-500 uppercase tracking-widest">Data Scientist</p>
+                    <p className="mt-6 max-w-2xl mx-auto text-base md:text-lg lg:text-xl text-gray-600 leading-relaxed">
                         Engineering robust data ecosystems and architecting intelligent, high-performance data science solutions that drive business value.
                     </p>
                     <div className="mt-10 flex flex-wrap justify-center items-center gap-x-2 gap-y-4">
@@ -581,46 +626,46 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                <section id="resume" className="py-12 sm:py-20">
-                    <div className="bg-white/50 backdrop-blur-sm rounded-[2.5rem] p-8 sm:p-12 md:p-16 border border-gray-200/80 shadow-xl relative overflow-hidden">
+                <section id="resume" className="py-12 sm:py-20 lg:py-32">
+                    <div className="bg-white/50 backdrop-blur-sm rounded-3xl md:rounded-[2.5rem] p-6 sm:p-12 md:p-16 border border-gray-200/80 shadow-xl relative overflow-hidden">
                         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-100/50 rounded-full -mr-32 -mt-32 blur-3xl"></div>
-                        <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
-                            <div className="lg:max-w-xl text-center lg:text-left">
+                        <div className="relative z-10 flex flex-col lg:flex-row items-stretch justify-between gap-12">
+                            <div className="lg:max-w-xl text-center lg:text-left flex flex-col justify-center">
                                 <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest mb-4">Curriculum Vitae</p>
                                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mb-6">Professional Resume</h2>
-                                <p className="text-gray-600 text-lg mb-8">
+                                <p className="text-gray-600 text-lg mb-8 leading-relaxed">
                                     A comprehensive overview of my technical expertise, academic background, and professional achievements in the field of Data Science and Engineering.
                                 </p>
-                                <div className="flex flex-wrap justify-center lg:justify-start gap-4">
+                                <div className="flex flex-wrap justify-center lg:justify-start gap-3 sm:gap-4">
                                     <a 
-                                        href="#" 
+                                        href="https://drive.google.com/file/d/1nKMPMjc-ed7IqBqzAEQxbbJh1li6zXzc/view?usp=sharing" 
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-3 px-8 py-4 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg transform hover:-translate-y-1"
+                                        className="flex-grow sm:flex-grow-0 inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg transform hover:-translate-y-1"
                                     >
                                         <ExternalLinkIcon className="w-5 h-5" />
-                                        View Online
+                                        <span>View Online</span>
                                     </a>
                                     <a 
                                         href="#" 
-                                        className="inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 border border-gray-200 font-bold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-md transform hover:-translate-y-1"
+                                        className="flex-grow sm:flex-grow-0 inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 border border-gray-200 font-bold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-md transform hover:-translate-y-1"
                                     >
                                         <FileTextIcon className="w-5 h-5 text-indigo-500" />
-                                        Download PDF
+                                        <span>Download PDF</span>
                                     </a>
                                     <a 
                                         href="https://www.linkedin.com/in/kindiekri-srujan/" 
                                         target="_blank" 
                                         rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 border border-gray-200 font-bold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-md transform hover:-translate-y-1"
+                                        className="flex-grow sm:flex-grow-0 inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 border border-gray-200 font-bold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-md transform hover:-translate-y-1"
                                     >
                                         <LinkedInIcon className="w-5 h-5 text-blue-600" />
-                                        LinkedIn
+                                        <span>LinkedIn</span>
                                     </a>
                                 </div>
                             </div>
-                            <div className="w-full lg:w-auto">
-                                <div className="bg-white p-8 rounded-3xl shadow-inner border border-gray-100 space-y-6">
+                            <div className="w-full lg:w-1/3 min-w-[300px]">
+                                <div className="h-full bg-white p-6 sm:p-8 rounded-3xl shadow-inner border border-gray-100 space-y-6">
                                     <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
                                         <BriefcaseIcon className="w-6 h-6 text-indigo-500" />
                                         Core Highlights
@@ -668,7 +713,7 @@ const App: React.FC = () => {
                               className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-gray-500/10 transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center text-center">
                                 <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-4 text-indigo-500">{c.icon}</div>
                                 <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">{c.title}</p>
-                                <p className="font-semibold mt-1">{c.value}</p>
+                                <p className="font-semibold mt-1 break-all">{c.value}</p>
                             </a>
                         ))}
                     </div>
