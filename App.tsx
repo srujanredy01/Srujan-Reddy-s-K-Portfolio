@@ -33,6 +33,15 @@ interface SkillDetail {
     details: string;
 }
 
+interface AchievementType {
+    title: string;
+    description: string;
+    date: string;
+    detailedDescription?: string;
+    impact?: string;
+    link?: string;
+}
+
 // --- DATA CONSTANTS ---
 
 const skills = {
@@ -294,8 +303,14 @@ const qualifications = [
     { name: "Operating Systems and You: Becoming a Power User", date: "SEP 2024", verifyUrl: '#' },
 ];
 
-const achievements = [
-    { title: "Volunteered with Dhruvansh NGO", description: "Participated in lake conservation and cleanliness drives.", date: "JUL 2024" }
+const achievements: AchievementType[] = [
+    { 
+        title: "Volunteered with Dhruvansh NGO", 
+        description: "Participated in lake conservation and cleanliness drives.", 
+        date: "JUL 2024",
+        detailedDescription: "Actively participated in environmental conservation efforts focusing on the restoration and maintenance of local lakes in Hyderabad. Collaborated with a team of volunteers to remove waste, plant native flora, and raise awareness about water body preservation in the community.",
+        impact: "Helped clear significant amounts of waste from the lake shores, contributing to the restoration of the local ecosystem and educating local residents on sustainable waste disposal practices."
+    }
 ];
 
 const resumeHighlights = [
@@ -307,9 +322,9 @@ const resumeHighlights = [
 ];
 
 const contactDetails = [
-    { icon: <MailIcon />, title: "EMAIL", value: "kindiekrisrujankumarreddy@gmail.com", href: "mailto:kindiekrisrujankumarreddy@gmail.com" },
+    { icon: <MailIcon />, title: "EMAIL", value: "kindikerisr@gmail.com", href: "mailto:kindikerisr@gmail.com" },
     { icon: <PhoneIcon />, title: "PHONE", value: "+91-9640404455", href: "tel:+919640404455" },
-    { icon: <LinkedInIcon />, title: "LINKEDIN", value: "View Professional Profile", href: "https://in.linkedin.com/in/kindiekri-srujanb" },
+    { icon: <LinkedInIcon />, title: "LINKEDIN", value: "View Professional Profile", href: "https://www.linkedin.com/in/kindiekri-srujan/" },
     { icon: <GithubIcon />, title: "GITHUB", value: "Explore the Codebase", href: "https://github.com/srujanredy01" }
 ];
 
@@ -356,7 +371,11 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
         <div
             ref={cardRef}
             onClick={onSelect}
-            className={`relative bg-white/50 hover:bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onSelect(); } }}
+            tabIndex={0}
+            role="button"
+            aria-label={`View details for ${title}`}
+            className={`relative bg-white/50 hover:bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group focus:outline-none focus:ring-2 focus:ring-indigo-500 ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
             style={{ transitionDelay: `${index * 100}ms` }}
         >
             <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl mb-4"><CodeIcon className="text-indigo-500 w-6 h-6 md:w-7 md:h-7" /></div>
@@ -368,14 +387,18 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
                     {description.map((item, i) => <li key={i}>{item}</li>)}
                 </ul>
                 <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
-                    <a href={liveDemoUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
-                        <ExternalLinkIcon className="w-4 h-4" />
-                        <span>Live Demo</span>
-                    </a>
-                    <a href={codeUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
-                        <GithubIcon className="w-4 h-4" />
-                        <span>View Code</span>
-                    </a>
+                    {liveDemoUrl !== '#' && (
+                        <a href={liveDemoUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
+                            <ExternalLinkIcon className="w-4 h-4" />
+                            <span>Live Demo</span>
+                        </a>
+                    )}
+                    {codeUrl !== '#' && (
+                        <a href={codeUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
+                            <GithubIcon className="w-4 h-4" />
+                            <span>View Code</span>
+                        </a>
+                    )}
                 </div>
             </div>
 
@@ -481,14 +504,18 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-gray-200 flex flex-wrap gap-4 text-sm font-semibold">
-                     <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2 text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
-                        <ExternalLinkIcon className="w-5 h-5" />
-                        <span>Live Demo</span>
-                    </a>
-                    <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2 text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
-                        <GithubIcon className="w-5 h-5" />
-                        <span>View Code</span>
-                    </a>
+                     {project.liveDemoUrl !== '#' && (
+                         <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2 text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
+                            <ExternalLinkIcon className="w-5 h-5" />
+                            <span>Live Demo</span>
+                        </a>
+                     )}
+                     {project.codeUrl !== '#' && (
+                        <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-5 py-2 text-gray-700 bg-gray-100 rounded-full hover:bg-gray-200 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
+                            <GithubIcon className="w-5 h-5" />
+                            <span>View Code</span>
+                        </a>
+                     )}
                 </div>
             </div>
         </div>
@@ -587,12 +614,91 @@ const SkillModal: React.FC<{ skill: SkillDetail | null; onClose: () => void; }> 
     );
 };
 
+const AchievementModal: React.FC<{ achievement: AchievementType | null; onClose: () => void; }> = ({ achievement, onClose }) => {
+    const [isVisible, setIsVisible] = useState(false);
+    const modalRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === 'Escape') onClose();
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        
+        if (achievement) {
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => setIsVisible(true), 10);
+        } else {
+            setIsVisible(false);
+        }
+
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+            document.body.style.overflow = 'auto';
+        };
+    }, [achievement, onClose]);
+    
+    if (!achievement) return null;
+
+    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+            onClose();
+        }
+    };
+
+    return (
+        <div
+            onClick={handleBackdropClick}
+            className={`fixed inset-0 z-50 flex items-center justify-center p-4 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+            style={{ backgroundColor: 'rgba(0, 0, 0, 0.6)' }}
+            aria-modal="true"
+            role="dialog"
+        >
+            <div
+                ref={modalRef}
+                className={`bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-y-auto p-6 sm:p-8 md:p-10 transition-all duration-300 ease-out ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+            >
+                <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors z-10" aria-label="Close achievement details">
+                    <XIcon className="w-6 h-6" />
+                </button>
+                
+                <div className="mb-6">
+                    <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-2">{achievement.date}</p>
+                    <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{achievement.title}</h2>
+                </div>
+
+                <div className="prose max-w-none text-gray-600">
+                    <p className="text-lg font-medium text-gray-800 mb-4">{achievement.description}</p>
+                    {achievement.detailedDescription && (
+                        <p className="leading-relaxed mb-4">{achievement.detailedDescription}</p>
+                    )}
+                    {achievement.impact && (
+                        <div className="mt-6 p-4 bg-indigo-50 rounded-2xl border border-indigo-100">
+                            <h4 className="text-sm font-bold text-indigo-900 uppercase tracking-wider mb-2">Impact</h4>
+                            <p className="text-indigo-800 text-sm leading-relaxed">{achievement.impact}</p>
+                        </div>
+                    )}
+                </div>
+                
+                <div className="mt-8 pt-6 border-t border-gray-100 flex justify-end">
+                    <button 
+                        onClick={onClose}
+                        className="px-6 py-2 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-700 transition-all"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const App: React.FC = () => {
-    const navLinks = ["About", "Skills", "Projects", "Experience", "Resume", "Contact"];
+    const navLinks = ["About", "Skills", "Projects", "Experience", "Achievements", "Resume", "Contact"];
     const [activeSection, setActiveSection] = useState('about');
     const [activeTag, setActiveTag] = useState('All');
     const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
     const [selectedSkill, setSelectedSkill] = useState<SkillDetail | null>(null);
+    const [selectedAchievement, setSelectedAchievement] = useState<AchievementType | null>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const headerRef = useRef<HTMLElement>(null);
 
@@ -742,8 +848,8 @@ const App: React.FC = () => {
                             className="bg-gray-900 text-white font-semibold px-5 sm:px-6 py-2.5 sm:py-3 rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg transform hover:-translate-y-0.5">
                             View Professional Timeline
                         </button>
-                        <a href="https://github.com/srujanredy01" target="_blank" rel="noopener noreferrer" className="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"><GithubIcon /></a>
-                        <a href="mailto:kindiekrisr@gmail.com" className="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"><MailIcon /></a>
+                        <a href="https://github.com/srujanredy01" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile" className="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"><GithubIcon /></a>
+                        <a href="mailto:kindikerisr@gmail.com" aria-label="Email Me" className="w-12 h-12 flex items-center justify-center bg-white rounded-full shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5"><MailIcon /></a>
                     </div>
                 </section>
 
@@ -801,9 +907,11 @@ const App: React.FC = () => {
                                             <p className="text-xs text-gray-500 mt-1">{q.date}</p>
                                         </div>
                                         <div className="mt-4 pt-4 border-t border-gray-100">
-                                            <a href={q.verifyUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-300 shadow-sm border bg-white text-gray-700 border-gray-200 hover:bg-gray-100 transform hover:-translate-y-px">
-                                                Verify Certificate <ExternalLinkIcon className="w-4 h-4"/>
-                                            </a>
+                                            {q.verifyUrl !== '#' && (
+                                                <a href={q.verifyUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-300 shadow-sm border bg-white text-gray-700 border-gray-200 hover:bg-gray-100 transform hover:-translate-y-px">
+                                                    Verify Certificate <ExternalLinkIcon className="w-4 h-4"/>
+                                                </a>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
@@ -815,20 +923,35 @@ const App: React.FC = () => {
                                     Specializing in predictive modeling and machine learning algorithms. Focusing on optimizing model performance and scalability in cloud environments.
                                 </p>
                              </div>
-                             <div className="mt-8">
-                                 <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8">Achievements</h2>
-                                 <div className="space-y-4">
-                                     {achievements.map(a => (
-                                         <div key={a.title} className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-lg transition-all">
-                                             <div className="flex justify-between items-start">
-                                                 <h4 className="font-bold">{a.title}</h4>
-                                                 <span className="text-xs text-indigo-500 font-semibold uppercase tracking-wider">{a.date}</span>
-                                             </div>
-                                             <p className="text-sm text-gray-600 mt-2">{a.description}</p>
-                                         </div>
-                                     ))}
-                                 </div>
-                             </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="achievements" className="py-12 sm:py-20">
+                    <div className="max-w-4xl">
+                        <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Milestones</p>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2 mb-8">Achievements</h2>
+                        <div className="space-y-4">
+                            {achievements.map(a => (
+                                <div 
+                                   key={a.title} 
+                                   onClick={() => setSelectedAchievement(a)}
+                                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setSelectedAchievement(a); } }}
+                                   tabIndex={0}
+                                   role="button"
+                                   aria-label={`View details for ${a.title}`}
+                                   className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-lg hover:border-indigo-200 transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                >
+                                    <div className="flex justify-between items-start">
+                                        <h4 className="font-bold group-hover:text-indigo-600 transition-colors">{a.title}</h4>
+                                        <span className="text-xs text-indigo-500 font-semibold uppercase tracking-wider">{a.date}</span>
+                                    </div>
+                                    <p className="text-sm text-gray-600 mt-2">{a.description}</p>
+                                    <div className="mt-4 flex items-center text-indigo-500 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                                        View Details <ArrowRightIcon className="w-3 h-3 ml-1" />
+                                    </div>
+                                </div>
+                            ))}
                         </div>
                     </div>
                 </section>
@@ -854,7 +977,10 @@ const App: React.FC = () => {
                                         <span>View Online</span>
                                     </a>
                                     <a 
-                                        href="#" 
+                                        href="https://drive.google.com/file/d/1nKMPMjc-ed7IqBqzAEQxbbJh1li6zXzc/view?usp=sharing" 
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        download="Kindikeri_Srujan_Kumar_Reddy_Resume.pdf"
                                         className="flex-grow sm:flex-grow-0 inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 border border-gray-200 font-bold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-md transform hover:-translate-y-1"
                                     >
                                         <FileTextIcon className="w-5 h-5 text-indigo-500" />
@@ -934,6 +1060,7 @@ const App: React.FC = () => {
 
             <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
             <SkillModal skill={selectedSkill} onClose={() => setSelectedSkill(null)} />
+            <AchievementModal achievement={selectedAchievement} onClose={() => setSelectedAchievement(null)} />
         </div>
     );
 };
