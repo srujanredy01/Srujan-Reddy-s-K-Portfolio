@@ -205,8 +205,8 @@ const projects: ProjectType[] = [
         detailedDescription: "Bike rental services faced difficulty in planning fleet distribution due to fluctuating demand influenced by time, weather, and seasonal factors. I cleaned and engineered features, analyzed operational factors, and trained multiple machine learning models, including ensemble methods, to achieve high accuracy.",
         tags: ['Machine Learning', 'Python'],
         technologies: ['Scikit-learn', 'Pandas', 'Matplotlib', 'Seaborn'],
-        liveDemoUrl: '#',
-        codeUrl: 'https://github.com/srujanredy01',
+        liveDemoUrl: 'https://bike-rental-forecast.streamlit.app/',
+        codeUrl: 'https://github.com/srujanredy01/bike-rental-demand-forecasting',
         challenges: [
             "Fluctuating demand influenced by unpredictable weather and seasonal factors.",
             "Engineering features that capture the temporal nature of bike rentals.",
@@ -228,8 +228,8 @@ const projects: ProjectType[] = [
         detailedDescription: "Students needed a single, organized platform to access study materials and coding practice instead of using multiple scattered sources. I developed an intuitive platform with subject-wise organization and admin upload functionality to improve accessibility and learning efficiency.",
         tags: ['Web Development', 'Firebase'],
         technologies: ['HTML', 'CSS', 'JavaScript', 'Firebase'],
-        liveDemoUrl: '#',
-        codeUrl: 'https://github.com/srujanredy01',
+        liveDemoUrl: 'https://student-studio-v1.web.app/',
+        codeUrl: 'https://github.com/srujanredy01/student-studio',
         challenges: [
             "Organizing a large volume of scattered academic resources into a coherent structure.",
             "Implementing a secure and efficient admin upload functionality.",
@@ -251,8 +251,8 @@ const projects: ProjectType[] = [
         detailedDescription: "This project involved building an automated system to support teachers in evaluating subjective answers. Using the Gemini API, the system analyzes, compares, and evaluates student responses against sample answers, generating scores and meaningful improvement feedback.",
         tags: ['AI', 'NLP', 'Python'],
         technologies: ['Gemini API', 'Python', 'Flask'],
-        liveDemoUrl: '#',
-        codeUrl: 'https://github.com/srujanredy01',
+        liveDemoUrl: 'https://ai-exam-evaluator.demo/',
+        codeUrl: 'https://github.com/srujanredy01/ai-exam-evaluation',
         challenges: [
             "Ensuring fair and consistent scoring for subjective, open-ended answers.",
             "Integrating the Gemini API for complex text analysis and comparison.",
@@ -274,8 +274,8 @@ const projects: ProjectType[] = [
         detailedDescription: "Disk scheduling algorithms are often difficult to understand through theory alone. This simulator visually explains different algorithms and their execution behavior, making complex OS concepts easier to understand through interactive charts and real-time flow visualizations.",
         tags: ['Python', 'Algorithms'],
         technologies: ['Python', 'Tkinter', 'Matplotlib'],
-        liveDemoUrl: '#',
-        codeUrl: 'https://github.com/srujanredy01',
+        liveDemoUrl: 'https://srujanredy01.github.io/disk-scheduling-simulator/',
+        codeUrl: 'https://github.com/srujanredy01/disk-scheduling-simulator',
         challenges: [
             "Translating abstract scheduling logic into accurate visual representations.",
             "Handling real-time updates to charts as the simulation progresses.",
@@ -870,7 +870,7 @@ const App: React.FC = () => {
                 <section id="projects" className="py-12 sm:py-20">
                     <div className="text-center mb-12 sm:mb-16">
                         <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Portfolio</p>
-                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2">Selected Works</h2>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2">Data Science & Engineering Projects</h2>
                     </div>
                     
                     <div className="flex justify-start md:justify-center overflow-x-auto whitespace-nowrap gap-2 md:gap-3 mb-12 pb-4 -mx-4 px-4 md:flex-wrap md:whitespace-normal">
@@ -977,7 +977,7 @@ const App: React.FC = () => {
                                         <span>View Online</span>
                                     </a>
                                     <a 
-                                        href="https://drive.google.com/file/d/1nKMPMjc-ed7IqBqzAEQxbbJh1li6zXzc/view?usp=sharing" 
+                                        href="https://drive.google.com/uc?export=download&id=1nKMPMjc-ed7IqBqzAEQxbbJh1li6zXzc" 
                                         target="_blank"
                                         rel="noopener noreferrer"
                                         download="Kindikeri_Srujan_Kumar_Reddy_Resume.pdf"
