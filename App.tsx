@@ -10,6 +10,7 @@ import {
 interface ProjectType {
     date: string;
     title: string;
+    status: 'Live' | 'Completed' | 'Working';
     description: string[];
     detailedDescription: string;
     tags: string[];
@@ -198,6 +199,7 @@ const projects: ProjectType[] = [
     {
         date: "DEC 2025",
         title: "Bike Rental Demand Forecasting",
+        status: 'Live',
         description: [
             "Built a reliable model to predict hourly and daily bike rental demand using historical data.",
             "Achieved strong prediction accuracy with ensemble models, enabling better fleet planning."
@@ -221,6 +223,7 @@ const projects: ProjectType[] = [
     {
         date: "NOV 2025",
         title: "Studio Developed for Students",
+        status: 'Working',
         description: [
             "Built a unified system for easy access to semester-wise subjects and practice resources.",
             "Developed an intuitive platform for viewing and downloading PDFs, PPTs, and Docs."
@@ -244,6 +247,7 @@ const projects: ProjectType[] = [
     {
         date: "JUL 2025",
         title: "AI-Based Subjective Exam Evaluation",
+        status: 'Working',
         description: [
             "Developed an automated answer evaluation system using the Gemini API.",
             "Reduced evaluation effort and delivered consistent scoring with clear feedback."
@@ -267,6 +271,7 @@ const projects: ProjectType[] = [
     {
         date: "APR 2024",
         title: "Disk Scheduling Simulator",
+        status: 'Completed',
         description: [
             "Developed a GUI-based simulator for FCFS, SSTF, SCAN, and C-SCAN algorithms.",
             "Created real-time visualizations for head movement and seek time."
@@ -350,7 +355,7 @@ const SkillCard: React.FC<{ icon: React.ReactNode; title: string; skills: string
     </div>
 );
 
-const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void; }> = ({ date, title, description, index, tags, onSelect, liveDemoUrl, codeUrl }) => {
+const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void; }> = ({ date, title, status, description, index, tags, onSelect, liveDemoUrl, codeUrl }) => {
     const cardRef = useRef<HTMLDivElement>(null);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -367,6 +372,12 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
         return () => { if (currentRef) observer.unobserve(currentRef); };
     }, []);
 
+    const statusColors = {
+        Live: 'bg-emerald-100 text-emerald-700 border-emerald-200',
+        Completed: 'bg-blue-100 text-blue-700 border-blue-200',
+        Working: 'bg-amber-100 text-amber-700 border-amber-200'
+    };
+
     return (
         <div
             ref={cardRef}
@@ -378,7 +389,12 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
             className={`relative bg-white/50 hover:bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group focus:outline-none focus:ring-2 focus:ring-indigo-500 ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
             style={{ transitionDelay: `${index * 100}ms` }}
         >
-            <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl mb-4"><CodeIcon className="text-indigo-500 w-6 h-6 md:w-7 md:h-7" /></div>
+            <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl"><CodeIcon className="text-indigo-500 w-6 h-6 md:w-7 md:h-7" /></div>
+                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusColors[status]}`}>
+                    {status}
+                </span>
+            </div>
             <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-2">{date}</p>
             <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-4">{title}</h3>
             
@@ -461,7 +477,16 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
                 <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors z-10" aria-label="Close project details">
                     <XIcon className="w-8 h-8" />
                 </button>
-                <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-2">{project.date}</p>
+                <div className="flex items-center gap-4 mb-2">
+                    <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase">{project.date}</p>
+                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+                        project.status === 'Live' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' :
+                        project.status === 'Completed' ? 'bg-blue-100 text-blue-700 border-blue-200' :
+                        'bg-amber-100 text-amber-700 border-amber-200'
+                    }`}>
+                        {project.status}
+                    </span>
+                </div>
                 <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">{project.title}</h2>
                 <div className="flex flex-wrap gap-2 mb-6">
                     {project.tags.map(tag => <span key={tag} className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">{tag}</span>)}
@@ -835,6 +860,17 @@ const App: React.FC = () => {
 
             <main className="container mx-auto px-4 pt-24 md:pt-32 pb-16 relative z-10">
                 <section id="about" className="text-center pt-8 sm:pt-16 pb-16 sm:pb-24">
+                    <div className="mb-10 flex justify-center">
+                        <div className="relative group">
+                            <div className="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                            <img
+                                src="/profile.jpg"
+                                alt="Srujan Kumar Reddy"
+                                referrerPolicy="no-referrer"
+                                className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full object-cover border-4 border-white shadow-2xl transition-transform duration-500 group-hover:scale-[1.05]"
+                            />
+                        </div>
+                    </div>
                     <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-extrabold tracking-tighter leading-[1.1]">
                         Kindikeri Srujan <span className="text-indigo-400 block sm:inline">Kumar Reddy</span>
                     </h1>
