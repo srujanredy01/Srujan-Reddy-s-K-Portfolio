@@ -795,10 +795,10 @@ const App: React.FC = () => {
             <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
 
             <header ref={headerRef} className="fixed top-0 inset-x-0 md:top-4 md:left-1/2 md:-translate-x-1/2 md:w-auto z-40">
-                <nav className="w-full md:w-auto bg-white/80 backdrop-blur-lg md:rounded-full shadow-lg shadow-gray-500/5 border-b md:border border-white/50 px-4 py-3 md:py-2">
-                    <div className="flex items-center justify-between md:justify-center gap-4">
-                        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMenuOpen(false); }} className="font-bold text-xl md:text-lg text-gray-900 flex items-center gap-2">
-                            KS<span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
+                <nav className="w-full md:w-max max-w-[95vw] bg-white/80 backdrop-blur-lg md:rounded-full shadow-lg shadow-gray-500/5 border-b md:border border-white/50 px-4 py-3 md:py-1.5 md:px-2">
+                    <div className="flex items-center justify-between md:justify-center gap-2 md:gap-1">
+                        <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMenuOpen(false); }} className="font-bold text-xl md:text-base text-gray-900 flex items-center gap-1.5 ml-2 md:ml-4 mr-2">
+                            KS<span className="w-1.5 h-1.5 bg-indigo-500 rounded-full"></span>
                         </a>
 
                         {/* Mobile Menu Toggle */}
@@ -811,8 +811,8 @@ const App: React.FC = () => {
                         </button>
 
                         {/* Desktop Navigation */}
-                        <ul className="hidden md:flex items-center gap-1">
-                            <li className="w-px h-6 bg-gray-200 mx-2"></li>
+                        <ul className="hidden md:flex items-center gap-0.5">
+                            <li className="w-px h-4 bg-gray-200 mx-2"></li>
                             {navLinks.map(link => {
                                 const sectionId = link.toLowerCase();
                                 const isActive = activeSection === sectionId;
@@ -823,14 +823,14 @@ const App: React.FC = () => {
                                             onClick={(e) => handleNavClick(e, sectionId)}
                                             className={`
                                                 relative group
-                                                px-4 py-2
-                                                text-sm font-semibold
+                                                px-3 py-1.5
+                                                text-[13px] font-bold
                                                 rounded-full
-                                                transition-colors duration-300
+                                                transition-all duration-300
                                                 ${
                                                     isActive
-                                                        ? 'bg-gray-900 text-white'
-                                                        : 'text-gray-600 hover:text-gray-900'
+                                                        ? 'bg-gray-900 text-white shadow-md'
+                                                        : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/50'
                                                 }
                                             `}
                                         >
@@ -855,7 +855,7 @@ const App: React.FC = () => {
                     {/* Mobile Navigation Overlay */}
                     <div className={`
                         md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-xl transition-all duration-300 ease-in-out overflow-hidden
-                        ${isMenuOpen ? 'max-h-[400px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0'}
+                        ${isMenuOpen ? 'max-h-[500px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0'}
                     `}>
                         <ul className="flex flex-col items-center gap-4">
                             {navLinks.map(link => {
