@@ -171,3 +171,35 @@ export const MenuIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
     </svg>
 );
+
+export const LeetCodeIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.483 0a1.374 1.374 0 0 0-.961.414l-2.736 2.735a1.374 1.374 0 1 0 1.94 1.94L14.46 2.354l.012-.012c.027-.027.156-.136.41-.136.255 0 .383.109.411.136.027.027.156.136.41.136.255 0 .383.109.411.136l.234.234c.027.027.136.156.136.41 0 .255-.109.383-.136.411l-4.783 4.782a1.374 1.374 0 0 0-1.94 1.94l4.782 4.783c.027.027.136.156.136.41 0 .255-.109.383-.136.411l-.462.462c-.027.027-.156.136-.411.136-.255 0-.384-.109-.411-.136a1.374 1.374 0 1 0-1.94 1.94l.462.462c.705.705 1.65 1.058 2.595 1.058.945 0 1.89-.353 2.596-1.058l4.782-4.783c.705-.705 1.058-1.65 1.058-2.595 0-.945-.353-1.89-1.058-2.596L13.483 0z"/>
+        <path d="M16.018 24a1.374 1.374 0 0 0 .961-.414l2.736-2.735a1.374 1.374 0 1 0-1.94-1.94l-2.735 2.735-.012.012c-.027.027-.156.136-.41.136-.255 0-.383-.109-.411-.136-.027-.027-.156-.136-.41-.136-.255 0-.383.109-.411.136l-.234-.234c-.027-.027-.136-.156-.136-.41 0-.255.109-.383.136-.411l4.783-4.782a1.374 1.374 0 0 0 1.94-1.94l-4.782-4.783c-.027-.027-.136-.156-.136-.41 0-.255.109-.383.136-.411l.462-.462c.027-.027.156-.136.411-.136.255 0 .384.109.411.136a1.374 1.374 0 1 0 1.94-1.94l-.462-.462c-.705-.705-1.65-1.058-2.595-1.058-.945 0-1.89.353-2.596 1.058l-4.782 4.783c-.705.705-1.058 1.65-1.058 2.595 0 .945.353 1.89 1.058 2.596l4.782 4.783z"/>
+        <path d="M0 13.483a1.374 1.374 0 0 0 .414.961l2.735 2.736a1.374 1.374 0 1 0 1.94-1.94l-2.735-2.735.012-.012c.027-.027.136-.156.136-.41 0-.255-.109-.383-.136-.411-.027-.027-.136-.156-.136-.41 0-.255.109-.383.136-.411l.234-.234c.027-.027.156-.136.41-.136.255 0 .383.109.411.136l4.782 4.783a1.374 1.374 0 0 0 1.94-1.94l-4.783-4.782c-.027-.027-.156-.136-.41-.136-.255 0-.383.109-.411.136l-.462.462c-.027.027-.136.156-.136.411 0 .255.109.384.136.411a1.374 1.374 0 1 0 1.94-1.94l-.462-.462c-.705-.705-1.65-1.058-2.595-1.058-.945 0-1.89.353-2.596 1.058l-4.783 4.782c-.705.705-1.058 1.65-1.058 2.595 0 .945.353 1.89 1.058 2.596L0 13.483z"/>
+    </svg>
+);
+
+export const TrophyIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6M18 9h1.5a2.5 2.5 0 0 0 0-5H18M4 22h16M10 14.66V17c0 .55.47.98.97 1.21C11.47 18.44 12 19 12 19s.53-.56 1.03-.79c.5-.23.97-.66.97-1.21v-2.34M7 2h10v12c0 1.31-1.02 2.44-2.32 2.66L12 17l-2.68-.34C8.02 16.44 7 15.31 7 14V2z" />
+    </svg>
+);
+
+export const ActivityIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+    </svg>
+);
+
+export const CheckCircleIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+);
+
+export const HammerIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+    </svg>
+);

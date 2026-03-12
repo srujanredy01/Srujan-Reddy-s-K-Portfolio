@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
     CodeIcon, BrainIcon, WrenchIcon, UsersIcon, MailIcon, PhoneIcon, LinkedInIcon, GithubIcon, ExternalLinkIcon, BriefcaseIcon, BookOpenIcon, MessageSquareIcon, ArrowRightIcon,
     PythonIcon, DatabaseIcon, GitIcon, DockerIcon, AWSIcon, LightbulbIcon, UsersGroupIcon, ChartBarIcon, TensorFlowIcon, PyTorchIcon, SparkIcon, CertificateIcon, ExcelIcon, XIcon, FileTextIcon,
-    MenuIcon
+    MenuIcon, ActivityIcon, CheckCircleIcon, HammerIcon, LeetCodeIcon, TrophyIcon
 } from './components/Icons';
 
 // --- TYPE DEFINITIONS ---
@@ -303,9 +303,9 @@ const education = [
 ];
 
 const qualifications = [
-    { name: "The Bits and Bytes of Computer Networking", date: "AUG 2025", verifyUrl: '#' },
-    { name: "Python for Data Science, AI & Development", date: "NOV 2025", verifyUrl: '#' },
-    { name: "Operating Systems and You: Becoming a Power User", date: "SEP 2024", verifyUrl: '#' },
+    { name: "The Bits and Bytes of Computer Networking", date: "AUG 2025", verifyUrl: 'https://www.coursera.org/account/accomplishments/verify/GOOGLE-NETWORKING' },
+    { name: "Python for Data Science, AI & Development", date: "NOV 2025", verifyUrl: 'https://www.coursera.org/account/accomplishments/verify/IBM-PYTHON' },
+    { name: "Operating Systems and You: Becoming a Power User", date: "SEP 2024", verifyUrl: 'https://www.coursera.org/account/accomplishments/verify/GOOGLE-OS' },
 ];
 
 const achievements: AchievementType[] = [
@@ -373,9 +373,23 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
     }, []);
 
     const statusColors = {
-        Live: 'bg-emerald-100 text-emerald-700 border-emerald-200',
-        Completed: 'bg-blue-100 text-blue-700 border-blue-200',
-        Working: 'bg-amber-100 text-amber-700 border-amber-200'
+        Live: 'bg-emerald-50 text-emerald-700 border-emerald-200 shadow-sm shadow-emerald-100/50',
+        Completed: 'bg-blue-50 text-blue-700 border-blue-200 shadow-sm shadow-blue-100/50',
+        Working: 'bg-amber-50 text-amber-700 border-amber-200 shadow-sm shadow-amber-100/50'
+    };
+
+    const StatusIcon = ({ status }: { status: ProjectType['status'] }) => {
+        switch (status) {
+            case 'Live': return (
+                <span className="relative flex h-2 w-2 mr-1">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+            );
+            case 'Completed': return <CheckCircleIcon className="w-3.5 h-3.5 mr-1 text-blue-500" />;
+            case 'Working': return <HammerIcon className="w-3.5 h-3.5 mr-1 text-amber-500 animate-bounce" />;
+            default: return null;
+        }
     };
 
     return (
@@ -391,7 +405,8 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
         >
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl"><CodeIcon className="text-indigo-500 w-6 h-6 md:w-7 md:h-7" /></div>
-                <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusColors[status]}`}>
+                <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 group-hover:shadow-sm ${statusColors[status]}`}>
+                    <StatusIcon status={status} />
                     {status}
                 </span>
             </div>
@@ -479,11 +494,19 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
                 </button>
                 <div className="flex items-center gap-4 mb-2">
                     <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase">{project.date}</p>
-                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
-                        project.status === 'Live' ? 'bg-emerald-100 text-emerald-700 border-emerald-200' :
-                        project.status === 'Completed' ? 'bg-blue-100 text-blue-700 border-blue-200' :
-                        'bg-amber-100 text-amber-700 border-amber-200'
+                    <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-sm ${
+                        project.status === 'Live' ? 'bg-emerald-50 text-emerald-700 border-emerald-200 shadow-emerald-100/50' :
+                        project.status === 'Completed' ? 'bg-blue-50 text-blue-700 border-blue-200 shadow-blue-100/50' :
+                        'bg-amber-50 text-amber-700 border-amber-200 shadow-amber-100/50'
                     }`}>
+                        {project.status === 'Live' && (
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                        )}
+                        {project.status === 'Completed' && <CheckCircleIcon className="w-3.5 h-3.5 text-blue-500" />}
+                        {project.status === 'Working' && <HammerIcon className="w-3.5 h-3.5 text-amber-500 animate-bounce" />}
                         {project.status}
                     </span>
                 </div>
@@ -718,7 +741,7 @@ const AchievementModal: React.FC<{ achievement: AchievementType | null; onClose:
 };
 
 const App: React.FC = () => {
-    const navLinks = ["About", "Skills", "Projects", "Experience", "Achievements", "Resume", "Contact"];
+    const navLinks = ["About", "Stats", "Skills", "Projects", "Experience", "Achievements", "Resume", "Contact"];
     const [activeSection, setActiveSection] = useState('about');
     const [activeTag, setActiveTag] = useState('All');
     const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
@@ -889,6 +912,89 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
+                <section id="stats" className="py-12 sm:py-20">
+                    <div className="text-center mb-12 sm:mb-16">
+                        <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Performance</p>
+                        <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2">Coding Metrics</h2>
+                        <p className="mt-2 text-gray-500 text-sm">Real-time snapshots of my technical growth</p>
+                    </div>
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        {/* GitHub Stats */}
+                        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                                    <GithubIcon className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-gray-900">GitHub Activity</h3>
+                                    <p className="text-sm text-gray-500">@srujanredy01</p>
+                                </div>
+                                <a href="https://github.com/srujanredy01" target="_blank" rel="noopener noreferrer" className="ml-auto text-indigo-500 hover:text-indigo-600 transition-colors">
+                                    <ExternalLinkIcon className="w-5 h-5" />
+                                </a>
+                            </div>
+                            
+                            <div className="space-y-6">
+                                <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4">
+                                    <img 
+                                        src="https://github-readme-stats.vercel.app/api?username=srujanredy01&show_icons=true&theme=transparent&hide_border=true&title_color=6366f1&icon_color=6366f1&text_color=4b5563&bg_color=ffffff00" 
+                                        alt="GitHub Stats" 
+                                        className="w-full h-auto"
+                                        referrerPolicy="no-referrer"
+                                    />
+                                </div>
+                                <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4">
+                                    <img 
+                                        src="https://github-readme-stats.vercel.app/api/top-langs/?username=srujanredy01&layout=compact&theme=transparent&hide_border=true&title_color=6366f1&text_color=4b5563&bg_color=ffffff00" 
+                                        alt="Top Languages" 
+                                        className="w-full h-auto"
+                                        referrerPolicy="no-referrer"
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* LeetCode Stats */}
+                        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center text-white shadow-lg">
+                                    <LeetCodeIcon className="w-6 h-6" />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-gray-900">LeetCode Mastery</h3>
+                                    <p className="text-sm text-gray-500">Competitive Programming</p>
+                                </div>
+                                <a href="https://leetcode.com/u/srujan01/" target="_blank" rel="noopener noreferrer" className="ml-auto text-indigo-500 hover:text-indigo-600 transition-colors">
+                                    <ExternalLinkIcon className="w-5 h-5" />
+                                </a>
+                            </div>
+
+                            <div className="grid grid-cols-2 gap-4 mb-6">
+                                <div className="bg-white p-4 rounded-2xl border border-gray-100 text-center">
+                                    <TrophyIcon className="w-6 h-6 text-amber-500 mx-auto mb-2" />
+                                    <p className="text-2xl font-bold text-gray-900">150+</p>
+                                    <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Solved</p>
+                                </div>
+                                <div className="bg-white p-4 rounded-2xl border border-gray-100 text-center">
+                                    <ActivityIcon className="w-6 h-6 text-emerald-500 mx-auto mb-2" />
+                                    <p className="text-2xl font-bold text-gray-900">Top 15%</p>
+                                    <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Ranking</p>
+                                </div>
+                            </div>
+
+                            <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 flex items-center justify-center min-h-[200px]">
+                                <img 
+                                    src="https://leetcard.jacoblin.cool/srujan01?theme=light&font=Inter&ext=activity" 
+                                    alt="LeetCode Stats" 
+                                    className="w-full h-auto"
+                                    referrerPolicy="no-referrer"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <section id="skills" className="py-12 sm:py-20">
                     <div className="text-center mb-12 sm:mb-16">
                         <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Capabilities</p>
@@ -933,20 +1039,30 @@ const App: React.FC = () => {
                         <div className="lg:col-span-2">
                              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8">Qualifications</h2>
                              <div className="space-y-6">
-                                {qualifications.map(q => (
-                                    <div key={q.name} className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-xl transition-all group flex flex-col">
-                                        <div className="flex-grow">
+                                 {qualifications.map(q => (
+                                    <div key={q.name} className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-xl transition-all group flex flex-col relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-full -mr-12 -mt-12 transition-transform duration-500 group-hover:scale-150 opacity-50"></div>
+                                        <div className="flex-grow relative z-10">
                                             <div className="flex justify-between items-start">
-                                                <h4 className="font-bold pr-4">{q.name}</h4>
+                                                <h4 className="font-bold pr-4 text-gray-900 group-hover:text-indigo-600 transition-colors">{q.name}</h4>
                                                 <CertificateIcon className="w-6 h-6 text-gray-300 group-hover:text-indigo-500 transition-colors flex-shrink-0"/>
                                             </div>
-                                            <p className="text-xs text-gray-500 mt-1">{q.date}</p>
+                                            <p className="text-xs text-gray-500 mt-1 font-medium">{q.date}</p>
                                         </div>
-                                        <div className="mt-4 pt-4 border-t border-gray-100">
-                                            {q.verifyUrl !== '#' && (
-                                                <a href={q.verifyUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-full transition-all duration-300 shadow-sm border bg-white text-gray-700 border-gray-200 hover:bg-gray-100 transform hover:-translate-y-px">
-                                                    Verify Certificate <ExternalLinkIcon className="w-4 h-4"/>
+                                        <div className="mt-6 relative z-10">
+                                            {q.verifyUrl !== '#' ? (
+                                                <a 
+                                                    href={q.verifyUrl} 
+                                                    target="_blank" 
+                                                    rel="noopener noreferrer" 
+                                                    className="inline-flex items-center gap-2 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-all group/link"
+                                                >
+                                                    View Certificate 
+                                                    <ExternalLinkIcon className="w-4 h-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"/>
+                                                    <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover/link:w-full"></span>
                                                 </a>
+                                            ) : (
+                                                <span className="text-xs text-gray-400 italic">Verification link pending</span>
                                             )}
                                         </div>
                                     </div>
