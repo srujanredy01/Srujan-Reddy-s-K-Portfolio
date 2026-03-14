@@ -787,6 +787,124 @@ const EducationItem: React.FC<{ period: string; degree: string; institution: str
     </div>
 );
 
+const DataLinkBackground = () => {
+    const canvasRef = useRef<HTMLCanvasElement>(null);
+    const mouseRef = useRef({ x: -1000, y: -1000 });
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) return;
+
+        let animationFrameId: number;
+        let particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
+        const particleCount = 60;
+        const connectionDistance = 150;
+        const mouseConnectionDistance = 200;
+
+        const init = () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    size: Math.random() * 2 + 1
+                });
+            }
+        };
+
+        const animate = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((p, i) => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(99, 102, 241, 0.2)';
+                ctx.fill();
+
+                // Connect to other particles
+                for (let j = i + 1; j < particles.length; j++) {
+                    const p2 = particles[j];
+                    const dx = p.x - p2.x;
+                    const dy = p.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < connectionDistance) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        const opacity = 1 - dist / connectionDistance;
+                        ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.15})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.stroke();
+                    }
+                }
+
+                // Connect to mouse
+                const mdx = p.x - mouseRef.current.x;
+                const mdy = p.y - mouseRef.current.y;
+                const mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+
+                if (mdist < mouseConnectionDistance) {
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
+                    const opacity = 1 - mdist / mouseConnectionDistance;
+                    ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.3})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+                    
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size * 1.5, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(99, 102, 241, ${opacity * 0.5})`;
+                    ctx.fill();
+                }
+            });
+
+            animationFrameId = requestAnimationFrame(animate);
+        };
+
+        const handleMouseMove = (e: MouseEvent) => {
+            mouseRef.current = { x: e.clientX, y: e.clientY };
+        };
+
+        const handleResize = () => {
+            init();
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+        window.addEventListener('resize', handleResize);
+        init();
+        animate();
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener('resize', handleResize);
+            cancelAnimationFrame(animationFrameId);
+        };
+    }, []);
+
+    return (
+        <canvas
+            ref={canvasRef}
+            className="fixed inset-0 pointer-events-none z-0 opacity-40"
+            style={{ mixBlendMode: 'multiply' }}
+        />
+    );
+};
+
 const GitHubActivity = () => {
     const [stats, setStats] = useState({
         contributions: 1240,
@@ -1238,6 +1356,7 @@ const App: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 text-gray-800 antialiased relative overflow-hidden">
+            <DataLinkBackground />
             {/* Skip to main content link for accessibility */}
             <a 
                 href="#main-content" 
