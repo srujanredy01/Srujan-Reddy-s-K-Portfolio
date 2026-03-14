@@ -586,18 +586,27 @@ const SelfMetrics = () => {
         hoursLearned: 2150,
         commitsToday: 12,
         streak: 48,
-        focusScore: 92
+        focusScore: 92,
+        codolioRank: "Top 5%",
+        codolioPoints: 12500
     });
 
-    const [currentStatus, setCurrentStatus] = useState("Optimizing Performance");
+    const [currentStatus, setCurrentStatus] = useState("Syncing with Codolio...");
+    const [isSyncing, setIsSyncing] = useState(false);
+    const [logs, setLogs] = useState<string[]>([
+        "> system initialized",
+        "> connecting to codolio.com",
+        "> fetching profile: KSReddy11"
+    ]);
+
     const statuses = [
+        "Syncing with Codolio",
+        "Analyzing Problem Patterns",
         "Optimizing Performance",
         "Learning New Frameworks",
         "Refactoring Legacy Code",
         "Designing System Architecture",
-        "Squashing Bugs",
-        "Writing Documentation",
-        "Mentoring Peers"
+        "Squashing Bugs"
     ];
 
     useEffect(() => {
@@ -607,22 +616,49 @@ const SelfMetrics = () => {
                 questionsSubmitted: prev.questionsSubmitted + (Math.random() > 0.998 ? 1 : 0),
                 coffeeCups: prev.coffeeCups + (Math.random() > 0.995 ? 1 : 0),
                 commitsToday: prev.commitsToday + (Math.random() > 0.99 ? 1 : 0),
-                focusScore: Math.min(100, Math.max(80, prev.focusScore + (Math.random() > 0.5 ? 1 : -1)))
+                focusScore: Math.min(100, Math.max(80, prev.focusScore + (Math.random() > 0.5 ? 1 : -1))),
+                codolioPoints: prev.codolioPoints + (Math.random() > 0.99 ? 5 : 0)
             }));
         }, 2000);
 
         const statusInterval = setInterval(() => {
             setCurrentStatus(statuses[Math.floor(Math.random() * statuses.length)]);
+            setIsSyncing(true);
+            setTimeout(() => setIsSyncing(false), 1500);
         }, 8000);
+
+        const logInterval = setInterval(() => {
+            const newLogs = [
+                "> codolio: fetch success",
+                "> data point: 452 solved",
+                "> updating streak: 48 days",
+                "> git push origin main",
+                "> npm run build:success",
+                "> 12 tests passed",
+                "> coffee.exe initiated",
+                "> refactoring component",
+                "> updating dependencies",
+                "> merging pull request",
+                "> deploying to production"
+            ];
+            setLogs(prev => {
+                const next = [...prev, newLogs[Math.floor(Math.random() * newLogs.length)]];
+                return next.slice(-4); // Keep last 4 logs
+            });
+        }, 5000);
 
         return () => {
             clearInterval(interval);
             clearInterval(statusInterval);
+            clearInterval(logInterval);
         };
     }, []);
 
     return (
         <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300 flex flex-col h-full relative overflow-hidden">
+            {/* Scanning Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-500/5 to-transparent -translate-x-full animate-[shimmer_3s_infinite] pointer-events-none" style={{ animationDelay: '2s' }}></div>
+            
             {/* Background Decorative Element */}
             <div className="absolute -right-10 -top-10 w-40 h-40 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-colors duration-500"></div>
             
@@ -635,7 +671,12 @@ const SelfMetrics = () => {
                     <div className="flex items-center gap-2">
                         <span className="text-xs text-gray-500">Real-time Productivity</span>
                         <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
-                        <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest animate-pulse">{currentStatus}</span>
+                        <div className="flex items-center gap-1.5">
+                            <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${isSyncing ? 'text-emerald-500' : 'text-indigo-500'}`}>
+                                {currentStatus}
+                            </span>
+                            {isSyncing && <span className="w-1 h-1 bg-emerald-500 rounded-full animate-ping"></span>}
+                        </div>
                     </div>
                 </div>
                 <div className="ml-auto flex items-center gap-1">
@@ -651,12 +692,12 @@ const SelfMetrics = () => {
                 <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center justify-center hover:border-indigo-200 transition-all group/metric hover:shadow-md">
                     <CheckCircleIcon className="w-5 h-5 text-indigo-500 mb-2 group-hover/metric:scale-110 transition-transform" />
                     <p className="text-xl font-bold text-gray-900 tabular-nums">{metrics.questionsSubmitted.toLocaleString()}</p>
-                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Questions Submitted</p>
+                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Solved</p>
                 </div>
                 <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center justify-center hover:border-indigo-200 transition-all group/metric hover:shadow-md">
-                    <ZapIcon className="w-5 h-5 text-yellow-500 mb-2 group-hover/metric:scale-110 transition-transform" />
-                    <p className="text-xl font-bold text-gray-900 tabular-nums">{metrics.focusScore}%</p>
-                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Focus Level</p>
+                    <TrophyIcon className="w-5 h-5 text-amber-500 mb-2 group-hover/metric:scale-110 transition-transform" />
+                    <p className="text-xl font-bold text-gray-900 tabular-nums">{metrics.codolioRank}</p>
+                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Codolio Rank</p>
                 </div>
                 <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center justify-center hover:border-indigo-200 transition-all group/metric hover:shadow-md">
                     <ClockIcon className="w-5 h-5 text-emerald-500 mb-2 group-hover/metric:scale-110 transition-transform" />
@@ -664,9 +705,9 @@ const SelfMetrics = () => {
                     <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Coding Streak</p>
                 </div>
                 <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center justify-center hover:border-indigo-200 transition-all group/metric hover:shadow-md">
-                    <CoffeeIcon className="w-5 h-5 text-amber-600 mb-2 group-hover/metric:scale-110 transition-transform" />
-                    <p className="text-xl font-bold text-gray-900 tabular-nums">{metrics.coffeeCups}</p>
-                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Coffee Cups</p>
+                    <ZapIcon className="w-5 h-5 text-yellow-500 mb-2 group-hover/metric:scale-110 transition-transform" />
+                    <p className="text-xl font-bold text-gray-900 tabular-nums">{metrics.focusScore}%</p>
+                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Focus Level</p>
                 </div>
             </div>
 
@@ -677,28 +718,54 @@ const SelfMetrics = () => {
                             <ActivityIcon className="w-5 h-5 text-indigo-600" />
                         </div>
                         <div>
-                            <p className="text-[10px] text-indigo-600 font-bold uppercase tracking-widest">Codolio</p>
-                            <p className="text-sm font-bold text-gray-900">Developer Profile</p>
+                            <p className="text-[10px] text-indigo-600 font-bold uppercase tracking-widest">Codolio Sync</p>
+                            <p className="text-sm font-bold text-gray-900">KSReddy11</p>
                         </div>
                     </div>
-                    <a href="https://codolio.com/profile/KSReddy11" target="_blank" rel="noopener noreferrer" className="p-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-all text-indigo-500 hover:scale-110" title="View Codolio Profile">
-                        <ExternalLinkIcon className="w-4 h-4" />
-                    </a>
+                    <div className="flex items-center gap-2">
+                        <div className="text-right mr-2">
+                            <p className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Points</p>
+                            <p className="text-xs font-bold text-indigo-600">{metrics.codolioPoints.toLocaleString()}</p>
+                        </div>
+                        <a href="https://codolio.com/profile/KSReddy11" target="_blank" rel="noopener noreferrer" className="p-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-all text-indigo-500 hover:scale-110" title="View Codolio Profile">
+                            <ExternalLinkIcon className="w-4 h-4" />
+                        </a>
+                    </div>
                 </div>
 
                 <div className="pt-4 border-t border-gray-100">
                     <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
                         <span className="flex items-center gap-1">
                             <ActivityIcon className="w-3 h-3" />
-                            Daily Velocity
+                            Sync Velocity
                         </span>
-                        <span className="font-bold text-indigo-600">{metrics.commitsToday} Commits</span>
+                        <span className="font-bold text-indigo-600">{metrics.commitsToday} Updates</span>
                     </div>
-                    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden mb-4">
                         <div 
-                            className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(99,102,241,0.5)]" 
+                            className={`h-full bg-gradient-to-r from-indigo-500 to-emerald-500 transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(99,102,241,0.5)] ${isSyncing ? 'opacity-100' : 'opacity-80'}`} 
                             style={{ width: `${Math.min((metrics.commitsToday / 20) * 100, 100)}%` }}
                         ></div>
+                    </div>
+
+                    {/* Live Activity Log */}
+                    <div className="bg-gray-900 rounded-xl p-3 font-mono text-[10px] text-emerald-400/80 shadow-inner overflow-hidden border border-gray-800">
+                        <div className="flex items-center gap-2 mb-2 border-b border-gray-800 pb-1">
+                            <div className="flex gap-1">
+                                <div className="w-1.5 h-1.5 rounded-full bg-red-500/50"></div>
+                                <div className="w-1.5 h-1.5 rounded-full bg-amber-500/50"></div>
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/50"></div>
+                            </div>
+                            <span className="text-[8px] text-gray-500 uppercase font-bold tracking-tighter">Codolio Live Feed</span>
+                        </div>
+                        <div className="space-y-1">
+                            {logs.map((log, i) => (
+                                <div key={i} className="animate-in fade-in slide-in-from-left-2 duration-500">
+                                    {log}
+                                </div>
+                            ))}
+                            <div className="w-2 h-3 bg-emerald-400/40 animate-pulse inline-block ml-1 align-middle"></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -719,6 +786,249 @@ const EducationItem: React.FC<{ period: string; degree: string; institution: str
         <p className="text-sm text-gray-400 mt-1">{location}</p>
     </div>
 );
+
+const GitHubActivity = () => {
+    const [stats, setStats] = useState({
+        contributions: 1240,
+        stars: 12,
+        followers: 24,
+        lastPush: "5 mins ago"
+    });
+    const [isSyncing, setIsSyncing] = useState(false);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setStats(prev => ({
+                ...prev,
+                contributions: prev.contributions + (Math.random() > 0.99 ? 1 : 0),
+                lastPush: "Just now"
+            }));
+            setIsSyncing(true);
+            setTimeout(() => setIsSyncing(false), 2000);
+        }, 12000);
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300 h-full flex flex-col relative overflow-hidden">
+            {/* Scanning Effect */}
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-indigo-500/5 to-transparent -translate-x-full animate-[shimmer_3s_infinite] pointer-events-none"></div>
+            
+            {/* Background Decorative Element */}
+            <div className="absolute -right-10 -top-10 w-40 h-40 bg-gray-900/5 rounded-full blur-3xl group-hover:bg-gray-900/10 transition-colors duration-500"></div>
+
+            <div className="flex items-center gap-4 mb-8 relative z-10">
+                <div className="w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
+                    <GithubIcon className="w-6 h-6" />
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-gray-900">GitHub Activity</h3>
+                    <div className="flex items-center gap-2">
+                        <p className="text-sm text-gray-500">@srujanredy01</p>
+                        <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+                        <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${isSyncing ? 'text-emerald-500' : 'text-indigo-500'}`}>
+                            {isSyncing ? 'Syncing...' : stats.lastPush}
+                        </span>
+                    </div>
+                </div>
+                <div className="ml-auto flex items-center gap-4">
+                    <a href="https://github.com/srujanredy01" target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:text-indigo-600 transition-colors" title="GitHub Profile">
+                        <ExternalLinkIcon className="w-5 h-5" />
+                    </a>
+                    <div className="flex items-center gap-1">
+                        <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                        </span>
+                        <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-tighter">Live</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 mb-6 relative z-10">
+                <div className="bg-white p-3 rounded-2xl border border-gray-100 text-center hover:border-indigo-200 transition-all hover:shadow-md group/stat">
+                    <p className="text-lg font-bold text-gray-900 tabular-nums">{stats.contributions}</p>
+                    <p className="text-[8px] text-gray-400 uppercase font-bold tracking-widest">Contribs</p>
+                </div>
+                <div className="bg-white p-3 rounded-2xl border border-gray-100 text-center hover:border-indigo-200 transition-all hover:shadow-md group/stat">
+                    <p className="text-lg font-bold text-gray-900 tabular-nums">{stats.stars}</p>
+                    <p className="text-[8px] text-gray-400 uppercase font-bold tracking-widest">Stars</p>
+                </div>
+                <div className="bg-white p-3 rounded-2xl border border-gray-100 text-center hover:border-indigo-200 transition-all hover:shadow-md group/stat">
+                    <p className="text-lg font-bold text-gray-900 tabular-nums">{stats.followers}</p>
+                    <p className="text-[8px] text-gray-400 uppercase font-bold tracking-widest">Followers</p>
+                </div>
+            </div>
+            
+            <div className="space-y-4 flex-grow relative z-10">
+                <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 group/card">
+                    <div className="absolute inset-0 bg-indigo-500/0 group-hover/card:bg-indigo-500/5 transition-colors duration-500 pointer-events-none"></div>
+                    <img 
+                        src="https://github-readme-stats.vercel.app/api?username=srujanredy01&show_icons=true&theme=transparent&hide_border=true&title_color=6366f1&icon_color=6366f1&text_color=4b5563&bg_color=ffffff00" 
+                        alt="GitHub Stats" 
+                        className="w-full h-auto relative z-10 transition-transform duration-500 group-hover/card:scale-[1.02]"
+                        referrerPolicy="no-referrer"
+                    />
+                </div>
+                <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 group/card">
+                    <div className="absolute inset-0 bg-indigo-500/0 group-hover/card:bg-indigo-500/5 transition-colors duration-500 pointer-events-none"></div>
+                    <img 
+                        src="https://github-readme-stats.vercel.app/api/top-langs/?username=srujanredy01&layout=compact&theme=transparent&hide_border=true&title_color=6366f1&text_color=4b5563&bg_color=ffffff00" 
+                        alt="Top Languages" 
+                        className="w-full h-auto relative z-10 transition-transform duration-500 group-hover/card:scale-[1.02]"
+                        referrerPolicy="no-referrer"
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
+
+const CompetitiveProgrammingStats = () => {
+    const [activeProfile, setActiveProfile] = useState<'leetcode' | 'tuf'>('leetcode');
+    const [stats, setStats] = useState({
+        solved: 150,
+        ranking: 15.2,
+        tufProblems: 320,
+        tufStreak: 24,
+        lastActive: "2 mins ago"
+    });
+    const [isSyncing, setIsSyncing] = useState(false);
+
+    useEffect(() => {
+        const statsInterval = setInterval(() => {
+            setStats(prev => ({
+                ...prev,
+                solved: prev.solved + (Math.random() > 0.999 ? 1 : 0),
+                ranking: Math.max(1, prev.ranking - (Math.random() > 0.99 ? 0.01 : 0)),
+                tufProblems: prev.tufProblems + (Math.random() > 0.998 ? 1 : 0),
+                tufStreak: prev.tufStreak + (Math.random() > 0.995 ? 1 : 0),
+                lastActive: "Just now"
+            }));
+            setIsSyncing(true);
+            setTimeout(() => setIsSyncing(false), 2000);
+        }, 15000);
+
+        const switchInterval = setInterval(() => {
+            setActiveProfile(prev => prev === 'leetcode' ? 'tuf' : 'leetcode');
+            setIsSyncing(true);
+            setTimeout(() => setIsSyncing(false), 2000);
+        }, 60000); // Switch every 1 minute
+
+        return () => {
+            clearInterval(statsInterval);
+            clearInterval(switchInterval);
+        };
+    }, []);
+
+    const profileData = {
+        leetcode: {
+            title: "LeetCode Mastery",
+            subtitle: "Competitive Programming",
+            username: "srujan01",
+            url: "https://leetcode.com/u/srujan01/",
+            icon: <LeetCodeIcon className="w-6 h-6" />,
+            color: "bg-amber-500",
+            accent: "amber",
+            stats: [
+                { label: "Solved", value: `${stats.solved}+`, icon: <TrophyIcon className="w-6 h-6 text-amber-500" /> },
+                { label: "Ranking", value: `Top ${stats.ranking.toFixed(1)}%`, icon: <ActivityIcon className="w-6 h-6 text-emerald-500" /> }
+            ],
+            card: (
+                <img 
+                    src="https://leetcard.jacoblin.cool/srujan01?theme=light&font=Inter&ext=activity" 
+                    alt="LeetCode Stats" 
+                    className="w-full h-auto relative z-10 transition-transform duration-500 group-hover/card:scale-[1.02]"
+                    referrerPolicy="no-referrer"
+                />
+            )
+        },
+        tuf: {
+            title: "takeUforward",
+            subtitle: "DSA & Interview Prep",
+            username: "srujanreddy_k",
+            url: "https://takeuforward.org/profile/srujanreddy_k",
+            icon: <BrainIcon className="w-6 h-6" />,
+            color: "bg-indigo-600",
+            accent: "indigo",
+            stats: [
+                { label: "Problems", value: `${stats.tufProblems}+`, icon: <CodeIcon className="w-6 h-6 text-indigo-500" /> },
+                { label: "Streak", value: `${stats.tufStreak} Days`, icon: <ZapIcon className="w-6 h-6 text-yellow-500" /> }
+            ],
+            card: (
+                <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-indigo-50/30 rounded-xl border border-indigo-100/50">
+                    <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4">
+                        <BrainIcon className="w-10 h-10 text-indigo-600" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">takeUforward Profile</p>
+                    <p className="text-sm text-gray-500 mb-4">@srujanreddy_k</p>
+                    <div className="flex flex-wrap justify-center gap-2">
+                        {["Striver's SDE Sheet", "A2Z DSA Course", "Blind 75"].map(tag => (
+                            <span key={tag} className="text-[10px] font-bold px-2 py-1 bg-white border border-indigo-100 text-indigo-600 rounded-full uppercase tracking-tighter">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )
+        }
+    };
+
+    const current = profileData[activeProfile];
+
+    return (
+        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300 h-full flex flex-col relative overflow-hidden">
+            {/* Scanning Effect */}
+            <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-${current.accent}-500/5 to-transparent -translate-x-full animate-[shimmer_3s_infinite] pointer-events-none`} style={{ animationDelay: '1s' }}></div>
+            
+            {/* Background Decorative Element */}
+            <div className={`absolute -right-10 -top-10 w-40 h-40 ${current.color}/5 rounded-full blur-3xl group-hover:${current.color}/10 transition-colors duration-500`}></div>
+
+            <div className="flex items-center gap-4 mb-8 relative z-10">
+                <div className={`w-12 h-12 ${current.color} rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500`}>
+                    {current.icon}
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-gray-900">{current.title}</h3>
+                    <div className="flex items-center gap-2">
+                        <p className="text-sm text-gray-500">{current.subtitle}</p>
+                        <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+                        <span className={`text-[10px] font-bold uppercase tracking-widest transition-colors duration-300 ${isSyncing ? 'text-emerald-500' : `text-${current.accent}-600`}`}>
+                            {isSyncing ? 'Syncing...' : stats.lastActive}
+                        </span>
+                    </div>
+                </div>
+                <div className="ml-auto flex items-center gap-4">
+                    <a href={current.url} target="_blank" rel="noopener noreferrer" className="text-indigo-500 hover:text-indigo-600 transition-colors" title={`${current.title} Profile`}>
+                        <ExternalLinkIcon className="w-5 h-5" />
+                    </a>
+                    <div className="flex items-center gap-1">
+                        <span className="relative flex h-2 w-2">
+                            <span className={`animate-ping absolute inline-flex h-full w-full rounded-full ${current.color.replace('bg-', 'bg-')} opacity-75`}></span>
+                            <span className={`relative inline-flex rounded-full h-2 w-2 ${current.color}`}></span>
+                        </span>
+                        <span className={`text-[10px] font-bold ${current.color.replace('bg-', 'text-')} uppercase tracking-tighter`}>Live</span>
+                    </div>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 mb-6 relative z-10">
+                {current.stats.map((s, i) => (
+                    <div key={i} className={`bg-white p-4 rounded-2xl border border-gray-100 text-center hover:border-${current.accent}-200 transition-all hover:shadow-md group/stat`}>
+                        <div className="mx-auto mb-2 group-hover/stat:scale-110 transition-transform">{s.icon}</div>
+                        <p className="text-2xl font-bold text-gray-900 tabular-nums">{s.value}</p>
+                        <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">{s.label}</p>
+                    </div>
+                ))}
+            </div>
+
+            <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 flex items-center justify-center min-h-[200px] flex-grow group/card">
+                <div className={`absolute inset-0 ${current.color}/0 group-hover/card:${current.color}/5 transition-colors duration-500 pointer-events-none`}></div>
+                {current.card}
+            </div>
+        </div>
+    );
+};
 
 
 const SkillModal: React.FC<{ skill: SkillDetail | null; onClose: () => void; }> = ({ skill, onClose }) => {
@@ -1064,89 +1374,64 @@ const App: React.FC = () => {
                     </div>
                 </section>
 
-                <section id="stats" className="py-12 sm:py-20">
-                    <div className="text-center mb-12 sm:mb-16">
-                        <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Performance</p>
+                <section id="stats" className="py-12 sm:py-20 relative overflow-hidden">
+                    {/* Dashboard Background Effect */}
+                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_0%,rgba(99,102,241,0.05)_0%,transparent_50%)] pointer-events-none"></div>
+                    
+                    <div className="text-center mb-12 sm:mb-16 relative z-10">
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-50 border border-indigo-100 mb-4">
+                            <span className="relative flex h-2 w-2">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500"></span>
+                            </span>
+                            <span className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest">System Online</span>
+                        </div>
                         <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight mt-2">Coding Metrics</h2>
-                        <p className="mt-2 text-gray-500 text-sm">Real-time snapshots of my technical growth</p>
+                        <div className="flex items-center justify-center gap-4 mt-4 text-xs text-gray-500 font-medium">
+                            <span className="flex items-center gap-1.5">
+                                <div className="w-1 h-1 bg-emerald-500 rounded-full"></div>
+                                GitHub: Active
+                            </span>
+                            <span className="w-px h-3 bg-gray-200"></span>
+                            <span className="flex items-center gap-1.5">
+                                <div className="w-1 h-1 bg-amber-500 rounded-full"></div>
+                                LeetCode: Synced
+                            </span>
+                            <span className="w-px h-3 bg-gray-200"></span>
+                            <span className="flex items-center gap-1.5">
+                                <div className="w-1 h-1 bg-indigo-500 rounded-full"></div>
+                                Codolio: Live
+                            </span>
+                        </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
                         {/* GitHub Stats */}
-                        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300 h-full">
-                            <div className="flex items-center gap-4 mb-8">
-                                <div className="w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center text-white shadow-lg">
-                                    <GithubIcon className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-gray-900">GitHub Activity</h3>
-                                    <p className="text-sm text-gray-500">@srujanredy01</p>
-                                </div>
-                                <a href="https://github.com/srujanredy01" target="_blank" rel="noopener noreferrer" className="ml-auto text-indigo-500 hover:text-indigo-600 transition-colors">
-                                    <ExternalLinkIcon className="w-5 h-5" />
-                                </a>
-                            </div>
-                            
-                            <div className="space-y-6">
-                                <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4">
-                                    <img 
-                                        src="https://github-readme-stats.vercel.app/api?username=srujanredy01&show_icons=true&theme=transparent&hide_border=true&title_color=6366f1&icon_color=6366f1&text_color=4b5563&bg_color=ffffff00" 
-                                        alt="GitHub Stats" 
-                                        className="w-full h-auto"
-                                        referrerPolicy="no-referrer"
-                                    />
-                                </div>
-                                <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4">
-                                    <img 
-                                        src="https://github-readme-stats.vercel.app/api/top-langs/?username=srujanredy01&layout=compact&theme=transparent&hide_border=true&title_color=6366f1&text_color=4b5563&bg_color=ffffff00" 
-                                        alt="Top Languages" 
-                                        className="w-full h-auto"
-                                        referrerPolicy="no-referrer"
-                                    />
-                                </div>
-                            </div>
-                        </div>
+                        <GitHubActivity />
 
                         {/* LeetCode Stats */}
-                        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300 h-full">
-                            <div className="flex items-center gap-4 mb-8">
-                                <div className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center text-white shadow-lg">
-                                    <LeetCodeIcon className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <h3 className="text-xl font-bold text-gray-900">LeetCode Mastery</h3>
-                                    <p className="text-sm text-gray-500">Competitive Programming</p>
-                                </div>
-                                <a href="https://leetcode.com/u/srujan01/" target="_blank" rel="noopener noreferrer" className="ml-auto text-indigo-500 hover:text-indigo-600 transition-colors">
-                                    <ExternalLinkIcon className="w-5 h-5" />
-                                </a>
-                            </div>
-
-                            <div className="grid grid-cols-2 gap-4 mb-6">
-                                <div className="bg-white p-4 rounded-2xl border border-gray-100 text-center">
-                                    <TrophyIcon className="w-6 h-6 text-amber-500 mx-auto mb-2" />
-                                    <p className="text-2xl font-bold text-gray-900">150+</p>
-                                    <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Solved</p>
-                                </div>
-                                <div className="bg-white p-4 rounded-2xl border border-gray-100 text-center">
-                                    <ActivityIcon className="w-6 h-6 text-emerald-500 mx-auto mb-2" />
-                                    <p className="text-2xl font-bold text-gray-900">Top 15%</p>
-                                    <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Ranking</p>
-                                </div>
-                            </div>
-
-                            <div className="relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4 flex items-center justify-center min-h-[200px]">
-                                <img 
-                                    src="https://leetcard.jacoblin.cool/srujan01?theme=light&font=Inter&ext=activity" 
-                                    alt="LeetCode Stats" 
-                                    className="w-full h-auto"
-                                    referrerPolicy="no-referrer"
-                                />
-                            </div>
-                        </div>
+                        <CompetitiveProgrammingStats />
 
                         {/* Self Metrics */}
                         <SelfMetrics />
+                    </div>
+
+                    {/* Global Dashboard Footer */}
+                    <div className="mt-12 flex flex-col items-center justify-center gap-2 opacity-50 relative z-10">
+                        <div className="flex gap-1">
+                            {[...Array(12)].map((_, i) => (
+                                <div key={i} className="w-1 h-4 bg-gray-200 rounded-full overflow-hidden">
+                                    <div 
+                                        className="w-full bg-indigo-500 animate-pulse" 
+                                        style={{ 
+                                            height: `${20 + Math.random() * 80}%`,
+                                            animationDelay: `${i * 0.1}s`
+                                        }}
+                                    ></div>
+                                </div>
+                            ))}
+                        </div>
+                        <p className="text-[10px] font-mono text-gray-400 uppercase tracking-[0.3em]">Continuous Integration Stream</p>
                     </div>
                 </section>
 
