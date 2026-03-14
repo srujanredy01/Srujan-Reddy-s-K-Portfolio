@@ -172,6 +172,24 @@ export const MenuIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
     </svg>
 );
 
+export const ClockIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+    </svg>
+);
+
+export const ZapIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+    </svg>
+);
+
+export const CoffeeIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={className} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M18 8h1a4 4 0 010 8h-1M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8zM6 1v3M10 1v3M14 1v3" />
+    </svg>
+);
+
 export const LeetCodeIcon: React.FC<IconProps> = ({ className = "w-6 h-6" }) => (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
         <path d="M13.483 0a1.374 1.374 0 0 0-.961.414l-2.736 2.735a1.374 1.374 0 1 0 1.94 1.94L14.46 2.354l.012-.012c.027-.027.156-.136.41-.136.255 0 .383.109.411.136.027.027.156.136.41.136.255 0 .383.109.411.136l.234.234c.027.027.136.156.136.41 0 .255-.109.383-.136.411l-4.783 4.782a1.374 1.374 0 0 0-1.94 1.94l4.782 4.783c.027.027.136.156.136.41 0 .255-.109.383-.136.411l-.462.462c-.027.027-.156.136-.411.136-.255 0-.384-.109-.411-.136a1.374 1.374 0 1 0-1.94 1.94l.462.462c.705.705 1.65 1.058 2.595 1.058.945 0 1.89-.353 2.596-1.058l4.782-4.783c.705-.705 1.058-1.65 1.058-2.595 0-.945-.353-1.89-1.058-2.596L13.483 0z"/>

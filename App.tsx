@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { 
     CodeIcon, BrainIcon, WrenchIcon, UsersIcon, MailIcon, PhoneIcon, LinkedInIcon, GithubIcon, ExternalLinkIcon, BriefcaseIcon, BookOpenIcon, MessageSquareIcon, ArrowRightIcon,
     PythonIcon, DatabaseIcon, GitIcon, DockerIcon, AWSIcon, LightbulbIcon, UsersGroupIcon, ChartBarIcon, TensorFlowIcon, PyTorchIcon, SparkIcon, CertificateIcon, ExcelIcon, XIcon, FileTextIcon,
-    MenuIcon, ActivityIcon, CheckCircleIcon, HammerIcon, LeetCodeIcon, TrophyIcon
+    MenuIcon, ActivityIcon, CheckCircleIcon, HammerIcon, LeetCodeIcon, TrophyIcon, CoffeeIcon, ClockIcon, ZapIcon
 } from './components/Icons';
 
 // --- TYPE DEFINITIONS ---
@@ -337,17 +337,21 @@ const contactDetails = [
 // --- REUSABLE COMPONENTS ---
 
 const SkillCard: React.FC<{ icon: React.ReactNode; title: string; skills: string[]; onSkillClick: (skill: string) => void; }> = ({ icon, title, skills, onSkillClick }) => (
-    <div className="bg-white/50 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-gray-500/10 transition-shadow duration-300">
-        <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl mb-4 md:mb-6">{icon}</div>
+    <div className="bg-white/50 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-indigo-500/10 hover:-translate-y-1.5 transition-all duration-300 group">
+        <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl mb-4 md:mb-6 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300">{icon}</div>
         <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-widest mb-4">{title}</h3>
         <div className="flex flex-wrap gap-2">
             {skills.map(skill => (
                 <button 
                     key={skill} 
                     onClick={() => onSkillClick(skill)}
+                    aria-haspopup="dialog"
+                    aria-label={`Learn more about ${skill}`}
                     className="bg-gray-100 text-gray-700 text-xs sm:text-sm font-medium pl-2 pr-3 py-1 rounded-full flex items-center gap-1.5 hover:bg-indigo-100 hover:text-indigo-700 transition-colors group/skill"
                 >
-                    {skillIcons[skill] || <CodeIcon className="w-4 h-4 text-gray-500" />}
+                    <span aria-hidden="true">
+                        {skillIcons[skill] || <CodeIcon className="w-4 h-4 text-gray-500" />}
+                    </span>
                     {skill}
                 </button>
             ))}
@@ -381,13 +385,13 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
     const StatusIcon = ({ status }: { status: ProjectType['status'] }) => {
         switch (status) {
             case 'Live': return (
-                <span className="relative flex h-2 w-2 mr-1">
+                <span className="relative flex h-2 w-2 mr-1" aria-hidden="true">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                 </span>
             );
-            case 'Completed': return <CheckCircleIcon className="w-3.5 h-3.5 mr-1 text-blue-500" />;
-            case 'Working': return <HammerIcon className="w-3.5 h-3.5 mr-1 text-amber-500 animate-bounce" />;
+            case 'Completed': return <CheckCircleIcon className="w-3.5 h-3.5 mr-1 text-blue-500" aria-hidden="true" />;
+            case 'Working': return <HammerIcon className="w-3.5 h-3.5 mr-1 text-amber-500 animate-bounce" aria-hidden="true" />;
             default: return null;
         }
     };
@@ -400,11 +404,13 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
             tabIndex={0}
             role="button"
             aria-label={`View details for ${title}`}
-            className={`relative bg-white/50 hover:bg-white/80 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:scale-[1.02] flex flex-col transition-all duration-300 ease-out cursor-pointer group focus:outline-none focus:ring-2 focus:ring-indigo-500 ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
+            className={`relative bg-white/50 hover:bg-white/90 backdrop-blur-sm p-6 md:p-8 rounded-3xl border border-gray-200/80 hover:border-indigo-400/30 shadow-lg shadow-gray-500/5 hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-2 flex flex-col transition-all duration-500 ease-out cursor-pointer group focus:outline-none focus:ring-2 focus:ring-indigo-500 ${ isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8' }`}
             style={{ transitionDelay: `${index * 100}ms` }}
         >
             <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl"><CodeIcon className="text-indigo-500 w-6 h-6 md:w-7 md:h-7" /></div>
+                <div className="flex items-center justify-center w-12 h-12 md:w-14 md:h-14 bg-indigo-100 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500" aria-hidden="true">
+                    <CodeIcon className="text-indigo-500 w-6 h-6 md:w-7 md:h-7" />
+                </div>
                 <span className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border transition-all duration-300 group-hover:shadow-sm ${statusColors[status]}`}>
                     <StatusIcon status={status} />
                     {status}
@@ -420,13 +426,13 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
                 <div className="hidden md:flex absolute inset-0 flex-col items-center justify-center gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300" aria-hidden="true">
                     {liveDemoUrl !== '#' && (
                         <a href={liveDemoUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm text-white bg-gray-900 rounded-full hover:bg-gray-700 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
-                            <ExternalLinkIcon className="w-4 h-4" />
+                            <ExternalLinkIcon className="w-4 h-4" aria-hidden="true" />
                             <span>Live Demo</span>
                         </a>
                     )}
                     {codeUrl !== '#' && (
                         <a href={codeUrl} onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-4 py-2 text-sm text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-100 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg">
-                            <GithubIcon className="w-4 h-4" />
+                            <GithubIcon className="w-4 h-4" aria-hidden="true" />
                             <span>View Code</span>
                         </a>
                     )}
@@ -439,7 +445,7 @@ const ProjectCard: React.FC<ProjectType & { index: number; onSelect: () => void;
             <div className="mt-auto pt-4 border-t border-gray-200 text-center">
                 <span className="text-indigo-600 font-semibold text-sm group-hover:text-indigo-800 transition-colors flex items-center justify-center gap-2">
                     View Details
-                    <ArrowRightIcon className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                    <ArrowRightIcon className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </span>
             </div>
         </div>
@@ -488,9 +494,10 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
             <div
                 ref={modalRef}
                 className={`bg-white rounded-3xl shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-6 sm:p-8 md:p-12 transition-all duration-300 ease-out ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+                aria-labelledby="modal-title"
             >
                 <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors z-10" aria-label="Close project details">
-                    <XIcon className="w-8 h-8" />
+                    <XIcon className="w-8 h-8" aria-hidden="true" />
                 </button>
                 <div className="flex items-center gap-4 mb-2">
                     <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase">{project.date}</p>
@@ -500,17 +507,17 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
                         'bg-amber-50 text-amber-700 border-amber-200 shadow-amber-100/50'
                     }`}>
                         {project.status === 'Live' && (
-                            <span className="relative flex h-2 w-2">
+                            <span className="relative flex h-2 w-2" aria-hidden="true">
                                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
                         )}
-                        {project.status === 'Completed' && <CheckCircleIcon className="w-3.5 h-3.5 text-blue-500" />}
-                        {project.status === 'Working' && <HammerIcon className="w-3.5 h-3.5 text-amber-500 animate-bounce" />}
+                        {project.status === 'Completed' && <CheckCircleIcon className="w-3.5 h-3.5 text-blue-500" aria-hidden="true" />}
+                        {project.status === 'Working' && <HammerIcon className="w-3.5 h-3.5 text-amber-500 animate-bounce" aria-hidden="true" />}
                         {project.status}
                     </span>
                 </div>
-                <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">{project.title}</h2>
+                <h2 id="modal-title" className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">{project.title}</h2>
                 <div className="flex flex-wrap gap-2 mb-6">
                     {project.tags.map(tag => <span key={tag} className="bg-indigo-100 text-indigo-800 text-xs font-semibold px-3 py-1 rounded-full">{tag}</span>)}
                 </div>
@@ -544,7 +551,9 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
                      <div className="flex flex-wrap gap-2">
                         {project.technologies.map(tech => (
                             <span key={tech} className="bg-gray-100 text-gray-700 text-sm font-medium pl-2 pr-3 py-1 rounded-full flex items-center gap-1.5">
-                                {skillIcons[tech] || <CodeIcon className="w-4 h-4 text-gray-500" />}
+                                <span aria-hidden="true">
+                                    {skillIcons[tech] || <CodeIcon className="w-4 h-4 text-gray-500" />}
+                                </span>
                                 {tech}
                             </span>
                         ))}
@@ -570,10 +579,137 @@ const ProjectModal: React.FC<{ project: ProjectType | null; onClose: () => void;
     );
 };
 
+const SelfMetrics = () => {
+    const [metrics, setMetrics] = useState({
+        questionsSubmitted: 452,
+        coffeeCups: 842,
+        hoursLearned: 2150,
+        commitsToday: 12,
+        streak: 48,
+        focusScore: 92
+    });
+
+    const [currentStatus, setCurrentStatus] = useState("Optimizing Performance");
+    const statuses = [
+        "Optimizing Performance",
+        "Learning New Frameworks",
+        "Refactoring Legacy Code",
+        "Designing System Architecture",
+        "Squashing Bugs",
+        "Writing Documentation",
+        "Mentoring Peers"
+    ];
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setMetrics(prev => ({
+                ...prev,
+                questionsSubmitted: prev.questionsSubmitted + (Math.random() > 0.998 ? 1 : 0),
+                coffeeCups: prev.coffeeCups + (Math.random() > 0.995 ? 1 : 0),
+                commitsToday: prev.commitsToday + (Math.random() > 0.99 ? 1 : 0),
+                focusScore: Math.min(100, Math.max(80, prev.focusScore + (Math.random() > 0.5 ? 1 : -1)))
+            }));
+        }, 2000);
+
+        const statusInterval = setInterval(() => {
+            setCurrentStatus(statuses[Math.floor(Math.random() * statuses.length)]);
+        }, 8000);
+
+        return () => {
+            clearInterval(interval);
+            clearInterval(statusInterval);
+        };
+    }, []);
+
+    return (
+        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300 flex flex-col h-full relative overflow-hidden">
+            {/* Background Decorative Element */}
+            <div className="absolute -right-10 -top-10 w-40 h-40 bg-indigo-500/5 rounded-full blur-3xl group-hover:bg-indigo-500/10 transition-colors duration-500"></div>
+            
+            <div className="flex items-center gap-4 mb-6 relative z-10">
+                <div className="w-12 h-12 bg-indigo-500 rounded-2xl flex items-center justify-center text-white shadow-lg group-hover:scale-110 group-hover:rotate-3 transition-transform duration-500">
+                    <ActivityIcon className="w-6 h-6" />
+                </div>
+                <div>
+                    <h3 className="text-xl font-bold text-gray-900">Live Metrics</h3>
+                    <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-500">Real-time Productivity</span>
+                        <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
+                        <span className="text-[10px] font-bold text-indigo-500 uppercase tracking-widest animate-pulse">{currentStatus}</span>
+                    </div>
+                </div>
+                <div className="ml-auto flex items-center gap-1">
+                    <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                    <span className="text-[10px] font-bold text-red-500 uppercase tracking-tighter">Live</span>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 flex-grow relative z-10">
+                <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center justify-center hover:border-indigo-200 transition-all group/metric hover:shadow-md">
+                    <CheckCircleIcon className="w-5 h-5 text-indigo-500 mb-2 group-hover/metric:scale-110 transition-transform" />
+                    <p className="text-xl font-bold text-gray-900 tabular-nums">{metrics.questionsSubmitted.toLocaleString()}</p>
+                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Questions Submitted</p>
+                </div>
+                <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center justify-center hover:border-indigo-200 transition-all group/metric hover:shadow-md">
+                    <ZapIcon className="w-5 h-5 text-yellow-500 mb-2 group-hover/metric:scale-110 transition-transform" />
+                    <p className="text-xl font-bold text-gray-900 tabular-nums">{metrics.focusScore}%</p>
+                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Focus Level</p>
+                </div>
+                <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center justify-center hover:border-indigo-200 transition-all group/metric hover:shadow-md">
+                    <ClockIcon className="w-5 h-5 text-emerald-500 mb-2 group-hover/metric:scale-110 transition-transform" />
+                    <p className="text-xl font-bold text-gray-900 tabular-nums">{metrics.streak}d</p>
+                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Coding Streak</p>
+                </div>
+                <div className="bg-white p-4 rounded-2xl border border-gray-100 flex flex-col items-center justify-center hover:border-indigo-200 transition-all group/metric hover:shadow-md">
+                    <CoffeeIcon className="w-5 h-5 text-amber-600 mb-2 group-hover/metric:scale-110 transition-transform" />
+                    <p className="text-xl font-bold text-gray-900 tabular-nums">{metrics.coffeeCups}</p>
+                    <p className="text-[10px] text-gray-400 uppercase font-bold tracking-widest">Coffee Cups</p>
+                </div>
+            </div>
+
+            <div className="mt-6 space-y-4 relative z-10">
+                <div className="p-4 bg-indigo-50/50 rounded-2xl border border-indigo-100 flex items-center justify-between group/codolio hover:bg-indigo-50 transition-colors">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm group-hover/codolio:scale-110 transition-transform">
+                            <ActivityIcon className="w-5 h-5 text-indigo-600" />
+                        </div>
+                        <div>
+                            <p className="text-[10px] text-indigo-600 font-bold uppercase tracking-widest">Codolio</p>
+                            <p className="text-sm font-bold text-gray-900">Developer Profile</p>
+                        </div>
+                    </div>
+                    <a href="https://codolio.com/profile/KSReddy11" target="_blank" rel="noopener noreferrer" className="p-2 bg-white rounded-lg shadow-sm hover:shadow-md transition-all text-indigo-500 hover:scale-110" title="View Codolio Profile">
+                        <ExternalLinkIcon className="w-4 h-4" />
+                    </a>
+                </div>
+
+                <div className="pt-4 border-t border-gray-100">
+                    <div className="flex items-center justify-between text-xs text-gray-500 mb-2">
+                        <span className="flex items-center gap-1">
+                            <ActivityIcon className="w-3 h-3" />
+                            Daily Velocity
+                        </span>
+                        <span className="font-bold text-indigo-600">{metrics.commitsToday} Commits</span>
+                    </div>
+                    <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+                        <div 
+                            className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-1000 ease-out shadow-[0_0_10px_rgba(99,102,241,0.5)]" 
+                            style={{ width: `${Math.min((metrics.commitsToday / 20) * 100, 100)}%` }}
+                        ></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const EducationItem: React.FC<{ period: string; degree: string; institution: string; field: string; location: string; }> = ({ period, degree, institution, field, location }) => (
-    <div className="relative pl-8 py-4 group">
-        <div className="absolute left-0 top-6 w-px h-full bg-gray-200"></div>
-        <div className="absolute left-[-5px] top-6 w-3 h-3 bg-white border-2 border-gray-300 rounded-full group-hover:border-indigo-500 transition-colors"></div>
+    <div className="relative pl-8 py-4 group hover:bg-indigo-50/30 rounded-2xl transition-all duration-300 -ml-4 px-4">
+        <div className="absolute left-4 top-6 w-px h-full bg-gray-200"></div>
+        <div className="absolute left-[11px] top-6 w-3 h-3 bg-white border-2 border-gray-300 rounded-full group-hover:border-indigo-500 transition-colors"></div>
         <div className="flex items-baseline space-x-3">
             <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">{period}</p>
             <span className="bg-gray-100 text-gray-600 text-xs font-medium px-2 py-0.5 rounded-full">{degree}</span>
@@ -627,17 +763,18 @@ const SkillModal: React.FC<{ skill: SkillDetail | null; onClose: () => void; }> 
             <div
                 ref={modalRef}
                 className={`bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-y-auto p-6 sm:p-8 md:p-10 transition-all duration-300 ease-out ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+                aria-labelledby="skill-modal-title"
             >
                 <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors z-10" aria-label="Close skill details">
-                    <XIcon className="w-6 h-6" />
+                    <XIcon className="w-6 h-6" aria-hidden="true" />
                 </button>
                 
                 <div className="flex items-center gap-4 mb-6">
-                    <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-500">
+                    <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-500" aria-hidden="true">
                         {skillIcons[skill.name] || <CodeIcon className="w-8 h-8" />}
                     </div>
                     <div>
-                        <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{skill.name}</h2>
+                        <h2 id="skill-modal-title" className="text-2xl sm:text-3xl font-extrabold text-gray-900">{skill.name}</h2>
                         {skill.year !== "N/A" && (
                             <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase">Released: {skill.year}</p>
                         )}
@@ -704,14 +841,15 @@ const AchievementModal: React.FC<{ achievement: AchievementType | null; onClose:
             <div
                 ref={modalRef}
                 className={`bg-white rounded-3xl shadow-2xl w-full max-w-lg overflow-y-auto p-6 sm:p-8 md:p-10 transition-all duration-300 ease-out ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
+                aria-labelledby="achievement-modal-title"
             >
                 <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-800 transition-colors z-10" aria-label="Close achievement details">
-                    <XIcon className="w-6 h-6" />
+                    <XIcon className="w-6 h-6" aria-hidden="true" />
                 </button>
                 
                 <div className="mb-6">
                     <p className="text-indigo-500 font-semibold text-xs tracking-widest uppercase mb-2">{achievement.date}</p>
-                    <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900">{achievement.title}</h2>
+                    <h2 id="achievement-modal-title" className="text-2xl sm:text-3xl font-extrabold text-gray-900">{achievement.title}</h2>
                 </div>
 
                 <div className="prose max-w-none text-gray-600">
@@ -790,9 +928,17 @@ const App: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 text-gray-800 antialiased relative overflow-hidden">
-            <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-            <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-            <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000"></div>
+            {/* Skip to main content link for accessibility */}
+            <a 
+                href="#main-content" 
+                className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-6 focus:py-3 focus:bg-indigo-600 focus:text-white focus:rounded-full focus:shadow-2xl focus:font-bold"
+            >
+                Skip to main content
+            </a>
+
+            <div className="absolute top-0 -left-4 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob" aria-hidden="true"></div>
+            <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" aria-hidden="true"></div>
+            <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" aria-hidden="true"></div>
 
             <header ref={headerRef} className="fixed top-0 inset-x-0 md:top-4 md:left-1/2 md:-translate-x-1/2 md:w-auto z-40">
                 <nav className="w-full md:w-max max-w-[98vw] bg-white/80 backdrop-blur-lg md:rounded-full shadow-xl shadow-gray-500/10 border-b md:border border-white/60 px-4 py-3 md:py-2.5 md:px-4">
@@ -806,13 +952,15 @@ const App: React.FC = () => {
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                             className="md:hidden p-2 text-gray-600 hover:text-gray-900 transition-colors"
                             aria-label="Toggle menu"
+                            aria-expanded={isMenuOpen}
+                            aria-controls="mobile-menu"
                         >
-                            {isMenuOpen ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
+                            {isMenuOpen ? <XIcon className="w-6 h-6" aria-hidden="true" /> : <MenuIcon className="w-6 h-6" aria-hidden="true" />}
                         </button>
 
                         {/* Desktop Navigation */}
                         <ul className="hidden md:flex items-center gap-1">
-                            <li className="w-px h-6 bg-gray-200 mx-2"></li>
+                            <li className="w-px h-6 bg-gray-200 mx-2" aria-hidden="true"></li>
                             {navLinks.map(link => {
                                 const sectionId = link.toLowerCase();
                                 const isActive = activeSection === sectionId;
@@ -821,6 +969,7 @@ const App: React.FC = () => {
                                          <a
                                             href={`#${sectionId}`}
                                             onClick={(e) => handleNavClick(e, sectionId)}
+                                            aria-current={isActive ? 'page' : undefined}
                                             className={`
                                                 relative group
                                                 px-4 py-2.5
@@ -853,7 +1002,9 @@ const App: React.FC = () => {
                     </div>
 
                     {/* Mobile Navigation Overlay */}
-                    <div className={`
+                    <div 
+                        id="mobile-menu"
+                        className={`
                         md:hidden absolute top-full left-0 w-full bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-xl transition-all duration-300 ease-in-out overflow-hidden
                         ${isMenuOpen ? 'max-h-[500px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0'}
                     `}>
@@ -866,6 +1017,7 @@ const App: React.FC = () => {
                                         <a
                                             href={`#${sectionId}`}
                                             onClick={(e) => handleNavClick(e, sectionId)}
+                                            aria-current={isActive ? 'page' : undefined}
                                             className={`
                                                 block w-full text-center py-3 text-lg font-bold rounded-2xl transition-all
                                                 ${isActive ? 'bg-indigo-50 text-indigo-600' : 'text-gray-600 hover:bg-gray-50'}
@@ -881,7 +1033,7 @@ const App: React.FC = () => {
                 </nav>
             </header>
 
-            <main className="container mx-auto px-4 pt-24 md:pt-32 pb-16 relative z-10">
+            <main id="main-content" className="container mx-auto px-4 pt-24 md:pt-32 pb-16 relative z-10">
                 <section id="about" className="text-center pt-8 sm:pt-16 pb-16 sm:pb-24">
                     <div className="mb-10 flex justify-center">
                         <div className="relative group">
@@ -919,9 +1071,9 @@ const App: React.FC = () => {
                         <p className="mt-2 text-gray-500 text-sm">Real-time snapshots of my technical growth</p>
                     </div>
                     
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         {/* GitHub Stats */}
-                        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300">
+                        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300 h-full">
                             <div className="flex items-center gap-4 mb-8">
                                 <div className="w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center text-white shadow-lg">
                                     <GithubIcon className="w-6 h-6" />
@@ -956,7 +1108,7 @@ const App: React.FC = () => {
                         </div>
 
                         {/* LeetCode Stats */}
-                        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300">
+                        <div className="bg-white/50 backdrop-blur-sm p-6 sm:p-8 rounded-3xl border border-gray-200/80 shadow-lg group hover:shadow-xl transition-all duration-300 h-full">
                             <div className="flex items-center gap-4 mb-8">
                                 <div className="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center text-white shadow-lg">
                                     <LeetCodeIcon className="w-6 h-6" />
@@ -992,6 +1144,9 @@ const App: React.FC = () => {
                                 />
                             </div>
                         </div>
+
+                        {/* Self Metrics */}
+                        <SelfMetrics />
                     </div>
                 </section>
 
@@ -1040,12 +1195,12 @@ const App: React.FC = () => {
                              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-8">Qualifications</h2>
                              <div className="space-y-6">
                                  {qualifications.map(q => (
-                                    <div key={q.name} className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-xl transition-all group flex flex-col relative overflow-hidden">
+                                    <div key={q.name} className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-xl hover:border-indigo-300/50 hover:-translate-y-1 transition-all duration-300 group flex flex-col relative overflow-hidden">
                                         <div className="absolute top-0 right-0 w-24 h-24 bg-indigo-50 rounded-full -mr-12 -mt-12 transition-transform duration-500 group-hover:scale-150 opacity-50"></div>
                                         <div className="flex-grow relative z-10">
                                             <div className="flex justify-between items-start">
                                                 <h4 className="font-bold pr-4 text-gray-900 group-hover:text-indigo-600 transition-colors">{q.name}</h4>
-                                                <CertificateIcon className="w-6 h-6 text-gray-300 group-hover:text-indigo-500 transition-colors flex-shrink-0"/>
+                                                <CertificateIcon className="w-6 h-6 text-gray-300 group-hover:text-indigo-500 transition-colors flex-shrink-0" aria-hidden="true" />
                                             </div>
                                             <p className="text-xs text-gray-500 mt-1 font-medium">{q.date}</p>
                                         </div>
@@ -1058,7 +1213,7 @@ const App: React.FC = () => {
                                                     className="inline-flex items-center gap-2 text-sm font-bold text-indigo-600 hover:text-indigo-700 transition-all group/link"
                                                 >
                                                     View Certificate 
-                                                    <ExternalLinkIcon className="w-4 h-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"/>
+                                                    <ExternalLinkIcon className="w-4 h-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" aria-hidden="true" />
                                                     <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-indigo-600 transition-all duration-300 group-hover/link:w-full"></span>
                                                 </a>
                                             ) : (
@@ -1092,7 +1247,7 @@ const App: React.FC = () => {
                                    tabIndex={0}
                                    role="button"
                                    aria-label={`View details for ${a.title}`}
-                                   className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-lg hover:border-indigo-200 transition-all cursor-pointer group focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                   className="p-6 bg-white rounded-2xl border border-gray-200 hover:shadow-xl hover:border-indigo-300/50 hover:-translate-y-1 transition-all duration-300 cursor-pointer group focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 >
                                     <div className="flex justify-between items-start">
                                         <h4 className="font-bold group-hover:text-indigo-600 transition-colors">{a.title}</h4>
@@ -1100,7 +1255,7 @@ const App: React.FC = () => {
                                     </div>
                                     <p className="text-sm text-gray-600 mt-2">{a.description}</p>
                                     <div className="mt-4 flex items-center text-indigo-500 text-xs font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                                        View Details <ArrowRightIcon className="w-3 h-3 ml-1" />
+                                        View Details <ArrowRightIcon className="w-3 h-3 ml-1" aria-hidden="true" />
                                     </div>
                                 </div>
                             ))}
@@ -1125,7 +1280,7 @@ const App: React.FC = () => {
                                         rel="noopener noreferrer"
                                         className="flex-grow sm:flex-grow-0 inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-gray-900 text-white font-bold rounded-full hover:bg-gray-700 transition-all duration-300 shadow-lg transform hover:-translate-y-1"
                                     >
-                                        <ExternalLinkIcon className="w-5 h-5" />
+                                        <ExternalLinkIcon className="w-5 h-5" aria-hidden="true" />
                                         <span>View Online</span>
                                     </a>
                                     <a 
@@ -1135,7 +1290,7 @@ const App: React.FC = () => {
                                         download="Kindikeri_Srujan_Kumar_Reddy_Resume.pdf"
                                         className="flex-grow sm:flex-grow-0 inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 border border-gray-200 font-bold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-md transform hover:-translate-y-1"
                                     >
-                                        <FileTextIcon className="w-5 h-5 text-indigo-500" />
+                                        <FileTextIcon className="w-5 h-5 text-indigo-500" aria-hidden="true" />
                                         <span>Download PDF</span>
                                     </a>
                                     <a 
@@ -1144,7 +1299,7 @@ const App: React.FC = () => {
                                         rel="noopener noreferrer"
                                         className="flex-grow sm:flex-grow-0 inline-flex items-center justify-center gap-3 px-6 sm:px-8 py-3 sm:py-4 bg-white text-gray-900 border border-gray-200 font-bold rounded-full hover:bg-gray-50 transition-all duration-300 shadow-md transform hover:-translate-y-1"
                                     >
-                                        <LinkedInIcon className="w-5 h-5 text-blue-600" />
+                                        <LinkedInIcon className="w-5 h-5 text-blue-600" aria-hidden="true" />
                                         <span>LinkedIn</span>
                                     </a>
                                 </div>
@@ -1152,7 +1307,7 @@ const App: React.FC = () => {
                             <div className="w-full lg:w-1/3 min-w-[300px]">
                                 <div className="h-full bg-white p-6 sm:p-8 rounded-3xl shadow-inner border border-gray-100 space-y-6">
                                     <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
-                                        <BriefcaseIcon className="w-6 h-6 text-indigo-500" />
+                                        <BriefcaseIcon className="w-6 h-6 text-indigo-500" aria-hidden="true" />
                                         Core Highlights
                                     </h3>
                                     <ul className="space-y-4">
@@ -1195,8 +1350,8 @@ const App: React.FC = () => {
                               key={c.title} 
                               target={isExternalLink(c.href) ? "_blank" : "_self"}
                               rel={isExternalLink(c.href) ? "noopener noreferrer" : ""}
-                              className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-gray-500/10 transition-all duration-300 transform hover:-translate-y-1 flex flex-col items-center text-center">
-                                <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-4 text-indigo-500">{c.icon}</div>
+                              className="bg-white/50 backdrop-blur-sm p-8 rounded-3xl border border-gray-200/80 shadow-lg shadow-gray-500/5 hover:shadow-xl hover:shadow-indigo-500/10 transition-all duration-300 transform hover:-translate-y-1.5 flex flex-col items-center text-center group">
+                                <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-4 text-indigo-500 group-hover:scale-110 group-hover:rotate-3 transition-transform duration-300" aria-hidden="true">{c.icon}</div>
                                 <p className="text-xs font-semibold uppercase tracking-widest text-gray-500">{c.title}</p>
                                 <p className="font-semibold mt-1 break-all">{c.value}</p>
                             </a>
