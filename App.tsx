@@ -800,9 +800,9 @@ const DataLinkBackground = () => {
 
         let animationFrameId: number;
         let particles: { x: number; y: number; vx: number; vy: number; size: number }[] = [];
-        const particleCount = 60;
-        const connectionDistance = 150;
-        const mouseConnectionDistance = 200;
+        const particleCount = 100; // Increased from 60
+        const connectionDistance = 180; // Increased from 150
+        const mouseConnectionDistance = 250; // Increased from 200
 
         const init = () => {
             canvas.width = window.innerWidth;
@@ -812,9 +812,9 @@ const DataLinkBackground = () => {
                 particles.push({
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    size: Math.random() * 2 + 1
+                    vx: (Math.random() - 0.5) * 0.6,
+                    vy: (Math.random() - 0.5) * 0.6,
+                    size: Math.random() * 2.5 + 1
                 });
             }
         };
@@ -831,7 +831,7 @@ const DataLinkBackground = () => {
 
                 ctx.beginPath();
                 ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(99, 102, 241, 0.2)';
+                ctx.fillStyle = 'rgba(99, 102, 241, 0.35)'; // Increased opacity from 0.2
                 ctx.fill();
 
                 // Connect to other particles
@@ -846,8 +846,8 @@ const DataLinkBackground = () => {
                         ctx.moveTo(p.x, p.y);
                         ctx.lineTo(p2.x, p2.y);
                         const opacity = 1 - dist / connectionDistance;
-                        ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.15})`;
-                        ctx.lineWidth = 0.5;
+                        ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.25})`; // Increased opacity from 0.15
+                        ctx.lineWidth = 0.8; // Increased from 0.5
                         ctx.stroke();
                     }
                 }
@@ -862,13 +862,13 @@ const DataLinkBackground = () => {
                     ctx.moveTo(p.x, p.y);
                     ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
                     const opacity = 1 - mdist / mouseConnectionDistance;
-                    ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.3})`;
-                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = `rgba(99, 102, 241, ${opacity * 0.5})`; // Increased from 0.3
+                    ctx.lineWidth = 1.5; // Increased from 1
                     ctx.stroke();
                     
                     ctx.beginPath();
-                    ctx.arc(p.x, p.y, p.size * 1.5, 0, Math.PI * 2);
-                    ctx.fillStyle = `rgba(99, 102, 241, ${opacity * 0.5})`;
+                    ctx.arc(p.x, p.y, p.size * 1.8, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(99, 102, 241, ${opacity * 0.7})`; // Increased from 0.5
                     ctx.fill();
                 }
             });
@@ -899,7 +899,7 @@ const DataLinkBackground = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="fixed inset-0 pointer-events-none z-0 opacity-40"
+            className="fixed inset-0 pointer-events-none z-0 opacity-60"
             style={{ mixBlendMode: 'multiply' }}
         />
     );
