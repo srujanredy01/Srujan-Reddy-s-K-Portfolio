@@ -1199,7 +1199,7 @@ const SkillModal: React.FC<{ skill: SkillDetail | null; onClose: () => void; }> 
                 
                 <div className="flex items-center gap-4 mb-6">
                     <div className="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center text-indigo-500" aria-hidden="true">
-                        {skillIcons[skill.name] || <CodeIcon className="w-8 h-8" />}
+                        {skillIcons[skill.name] ? React.cloneElement(skillIcons[skill.name] as React.ReactElement, { className: 'w-10 h-10' }) : <CodeIcon className="w-10 h-10" />}
                     </div>
                     <div>
                         <h2 id="skill-modal-title" className="text-2xl sm:text-3xl font-extrabold text-gray-900">{skill.name}</h2>
