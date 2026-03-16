@@ -1318,7 +1318,11 @@ const ProjectShowcase = () => {
                 
                 <div className="space-y-32">
                     {projects.map((project, index) => (
-                        <div key={project.title} className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 items-start`}>
+                        <div 
+                            key={project.title} 
+                            id={`project-${project.title.toLowerCase().replace(/\s+/g, '-')}`}
+                            className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 items-start scroll-mt-32`}
+                        >
                             {/* Project Info */}
                             <div className="lg:w-1/2 space-y-6">
                                 <div className="flex items-center gap-4">
@@ -1425,6 +1429,16 @@ const App: React.FC = () => {
         e.preventDefault();
         setIsMenuOpen(false);
         const element = document.getElementById(sectionId);
+        if (element) {
+            const headerOffset = headerRef.current?.clientHeight || 80;
+            const elementPosition = element.getBoundingClientRect().top + window.scrollY;
+            const offsetPosition = elementPosition - headerOffset;
+            window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+        }
+    };
+
+    const handleProjectSelect = (p: ProjectType) => {
+        const element = document.getElementById(`project-${p.title.toLowerCase().replace(/\s+/g, '-')}`);
         if (element) {
             const headerOffset = headerRef.current?.clientHeight || 80;
             const elementPosition = element.getBoundingClientRect().top + window.scrollY;
@@ -1684,7 +1698,7 @@ const App: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                        {filteredProjects.map((p, index) => <ProjectCard key={p.title} {...p} index={index} onSelect={() => setSelectedProject(p)} />)}
+                        {filteredProjects.map((p, index) => <ProjectCard key={p.title} {...p} index={index} onSelect={() => handleProjectSelect(p)} />)}
                     </div>
                 </section>
 
