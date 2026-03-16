@@ -11,3 +11,7 @@
 .animate-shimmer {
   animation: shimmer 3s infinite;
 }
+
+* {
+  cursor: none !important;
+}

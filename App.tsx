@@ -1369,8 +1369,8 @@ const App: React.FC = () => {
             <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000" aria-hidden="true"></div>
             <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" aria-hidden="true"></div>
 
-            <header ref={headerRef} className="fixed top-0 inset-x-0 md:top-4 md:left-1/2 md:-translate-x-1/2 md:w-auto z-40">
-                <nav className="w-full md:w-max max-w-[98vw] bg-white/60 backdrop-blur-2xl md:rounded-full shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] md:border border-white/60 px-4 py-3 md:py-2.5 md:px-4">
+            <header ref={headerRef} className="fixed top-4 left-1/2 -translate-x-1/2 w-[95%] md:w-auto z-40 flex justify-center">
+                <nav className="w-full md:w-max max-w-[98vw] bg-white/60 backdrop-blur-2xl rounded-full shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] border border-white/60 px-4 py-2 md:py-2.5 md:px-4">
                     <div className="flex items-center justify-between md:justify-center gap-3 md:gap-2">
                         <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMenuOpen(false); }} className="font-bold text-xl md:text-lg text-gray-900 flex items-center gap-2 ml-2 md:ml-4 mr-4">
                             KS<span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
@@ -1434,7 +1434,7 @@ const App: React.FC = () => {
                     <div 
                         id="mobile-menu"
                         className={`
-                        md:hidden absolute top-full left-0 w-full bg-white/70 backdrop-blur-2xl border-b border-white/40 shadow-2xl transition-all duration-300 ease-in-out overflow-hidden
+                        md:hidden absolute top-[calc(100%+1rem)] left-0 w-full bg-white/80 backdrop-blur-2xl rounded-3xl border border-white/40 shadow-2xl transition-all duration-300 ease-in-out overflow-hidden
                         ${isMenuOpen ? 'max-h-[500px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0'}
                     `}>
                         <ul className="flex flex-col items-center gap-4">
