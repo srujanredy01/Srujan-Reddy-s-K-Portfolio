@@ -1,4 +1,6 @@
 
+@import "tailwindcss";
+
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
@@ -10,8 +12,4 @@
 
 .animate-shimmer {
   animation: shimmer 3s infinite;
-}
-
-* {
-  cursor: none !important;
 }
