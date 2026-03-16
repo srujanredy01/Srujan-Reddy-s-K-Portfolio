@@ -1306,8 +1306,109 @@ const AchievementModal: React.FC<{ achievement: AchievementType | null; onClose:
     );
 };
 
+const ProjectShowcase = () => {
+    return (
+        <section id="showcase" className="py-24 bg-white/30 backdrop-blur-sm rounded-[3rem] border border-white/50 my-20">
+            <div className="container mx-auto px-6">
+                <div className="text-center mb-16">
+                    <p className="text-sm font-semibold text-indigo-500 uppercase tracking-widest">Deep Dive</p>
+                    <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight mt-2">Project Showcase</h2>
+                    <p className="mt-4 text-gray-600 max-w-2xl mx-auto">A detailed look into the architecture, challenges, and solutions of my key technical projects.</p>
+                </div>
+                
+                <div className="space-y-32">
+                    {projects.map((project, index) => (
+                        <div key={project.title} className={`flex flex-col ${index % 2 === 1 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-12 items-start`}>
+                            {/* Project Info */}
+                            <div className="lg:w-1/2 space-y-6">
+                                <div className="flex items-center gap-4">
+                                    <span className="text-indigo-500 font-bold tracking-widest uppercase text-sm">{project.date}</span>
+                                    <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border shadow-sm ${
+                                        project.status === 'Live' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                                        project.status === 'Completed' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                                        'bg-amber-50 text-amber-700 border-amber-200'
+                                    }`}>{project.status}</span>
+                                </div>
+                                <h3 className="text-3xl md:text-5xl font-black text-gray-900">{project.title}</h3>
+                                <p className="text-lg text-gray-600 leading-relaxed">{project.detailedDescription}</p>
+                                
+                                <div className="space-y-4">
+                                    <h4 className="text-xl font-bold text-gray-800">Key Technologies</h4>
+                                    <div className="flex flex-wrap gap-3">
+                                        {project.technologies.map(tech => (
+                                            <div key={tech} className="flex items-center gap-2 bg-white px-4 py-2 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
+                                                {skillIcons[tech] || <CodeIcon className="w-4 h-4 text-gray-400" />}
+                                                <span className="text-sm font-semibold text-gray-700">{tech}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-wrap gap-4 pt-4">
+                                    {project.liveDemoUrl !== '#' && (
+                                        <a href={project.liveDemoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-gray-900 text-white px-6 py-3 rounded-full font-bold hover:bg-gray-700 transition-all shadow-lg hover:-translate-y-1">
+                                            <ExternalLinkIcon className="w-5 h-5" />
+                                            Live Demo
+                                        </a>
+                                    )}
+                                    {project.codeUrl !== '#' && (
+                                        <a href={project.codeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white text-gray-900 border border-gray-200 px-6 py-3 rounded-full font-bold hover:bg-gray-50 transition-all shadow-md hover:-translate-y-1">
+                                            <GithubIcon className="w-5 h-5" />
+                                            Source Code
+                                        </a>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Challenges & Solutions */}
+                            <div className="lg:w-1/2 bg-white/50 p-8 md:p-12 rounded-[2.5rem] border border-white shadow-xl">
+                                <div className="space-y-8">
+                                    <div>
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                            <WrenchIcon className="w-6 h-6 text-indigo-500" />
+                                            The Challenge
+                                        </h4>
+                                        <ul className="space-y-3">
+                                            {project.challenges.map((challenge, i) => (
+                                                <li key={i} className="flex items-start gap-3 text-gray-600">
+                                                    <span className="mt-1.5 w-1.5 h-1.5 bg-indigo-400 rounded-full flex-shrink-0"></span>
+                                                    {challenge}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                    
+                                    <div className="pt-8 border-t border-gray-100">
+                                        <h4 className="text-xl font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                            <BrainIcon className="w-6 h-6 text-emerald-500" />
+                                            The Solution
+                                        </h4>
+                                        <ul className="space-y-4">
+                                            {project.solutions.map((solution, i) => (
+                                                <li key={i} className="bg-white/80 p-4 rounded-2xl border border-gray-50 shadow-sm">
+                                                    <p className="text-gray-700 font-medium">{solution.description}</p>
+                                                    {solution.resource && (
+                                                        <a href={solution.resource.url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center text-xs text-indigo-600 mt-2 font-bold hover:underline">
+                                                            {solution.resource.label}
+                                                            <ExternalLinkIcon className="w-3 h-3 ml-1" />
+                                                        </a>
+                                                    )}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </section>
+    );
+};
+
 const App: React.FC = () => {
-    const navLinks = ["About", "Stats", "Skills", "Projects", "Experience", "Achievements", "Resume", "Contact"];
+    const navLinks = ["About", "Stats", "Skills", "Projects", "Showcase", "Experience", "Achievements", "Resume", "Contact"];
     const [activeSection, setActiveSection] = useState('about');
     const [activeTag, setActiveTag] = useState('All');
     const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
@@ -1586,6 +1687,8 @@ const App: React.FC = () => {
                         {filteredProjects.map((p, index) => <ProjectCard key={p.title} {...p} index={index} onSelect={() => setSelectedProject(p)} />)}
                     </div>
                 </section>
+
+                <ProjectShowcase />
 
                 <section id="experience" className="py-12 sm:py-20">
                     <div className="grid lg:grid-cols-5 gap-12 lg:gap-16">
