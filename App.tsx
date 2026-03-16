@@ -1370,7 +1370,7 @@ const App: React.FC = () => {
             <div className="absolute -bottom-8 left-20 w-72 h-72 bg-pink-200 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-4000" aria-hidden="true"></div>
 
             <header ref={headerRef} className="fixed top-0 inset-x-0 md:top-4 md:left-1/2 md:-translate-x-1/2 md:w-auto z-40">
-                <nav className="w-full md:w-max max-w-[98vw] bg-white/30 backdrop-blur-2xl md:rounded-full shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] md:border border-white/40 px-4 py-3 md:py-2.5 md:px-4">
+                <nav className="w-full md:w-max max-w-[98vw] bg-white/60 backdrop-blur-2xl md:rounded-full shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] md:border border-white/60 px-4 py-3 md:py-2.5 md:px-4">
                     <div className="flex items-center justify-between md:justify-center gap-3 md:gap-2">
                         <a href="#" onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); setIsMenuOpen(false); }} className="font-bold text-xl md:text-lg text-gray-900 flex items-center gap-2 ml-2 md:ml-4 mr-4">
                             KS<span className="w-2 h-2 bg-indigo-500 rounded-full"></span>
@@ -1407,8 +1407,8 @@ const App: React.FC = () => {
                                                 transition-all duration-300
                                                 ${
                                                     isActive
-                                                        ? 'bg-white/20 backdrop-blur-2xl border border-white/30 text-indigo-600 shadow-lg shadow-indigo-500/5 scale-105'
-                                                        : 'text-gray-600 hover:text-gray-900 hover:bg-white/40 hover:backdrop-blur-md'
+                                                        ? 'bg-white/40 backdrop-blur-2xl border border-white/50 text-indigo-600 shadow-lg shadow-indigo-500/10 scale-105'
+                                                        : 'text-gray-600 hover:text-gray-900 hover:bg-white/50 hover:backdrop-blur-md'
                                                 }
                                             `}
                                         >
@@ -1434,7 +1434,7 @@ const App: React.FC = () => {
                     <div 
                         id="mobile-menu"
                         className={`
-                        md:hidden absolute top-full left-0 w-full bg-white/40 backdrop-blur-2xl border-b border-white/20 shadow-2xl transition-all duration-300 ease-in-out overflow-hidden
+                        md:hidden absolute top-full left-0 w-full bg-white/70 backdrop-blur-2xl border-b border-white/40 shadow-2xl transition-all duration-300 ease-in-out overflow-hidden
                         ${isMenuOpen ? 'max-h-[500px] opacity-100 py-6' : 'max-h-0 opacity-0 py-0'}
                     `}>
                         <ul className="flex flex-col items-center gap-4">
@@ -1449,7 +1449,7 @@ const App: React.FC = () => {
                                             aria-current={isActive ? 'page' : undefined}
                                             className={`
                                                 block w-full text-center py-3 text-lg font-bold rounded-2xl transition-all
-                                                ${isActive ? 'bg-white/30 backdrop-blur-xl border border-white/40 text-indigo-600 shadow-lg' : 'text-gray-600 hover:bg-white/20'}
+                                                ${isActive ? 'bg-white/50 backdrop-blur-xl border border-white/60 text-indigo-600 shadow-lg' : 'text-gray-600 hover:bg-white/30'}
                                             `}
                                         >
                                             {link}
