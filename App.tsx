@@ -47,7 +47,7 @@ interface QualificationType {
     name: string;
     date: string;
     verifyUrl: string;
-    imageUrl: string;
+    imageUrl?: string;
 }
 
 // --- DATA CONSTANTS ---
@@ -314,19 +314,16 @@ const qualifications: QualificationType[] = [
         name: "The Bits and Bytes of Computer Networking", 
         date: "AUG 2025", 
         verifyUrl: 'https://www.coursera.org/account/accomplishments/verify/GOOGLE-NETWORKING',
-        imageUrl: 'https://picsum.photos/seed/networking/800/600'
     },
     { 
         name: "Python for Data Science, AI & Development", 
         date: "NOV 2025", 
         verifyUrl: 'https://www.coursera.org/account/accomplishments/verify/IBM-PYTHON',
-        imageUrl: 'https://picsum.photos/seed/python/800/600'
     },
     { 
         name: "Operating Systems and You: Becoming a Power User", 
         date: "SEP 2024", 
         verifyUrl: 'https://www.coursera.org/account/accomplishments/verify/GOOGLE-OS',
-        imageUrl: 'https://picsum.photos/seed/os/800/600'
     },
 ];
 
@@ -898,12 +895,17 @@ const GitHubActivity = () => {
 };
 
 const CompetitiveProgrammingStats = () => {
-    const [activeProfile, setActiveProfile] = useState<'leetcode' | 'tuf'>('leetcode');
+    const profiles = ['leetcode', 'tuf', 'hackerrank', 'interviewbit', 'gfg'] as const;
+    type ProfileType = typeof profiles[number];
+    const [activeProfile, setActiveProfile] = useState<ProfileType>('leetcode');
     const [stats, setStats] = useState({
         solved: 150,
         ranking: 15.2,
         tufProblems: 320,
         tufStreak: 24,
+        hrRank: 45000,
+        ibScore: 1200,
+        gfgSolved: 210,
         lastActive: "2 mins ago"
     });
     const [isSyncing, setIsSyncing] = useState(false);
@@ -916,6 +918,9 @@ const CompetitiveProgrammingStats = () => {
                 ranking: Math.max(1, prev.ranking - (Math.random() > 0.99 ? 0.01 : 0)),
                 tufProblems: prev.tufProblems + (Math.random() > 0.998 ? 1 : 0),
                 tufStreak: prev.tufStreak + (Math.random() > 0.995 ? 1 : 0),
+                hrRank: Math.max(1, prev.hrRank - (Math.random() > 0.99 ? 10 : 0)),
+                ibScore: prev.ibScore + (Math.random() > 0.99 ? 5 : 0),
+                gfgSolved: prev.gfgSolved + (Math.random() > 0.99 ? 1 : 0),
                 lastActive: "Just now"
             }));
             setIsSyncing(true);
@@ -923,10 +928,14 @@ const CompetitiveProgrammingStats = () => {
         }, 15000);
 
         const switchInterval = setInterval(() => {
-            setActiveProfile(prev => prev === 'leetcode' ? 'tuf' : 'leetcode');
+            setActiveProfile(prev => {
+                const currentIndex = profiles.indexOf(prev);
+                const nextIndex = (currentIndex + 1) % profiles.length;
+                return profiles[nextIndex];
+            });
             setIsSyncing(true);
             setTimeout(() => setIsSyncing(false), 2000);
-        }, 60000); // Switch every 1 minute
+        }, 8000); // Switch every 8 seconds
 
         return () => {
             clearInterval(statsInterval);
@@ -934,7 +943,7 @@ const CompetitiveProgrammingStats = () => {
         };
     }, []);
 
-    const profileData = {
+    const profileData: Record<ProfileType, any> = {
         leetcode: {
             title: "LeetCode Mastery",
             subtitle: "Competitive Programming",
@@ -978,6 +987,93 @@ const CompetitiveProgrammingStats = () => {
                     <div className="flex flex-wrap justify-center gap-2">
                         {["Striver's SDE Sheet", "A2Z DSA Course", "Blind 75"].map(tag => (
                             <span key={tag} className="text-[10px] font-bold px-2 py-1 bg-white border border-indigo-100 text-indigo-600 rounded-full uppercase tracking-tighter">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )
+        },
+        hackerrank: {
+            title: "HackerRank",
+            subtitle: "Problem Solving",
+            username: "kindikerisr",
+            url: "https://www.hackerrank.com/profile/kindikerisr",
+            icon: <TrophyIcon className="w-6 h-6" />,
+            color: "bg-emerald-500",
+            accent: "emerald",
+            stats: [
+                { label: "Rank", value: stats.hrRank.toLocaleString(), icon: <ActivityIcon className="w-6 h-6 text-emerald-500" /> },
+                { label: "Badges", value: "5 Gold", icon: <TrophyIcon className="w-6 h-6 text-amber-500" /> }
+            ],
+            card: (
+                <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-emerald-50/30 rounded-xl border border-emerald-100/50">
+                    <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4">
+                        <TrophyIcon className="w-10 h-10 text-emerald-500" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">HackerRank Profile</p>
+                    <p className="text-sm text-gray-500 mb-4">@kindikerisr</p>
+                    <div className="flex flex-wrap justify-center gap-2">
+                        {["Problem Solving", "Python", "SQL", "Java"].map(tag => (
+                            <span key={tag} className="text-[10px] font-bold px-2 py-1 bg-white border border-emerald-100 text-emerald-600 rounded-full uppercase tracking-tighter">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )
+        },
+        interviewbit: {
+            title: "InterviewBit",
+            subtitle: "Interview Prep",
+            username: "srujan-kindikeri",
+            url: "https://www.interviewbit.com/profile/srujan-kindikeri/",
+            icon: <BriefcaseIcon className="w-6 h-6" />,
+            color: "bg-blue-600",
+            accent: "blue",
+            stats: [
+                { label: "Score", value: stats.ibScore.toLocaleString(), icon: <ZapIcon className="w-6 h-6 text-yellow-500" /> },
+                { label: "Streak", value: "15 Days", icon: <ActivityIcon className="w-6 h-6 text-blue-500" /> }
+            ],
+            card: (
+                <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-blue-50/30 rounded-xl border border-blue-100/50">
+                    <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4">
+                        <BriefcaseIcon className="w-10 h-10 text-blue-600" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">InterviewBit Profile</p>
+                    <p className="text-sm text-gray-500 mb-4">@srujan-kindikeri</p>
+                    <div className="flex flex-wrap justify-center gap-2">
+                        {["Dynamic Programming", "Hashing", "Trees"].map(tag => (
+                            <span key={tag} className="text-[10px] font-bold px-2 py-1 bg-white border border-blue-100 text-blue-600 rounded-full uppercase tracking-tighter">
+                                {tag}
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            )
+        },
+        gfg: {
+            title: "GeeksforGeeks",
+            subtitle: "DSA & Algorithms",
+            username: "kindikafwa",
+            url: "https://www.geeksforgeeks.org/profile/kindikafwa",
+            icon: <CodeIcon className="w-6 h-6" />,
+            color: "bg-green-600",
+            accent: "green",
+            stats: [
+                { label: "Solved", value: `${stats.gfgSolved}+`, icon: <CheckCircleIcon className="w-6 h-6 text-green-500" /> },
+                { label: "Coding Score", value: "850", icon: <TrophyIcon className="w-6 h-6 text-amber-500" /> }
+            ],
+            card: (
+                <div className="w-full h-full flex flex-col items-center justify-center p-6 bg-green-50/30 rounded-xl border border-green-100/50">
+                    <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mb-4">
+                        <CodeIcon className="w-10 h-10 text-green-600" />
+                    </div>
+                    <p className="text-lg font-bold text-gray-900">GeeksforGeeks Profile</p>
+                    <p className="text-sm text-gray-500 mb-4">@kindikafwa</p>
+                    <div className="flex flex-wrap justify-center gap-2">
+                        {["Data Structures", "Algorithms", "POTD"].map(tag => (
+                            <span key={tag} className="text-[10px] font-bold px-2 py-1 bg-white border border-green-100 text-green-600 rounded-full uppercase tracking-tighter">
                                 {tag}
                             </span>
                         ))}
@@ -1153,6 +1249,9 @@ const CertificateModal: React.FC<{ certificate: QualificationType | null; onClos
         }
     };
 
+    // Auto-generate image URL from verifyUrl if imageUrl is not provided
+    const displayImageUrl = certificate.imageUrl || `https://s.wordpress.com/mshots/v1/${encodeURIComponent(certificate.verifyUrl)}?w=1200`;
+
     return (
         <div
             onClick={handleBackdropClick}
@@ -1165,16 +1264,24 @@ const CertificateModal: React.FC<{ certificate: QualificationType | null; onClos
                 ref={modalRef}
                 className={`bg-white rounded-3xl shadow-2xl w-full max-w-3xl overflow-hidden transition-all duration-300 ease-out ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
             >
-                <div className="relative">
+                <div className="relative bg-gray-100 min-h-[300px] flex items-center justify-center">
                     <button onClick={onClose} className="absolute top-4 right-4 bg-black/20 hover:bg-black/40 text-white p-2 rounded-full transition-colors z-10" aria-label="Close certificate">
                         <XIcon className="w-6 h-6" aria-hidden="true" />
                     </button>
                     <img 
-                        src={certificate.imageUrl} 
+                        src={displayImageUrl} 
                         alt={certificate.name} 
-                        className="w-full h-auto object-contain max-h-[70vh]"
+                        className="w-full h-auto object-contain max-h-[70vh] shadow-inner"
                         referrerPolicy="no-referrer"
+                        onLoad={(e) => (e.currentTarget.style.opacity = '1')}
+                        style={{ opacity: 0, transition: 'opacity 0.5s ease-in-out' }}
                     />
+                    <div className="absolute inset-0 flex items-center justify-center -z-10">
+                        <div className="flex flex-col items-center gap-3 text-gray-400">
+                            <ActivityIcon className="w-8 h-8 animate-spin" />
+                            <p className="text-sm font-medium">Generating Preview...</p>
+                        </div>
+                    </div>
                 </div>
                 <div className="p-6 sm:p-8">
                     <h2 className="text-2xl font-bold text-gray-900 mb-2">{certificate.name}</h2>
