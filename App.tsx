@@ -1679,7 +1679,7 @@ const App: React.FC = () => {
                         <div className="relative group">
                             <div className="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
                             <img
-                                src="/profile.jpeg"
+                                src="/profile.PNG"
                                 alt="Srujan Kumar Reddy"
                                 referrerPolicy="no-referrer"
                                 className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-full object-cover border-4 border-white shadow-2xl transition-transform duration-500 group-hover:scale-[1.05]"
