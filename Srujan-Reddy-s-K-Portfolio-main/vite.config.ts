@@ -9,6 +9,20 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: '0.0.0.0',
+        proxy: {
+          // LeetCode GraphQL CORS proxy (dev only)
+          '/leetcode-api': {
+            target: 'https://leetcode.com',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/leetcode-api/, ''),
+          },
+          // Codolio API proxy (dev only)
+          '/codolio-api': {
+            target: 'https://codolio.com',
+            changeOrigin: true,
+            rewrite: (path) => path.replace(/^\/codolio-api/, ''),
+          },
+        },
       },
       plugins: [
         react(),

@@ -1,5 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { GitHubCard, LeetCodeCard, CodolioMetricsCard } from './src/components/CodingDashboard';
 import { 
     CodeIcon, BrainIcon, WrenchIcon, UsersIcon, MailIcon, PhoneIcon, LinkedInIcon, GithubIcon, ExternalLinkIcon, BriefcaseIcon, BookOpenIcon, MessageSquareIcon, ArrowRightIcon,
     PythonIcon, DatabaseIcon, GitIcon, DockerIcon, AWSIcon, LightbulbIcon, UsersGroupIcon, ChartBarIcon, TensorFlowIcon, PyTorchIcon, SparkIcon, CertificateIcon, ExcelIcon, XIcon, FileTextIcon,
@@ -1654,6 +1656,15 @@ const ProjectShowcase: React.FC<{ activeProject: ProjectType | null; onClose: ()
     );
 };
 
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            retry: 2,
+            refetchOnWindowFocus: false,
+        },
+    },
+});
+
 const App: React.FC = () => {
     const [activeSection, setActiveSection] = useState('about');
     const [activeTag, setActiveTag] = useState('All');
@@ -1718,6 +1729,7 @@ const App: React.FC = () => {
     const isExternalLink = (href: string) => href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:');
 
     return (
+        <QueryClientProvider client={queryClient}>
         <div className="min-h-screen bg-gray-50 text-gray-800 antialiased relative overflow-hidden">
             <DataLinkBackground />
             {/* Skip to main content link for accessibility */}
@@ -1889,13 +1901,13 @@ const App: React.FC = () => {
                     
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
                         {/* GitHub Stats */}
-                        <GitHubActivity />
+                        <GitHubCard />
 
                         {/* LeetCode Stats */}
-                        <CompetitiveProgrammingStats />
+                        <LeetCodeCard />
 
-                        {/* Self Metrics */}
-                        <SelfMetrics />
+                        {/* Codolio + TUF Metrics */}
+                        <CodolioMetricsCard />
                     </div>
 
                     {/* Global Dashboard Footer */}
@@ -2140,6 +2152,7 @@ const App: React.FC = () => {
             <AchievementModal achievement={selectedAchievement} onClose={() => setSelectedAchievement(null)} />
             <CertificateModal certificate={selectedCertificate} onClose={() => setSelectedCertificate(null)} />
         </div>
+        </QueryClientProvider>
     );
 };
 
